@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WCAG Color Contrast Checker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="logo">Contrast Checker</h1>
+      <p class="subtitle">WCAG 2.1 color contrast analysis</p>
+    </header>
+
+    <main class="main">
+      <!-- Color Inputs -->
+      <section class="color-inputs">
+        <div class="color-card" id="fg-card">
+          <div class="color-card-header">
+            <span class="color-label">Foreground</span>
+            <span class="color-role">Text color</span>
+          </div>
+          <div class="color-picker-row">
+            <input type="color" id="fg-picker" value="#ffffff" class="color-picker">
+            <div class="color-fields">
+              <div class="field-group">
+                <label for="fg-hex">HEX</label>
+                <input type="text" id="fg-hex" value="#ffffff" maxlength="7" class="field-input hex-input" spellcheck="false">
+              </div>
+              <div class="rgb-fields">
+                <div class="field-group">
+                  <label for="fg-r">R</label>
+                  <input type="number" id="fg-r" value="255" min="0" max="255" class="field-input rgb-input">
+                </div>
+                <div class="field-group">
+                  <label for="fg-g">G</label>
+                  <input type="number" id="fg-g" value="255" min="0" max="255" class="field-input rgb-input">
+                </div>
+                <div class="field-group">
+                  <label for="fg-b">B</label>
+                  <input type="number" id="fg-b" value="255" min="0" max="255" class="field-input rgb-input">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="swap-section">
+          <button id="swap-btn" class="swap-btn" title="Swap colors" aria-label="Swap foreground and background colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="color-card" id="bg-card">
+          <div class="color-card-header">
+            <span class="color-label">Background</span>
+            <span class="color-role">Surface color</span>
+          </div>
+          <div class="color-picker-row">
+            <input type="color" id="bg-picker" value="#0f0f13" class="color-picker">
+            <div class="color-fields">
+              <div class="field-group">
+                <label for="bg-hex">HEX</label>
+                <input type="text" id="bg-hex" value="#0f0f13" maxlength="7" class="field-input hex-input" spellcheck="false">
+              </div>
+              <div class="rgb-fields">
+                <div class="field-group">
+                  <label for="bg-r">R</label>
+                  <input type="number" id="bg-r" value="15" min="0" max="255" class="field-input rgb-input">
+                </div>
+                <div class="field-group">
+                  <label for="bg-g">G</label>
+                  <input type="number" id="bg-g" value="15" min="0" max="255" class="field-input rgb-input">
+                </div>
+                <div class="field-group">
+                  <label for="bg-b">B</label>
+                  <input type="number" id="bg-b" value="19" min="0" max="255" class="field-input rgb-input">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ratio & Badges -->
+      <section class="results">
+        <div class="ratio-display">
+          <span class="ratio-label">Contrast Ratio</span>
+          <span class="ratio-value" id="ratio-value">17.4:1</span>
+        </div>
+
+        <div class="badges" id="badges">
+          <div class="badge" id="badge-aa-normal">
+            <span class="badge-level">AA Normal</span>
+            <span class="badge-status">Pass</span>
+          </div>
+          <div class="badge" id="badge-aa-large">
+            <span class="badge-level">AA Large</span>
+            <span class="badge-status">Pass</span>
+          </div>
+          <div class="badge" id="badge-aaa-normal">
+            <span class="badge-level">AAA Normal</span>
+            <span class="badge-status">Pass</span>
+          </div>
+          <div class="badge" id="badge-aaa-large">
+            <span class="badge-level">AAA Large</span>
+            <span class="badge-status">Pass</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preview -->
+      <section class="preview-section">
+        <h2 class="section-title">Live Preview</h2>
+        <div class="preview-box" id="preview-box">
+          <h3 class="preview-heading">Heading Text Sample</h3>
+          <p class="preview-large">This is large text (18pt / 14pt bold). Used for headings and prominent UI elements.</p>
+          <p class="preview-normal">This is normal body text (16px). It represents the standard reading experience for paragraphs, labels, and general interface copy across your application.</p>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <section class="actions">
+        <button id="random-btn" class="action-btn primary-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 4l3 3-3 3"/><path d="M18 20l3-3-3-3"/>
+            <path d="M3 7h4l4.6 10H21"/><path d="M3 17h4l1.5-3"/>
+            <path d="M14.5 7H21"/>
+          </svg>
+          Random Accessible Combo
+        </button>
+        <button id="copy-btn" class="action-btn secondary-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+          Copy Colors
+        </button>
+      </section>
+
+      <!-- Suggestions -->
+      <section class="suggestions-section" id="suggestions-section" style="display:none;">
+        <h2 class="section-title">Suggested Fixes</h2>
+        <p class="suggestions-desc">These adjusted colors meet at least WCAG AA Normal (4.5:1).</p>
+        <div class="suggestions-grid" id="suggestions-grid"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built with vanilla HTML, CSS &amp; JS. No libraries.</p>
+    </footer>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

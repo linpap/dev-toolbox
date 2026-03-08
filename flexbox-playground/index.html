@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Flexbox Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Flexbox Playground</h1>
+    <div class="header-actions">
+      <button id="resetBtn" class="btn btn-secondary">Reset</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="playground-area">
+      <div class="axis-indicators">
+        <div class="axis axis-main" id="mainAxis">
+          <span class="axis-label">Main Axis</span>
+          <span class="axis-arrow"></span>
+        </div>
+        <div class="axis axis-cross" id="crossAxis">
+          <span class="axis-label">Cross Axis</span>
+          <span class="axis-arrow"></span>
+        </div>
+      </div>
+      <div class="flex-container" id="flexContainer"></div>
+    </section>
+
+    <aside class="controls-panel">
+      <div class="controls-scroll">
+        <div class="control-section">
+          <h2>Container Properties</h2>
+          <div id="containerControls"></div>
+        </div>
+
+        <div class="control-section">
+          <div class="section-header">
+            <h2>Items (<span id="itemCount">3</span>)</h2>
+            <div class="item-actions">
+              <button id="removeItemBtn" class="btn btn-small btn-secondary">- Remove</button>
+              <button id="addItemBtn" class="btn btn-small btn-primary">+ Add</button>
+            </div>
+          </div>
+          <div class="item-selector">
+            <label>Editing Item:</label>
+            <div class="item-tabs" id="itemTabs"></div>
+          </div>
+          <div id="itemControls"></div>
+        </div>
+
+        <div class="control-section">
+          <div class="section-header">
+            <h2>Generated CSS</h2>
+            <button id="copyBtn" class="btn btn-small btn-primary">Copy CSS</button>
+          </div>
+          <pre class="css-output" id="cssOutput"></pre>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

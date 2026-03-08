@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Minifier / Beautifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="6" fill="#6c5ce7"/>
+          <text x="14" y="19" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="Inter">{}</text>
+        </svg>
+        <h1>CSS Minifier <span class="sep">/</span> Beautifier</h1>
+      </div>
+      <div class="header-actions">
+        <label class="upload-btn" tabindex="0">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 10v2.667A1.334 1.334 0 0 1 12.667 14H3.333A1.334 1.334 0 0 1 2 12.667V10"/>
+            <polyline points="4.667 5.333 8 2 11.333 5.333"/>
+            <line x1="8" y1="2" x2="8" y2="10"/>
+          </svg>
+          Upload CSS
+          <input type="file" id="fileUpload" accept=".css,text/css" hidden>
+        </label>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="actions">
+        <button id="btnMinify" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 6 8 10 12 6"/>
+          </svg>
+          Minify
+        </button>
+        <button id="btnBeautify" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="4" x2="13" y2="4"/>
+            <line x1="3" y1="8" x2="10" y2="8"/>
+            <line x1="3" y1="12" x2="13" y2="12"/>
+          </svg>
+          Beautify
+        </button>
+        <button id="btnAuto" class="btn btn-accent" title="Auto-detect: minified input will be beautified, beautified input will be minified">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 4l4-3v6L1 4zM15 12l-4 3v-6l4 3z"/>
+            <line x1="5" y1="4" x2="15" y2="4"/>
+            <line x1="1" y1="12" x2="11" y2="12"/>
+          </svg>
+          Auto
+        </button>
+      </div>
+      <div class="output-actions">
+        <button id="btnCopy" class="btn btn-ghost" disabled>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="5" width="9" height="9" rx="1.5"/>
+            <path d="M3 11V3a1.5 1.5 0 0 1 1.5-1.5H11"/>
+          </svg>
+          Copy
+        </button>
+        <button id="btnDownload" class="btn btn-ghost" disabled>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 10v2.667A1.334 1.334 0 0 1 12.667 14H3.333A1.334 1.334 0 0 1 2 12.667V10"/>
+            <polyline points="4.667 8 8 11.333 11.333 8"/>
+            <line x1="8" y1="2" x2="8" y2="11.333"/>
+          </svg>
+          Download
+        </button>
+      </div>
+    </div>
+
+    <div class="panels">
+      <div class="panel panel-input">
+        <div class="panel-header">
+          <span class="panel-label">Input</span>
+          <div class="panel-meta">
+            <span id="inputLines" class="meta-tag">0 lines</span>
+            <span id="inputSize" class="meta-tag">0 B</span>
+          </div>
+        </div>
+        <textarea id="inputArea" class="editor" spellcheck="false" placeholder="Paste your CSS here..."></textarea>
+      </div>
+
+      <div class="panel panel-output">
+        <div class="panel-header">
+          <span class="panel-label">Output</span>
+          <div class="panel-meta">
+            <span id="outputLines" class="meta-tag">0 lines</span>
+            <span id="outputSize" class="meta-tag">0 B</span>
+            <span id="savings" class="meta-tag savings" hidden>0% saved</span>
+          </div>
+        </div>
+        <div id="outputArea" class="editor output-display" tabindex="0"></div>
+      </div>
+    </div>
+
+    <div class="stats-bar" id="statsBar">
+      <div class="stat">
+        <span class="stat-value" id="statRules">0</span>
+        <span class="stat-label">Rules</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="statSelectors">0</span>
+        <span class="stat-label">Selectors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="statProperties">0</span>
+        <span class="stat-label">Properties</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="statSize">--</span>
+        <span class="stat-label">Size Reduction</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Palette<span class="dot">.</span></h1>
+            <p class="subtitle">Press <kbd>Space</kbd> to generate. Click a color to copy. Click the wheel to pick.</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="left-panel">
+                <!-- Color Wheel -->
+                <div class="wheel-section">
+                    <canvas id="colorWheel" width="280" height="280"></canvas>
+                    <canvas id="wheelCursor" width="280" height="280"></canvas>
+                    <div class="wheel-center" id="wheelPreview"></div>
+                </div>
+
+                <!-- Sliders -->
+                <div class="sliders">
+                    <div class="slider-row">
+                        <label>H</label>
+                        <input type="range" id="hueSlider" min="0" max="360" value="0" class="slider hue-slider">
+                        <span id="hueVal" class="slider-val">0</span>
+                    </div>
+                    <div class="slider-row">
+                        <label>S</label>
+                        <input type="range" id="satSlider" min="0" max="100" value="80" class="slider sat-slider">
+                        <span id="satVal" class="slider-val">80</span>
+                    </div>
+                    <div class="slider-row">
+                        <label>L</label>
+                        <input type="range" id="lightSlider" min="0" max="100" value="50" class="slider light-slider">
+                        <span id="lightVal" class="slider-val">50</span>
+                    </div>
+                </div>
+
+                <!-- Manual hex input -->
+                <div class="hex-input-row">
+                    <input type="text" id="hexInput" class="hex-input" placeholder="#FF6B6B" maxlength="7">
+                    <button id="addColorBtn" class="btn accent">Add to Palette</button>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls">
+                    <button id="generateBtn" class="btn primary">Generate</button>
+                    <select id="harmonySelect" class="btn">
+                        <option value="random">Random</option>
+                        <option value="analogous">Analogous</option>
+                        <option value="complementary">Complementary</option>
+                        <option value="split-complementary">Split Comp.</option>
+                        <option value="triadic">Triadic</option>
+                        <option value="tetradic">Tetradic</option>
+                        <option value="square">Square</option>
+                        <option value="monochromatic">Monochromatic</option>
+                        <option value="pastel">Pastel</option>
+                        <option value="vivid">Vivid</option>
+                        <option value="neon">Neon</option>
+                        <option value="jewel">Jewel Tones</option>
+                        <option value="sunset">Sunset</option>
+                        <option value="ocean">Ocean</option>
+                        <option value="forest">Forest</option>
+                        <option value="candy">Candy</option>
+                        <option value="earth">Earth Tones</option>
+                        <option value="retro">Retro</option>
+                    </select>
+                    <select id="countSelect" class="btn">
+                        <option value="3">3 Colors</option>
+                        <option value="4">4 Colors</option>
+                        <option value="5" selected>5 Colors</option>
+                        <option value="6">6 Colors</option>
+                        <option value="7">7 Colors</option>
+                        <option value="8">8 Colors</option>
+                    </select>
+                </div>
+
+                <div class="export-row">
+                    <button id="exportCSS" class="btn small">CSS</button>
+                    <button id="exportTailwind" class="btn small">Tailwind</button>
+                    <button id="exportJSON" class="btn small">JSON</button>
+                    <button id="exportSCSS" class="btn small">SCSS</button>
+                    <button id="exportSVG" class="btn small">SVG</button>
+                    <button id="exportURL" class="btn small">Share Link</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <!-- Palette -->
+                <div id="palette" class="palette"></div>
+
+                <!-- Color details -->
+                <div id="colorDetails" class="color-details hidden">
+                    <h3>Color Details</h3>
+                    <div class="detail-grid" id="detailGrid"></div>
+                </div>
+
+                <!-- Shades & Tints -->
+                <div id="shadesSection" class="shades-section hidden">
+                    <h3>Shades & Tints</h3>
+                    <div id="shadesBar" class="shades-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div id="history" class="history">
+            <h3>Recent Palettes</h3>
+            <div id="historyList" class="history-list"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Export</h3>
+                <button id="closeModal" class="close-btn">&times;</button>
+            </div>
+            <pre id="exportCode"></pre>
+            <button id="copyExport" class="btn primary">Copy</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

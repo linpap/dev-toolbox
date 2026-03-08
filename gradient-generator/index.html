@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Gradient Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Gradient<span class="dot">.</span></h1>
+            <p class="subtitle">Create beautiful CSS gradients. Click presets or build your own.</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="left-panel">
+                <!-- Gradient Type -->
+                <div class="section">
+                    <label class="section-label">Type</label>
+                    <div class="type-buttons">
+                        <button class="type-btn active" data-type="linear">Linear</button>
+                        <button class="type-btn" data-type="radial">Radial</button>
+                        <button class="type-btn" data-type="conic">Conic</button>
+                    </div>
+                </div>
+
+                <!-- Angle / Direction -->
+                <div class="section" id="angleSection">
+                    <label class="section-label">Angle</label>
+                    <div class="angle-row">
+                        <input type="range" id="angleSlider" min="0" max="360" value="135" class="slider angle-slider">
+                        <span id="angleVal" class="slider-val">135&deg;</span>
+                    </div>
+                    <div class="preset-directions">
+                        <button class="dir-btn" data-angle="0">Up</button>
+                        <button class="dir-btn" data-angle="90">Right</button>
+                        <button class="dir-btn" data-angle="180">Down</button>
+                        <button class="dir-btn" data-angle="270">Left</button>
+                        <button class="dir-btn active" data-angle="135">135&deg;</button>
+                        <button class="dir-btn" data-angle="45">45&deg;</button>
+                    </div>
+                </div>
+
+                <!-- Radial Shape -->
+                <div class="section hidden" id="radialSection">
+                    <label class="section-label">Shape</label>
+                    <div class="type-buttons">
+                        <button class="shape-btn active" data-shape="circle">Circle</button>
+                        <button class="shape-btn" data-shape="ellipse">Ellipse</button>
+                    </div>
+                </div>
+
+                <!-- Color Stops -->
+                <div class="section">
+                    <div class="section-header">
+                        <label class="section-label">Color Stops</label>
+                        <button id="addStopBtn" class="btn small accent">+ Add Stop</button>
+                    </div>
+                    <div id="colorStops" class="color-stops"></div>
+                </div>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <button id="randomBtn" class="btn primary">Random</button>
+                    <button id="reverseBtn" class="btn">Reverse</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <!-- Preview -->
+                <div id="gradientPreview" class="gradient-preview"></div>
+
+                <!-- CSS Output -->
+                <div class="css-output-section">
+                    <div class="css-output-header">
+                        <label class="section-label">CSS</label>
+                        <button id="copyBtn" class="btn small">Copy CSS</button>
+                    </div>
+                    <pre id="cssOutput" class="css-output"></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Presets Gallery -->
+        <div class="presets-section">
+            <h3 class="section-label">Presets</h3>
+            <div id="presetsGallery" class="presets-gallery"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Card Component Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>CSS Card Generator</h1>
+    <p class="header-sub">Design, preview, and export card components</p>
+  </header>
+
+  <main class="app">
+    <!-- Controls Panel -->
+    <aside class="controls">
+
+      <!-- Presets -->
+      <section class="control-section">
+        <h2 class="section-title">Presets</h2>
+        <div class="presets-grid" id="presetsGrid"></div>
+      </section>
+
+      <!-- Card Content -->
+      <section class="control-section">
+        <h2 class="section-title">Content</h2>
+        <label class="field">
+          <span>Image URL</span>
+          <input type="text" id="imageUrl" placeholder="https://..." value="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600">
+        </label>
+        <label class="field">
+          <span>Title</span>
+          <input type="text" id="cardTitle" value="Card Title">
+        </label>
+        <label class="field">
+          <span>Description</span>
+          <textarea id="cardDesc" rows="3">This is a short description for the card component.</textarea>
+        </label>
+        <label class="field">
+          <span>Button Text</span>
+          <input type="text" id="btnText" value="Learn More">
+        </label>
+        <label class="field">
+          <span>Tags (comma separated)</span>
+          <input type="text" id="cardTags" value="design, ui">
+        </label>
+      </section>
+
+      <!-- Layout -->
+      <section class="control-section">
+        <h2 class="section-title">Layout</h2>
+        <label class="field">
+          <span>Variant</span>
+          <select id="layoutVariant">
+            <option value="vertical">Vertical</option>
+            <option value="horizontal">Horizontal</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Image Position</span>
+          <select id="imagePosition">
+            <option value="top">Top</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+            <option value="overlay">Overlay</option>
+          </select>
+        </label>
+      </section>
+
+      <!-- Style Controls -->
+      <section class="control-section">
+        <h2 class="section-title">Style</h2>
+        <label class="field">
+          <span>Width <output id="widthVal">320</output>px</span>
+          <input type="range" id="cardWidth" min="200" max="600" value="320">
+        </label>
+        <label class="field">
+          <span>Padding <output id="paddingVal">20</output>px</span>
+          <input type="range" id="cardPadding" min="0" max="48" value="20">
+        </label>
+        <label class="field">
+          <span>Border Radius <output id="radiusVal">12</output>px</span>
+          <input type="range" id="cardRadius" min="0" max="32" value="12">
+        </label>
+        <label class="field">
+          <span>Background Color</span>
+          <div class="color-input">
+            <input type="color" id="bgColor" value="#1a1a2e">
+            <input type="text" id="bgColorText" value="#1a1a2e">
+          </div>
+        </label>
+        <label class="field">
+          <span>Text Color</span>
+          <div class="color-input">
+            <input type="color" id="textColor" value="#e0e0e0">
+            <input type="text" id="textColorText" value="#e0e0e0">
+          </div>
+        </label>
+      </section>
+
+      <!-- Shadow -->
+      <section class="control-section">
+        <h2 class="section-title">Shadow</h2>
+        <label class="field">
+          <span>Shadow Style</span>
+          <select id="shadowStyle">
+            <option value="none">None</option>
+            <option value="small">Small</option>
+            <option value="medium" selected>Medium</option>
+            <option value="large">Large</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <div id="customShadowFields" class="hidden">
+          <label class="field">
+            <span>X Offset <output id="shXVal">0</output>px</span>
+            <input type="range" id="shadowX" min="-30" max="30" value="0">
+          </label>
+          <label class="field">
+            <span>Y Offset <output id="shYVal">4</output>px</span>
+            <input type="range" id="shadowY" min="-30" max="30" value="4">
+          </label>
+          <label class="field">
+            <span>Blur <output id="shBlurVal">16</output>px</span>
+            <input type="range" id="shadowBlur" min="0" max="80" value="16">
+          </label>
+          <label class="field">
+            <span>Spread <output id="shSpreadVal">0</output>px</span>
+            <input type="range" id="shadowSpread" min="-20" max="40" value="0">
+          </label>
+          <label class="field">
+            <span>Shadow Color</span>
+            <div class="color-input">
+              <input type="color" id="shadowColor" value="#000000">
+              <input type="text" id="shadowColorText" value="#000000">
+            </div>
+          </label>
+          <label class="field">
+            <span>Shadow Opacity <output id="shOpacVal">0.25</output></span>
+            <input type="range" id="shadowOpacity" min="0" max="100" value="25">
+          </label>
+        </div>
+      </section>
+
+      <!-- Border -->
+      <section class="control-section">
+        <h2 class="section-title">Border</h2>
+        <label class="field toggle-field">
+          <span>Show Border</span>
+          <input type="checkbox" id="borderToggle">
+        </label>
+        <div id="borderFields" class="hidden">
+          <label class="field">
+            <span>Border Width <output id="borderWVal">1</output>px</span>
+            <input type="range" id="borderWidth" min="1" max="6" value="1">
+          </label>
+          <label class="field">
+            <span>Border Color</span>
+            <div class="color-input">
+              <input type="color" id="borderColor" value="#2a2a3e">
+              <input type="text" id="borderColorText" value="#2a2a3e">
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- Hover Effect -->
+      <section class="control-section">
+        <h2 class="section-title">Hover Effect</h2>
+        <label class="field">
+          <span>Effect</span>
+          <select id="hoverEffect">
+            <option value="none">None</option>
+            <option value="lift" selected>Lift</option>
+            <option value="grow">Grow</option>
+            <option value="glow">Glow</option>
+            <option value="border-color">Border Color</option>
+          </select>
+        </label>
+        <div id="hoverBorderColorField" class="hidden">
+          <label class="field">
+            <span>Hover Border Color</span>
+            <div class="color-input">
+              <input type="color" id="hoverBorderColor" value="#6c63ff">
+              <input type="text" id="hoverBorderColorText" value="#6c63ff">
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- Button Style -->
+      <section class="control-section">
+        <h2 class="section-title">Button Style</h2>
+        <label class="field">
+          <span>Background</span>
+          <div class="color-input">
+            <input type="color" id="btnBgColor" value="#6c63ff">
+            <input type="text" id="btnBgColorText" value="#6c63ff">
+          </div>
+        </label>
+        <label class="field">
+          <span>Text Color</span>
+          <div class="color-input">
+            <input type="color" id="btnTextColor" value="#ffffff">
+            <input type="text" id="btnTextColorText" value="#ffffff">
+          </div>
+        </label>
+        <label class="field">
+          <span>Border Radius <output id="btnRadiusVal">8</output>px</span>
+          <input type="range" id="btnRadius" min="0" max="24" value="8">
+        </label>
+        <label class="field">
+          <span>Full Width</span>
+          <input type="checkbox" id="btnFullWidth">
+        </label>
+      </section>
+
+    </aside>
+
+    <!-- Preview + Code -->
+    <div class="preview-area">
+      <section class="preview-section">
+        <h2 class="section-title">Preview</h2>
+        <div class="preview-canvas" id="previewCanvas"></div>
+      </section>
+
+      <section class="code-section">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="html">HTML</button>
+          <button class="code-tab" data-tab="css">CSS</button>
+        </div>
+        <div class="code-container">
+          <pre class="code-block" id="codeOutput"></pre>
+          <button class="copy-btn" id="copyBtn">Copy Code</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

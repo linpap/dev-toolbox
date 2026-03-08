@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Lorem<span class="dot">.</span></h1>
+            <p class="subtitle">Generate placeholder text in multiple styles. Customize type, count, and format.</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="left-panel">
+                <!-- Text Style -->
+                <div class="control-group">
+                    <label class="control-label">Style</label>
+                    <div class="style-grid">
+                        <button class="style-btn active" data-style="classic">Classic Latin</button>
+                        <button class="style-btn" data-style="hipster">Hipster</button>
+                        <button class="style-btn" data-style="tech">Tech</button>
+                        <button class="style-btn" data-style="pirate">Pirate</button>
+                    </div>
+                </div>
+
+                <!-- Type Selector -->
+                <div class="control-group">
+                    <label class="control-label">Type</label>
+                    <div class="type-grid">
+                        <button class="type-btn active" data-type="paragraphs">Paragraphs</button>
+                        <button class="type-btn" data-type="sentences">Sentences</button>
+                        <button class="type-btn" data-type="words">Words</button>
+                    </div>
+                </div>
+
+                <!-- Count -->
+                <div class="control-group">
+                    <label class="control-label">Count</label>
+                    <div class="count-row">
+                        <button class="count-btn" id="countDown">-</button>
+                        <input type="number" id="countInput" class="count-input" value="3" min="1" max="100">
+                        <button class="count-btn" id="countUp">+</button>
+                    </div>
+                </div>
+
+                <!-- Toggles -->
+                <div class="control-group">
+                    <div class="toggle-row">
+                        <label class="toggle-label" for="loremToggle">Start with "Lorem ipsum..."</label>
+                        <label class="toggle">
+                            <input type="checkbox" id="loremToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <label class="toggle-label" for="htmlToggle">HTML output (&lt;p&gt; tags)</label>
+                        <label class="toggle">
+                            <input type="checkbox" id="htmlToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button id="generateBtn" class="btn primary generate-btn">Generate</button>
+            </div>
+
+            <div class="right-panel">
+                <!-- Output -->
+                <div class="output-wrapper">
+                    <div id="output" class="output-area">
+                        <span class="placeholder-text">Click Generate to create placeholder text...</span>
+                    </div>
+                </div>
+
+                <!-- Stats & Copy -->
+                <div class="bottom-bar">
+                    <div class="stats">
+                        <span class="stat-item" id="wordCount">0 words</span>
+                        <span class="stat-divider"></span>
+                        <span class="stat-item" id="charCount">0 characters</span>
+                    </div>
+                    <button id="copyBtn" class="btn accent copy-btn" disabled>Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

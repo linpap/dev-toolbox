@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Filter Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>CSS Filter Editor</h1>
+    <div class="header-actions">
+      <button id="compare-toggle" class="btn btn-outline">Before / After</button>
+      <button id="reset-all" class="btn btn-outline btn-danger">Reset All</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="preview-section">
+      <div class="preview-container">
+        <div id="preview" class="preview-box">
+          <div id="preview-image" class="preview-image"></div>
+          <div id="preview-original" class="preview-image preview-original" style="display:none;"></div>
+          <div id="compare-label" class="compare-label" style="display:none;">Original</div>
+        </div>
+      </div>
+      <div class="preview-toolbar">
+        <label class="btn btn-outline upload-btn">
+          Upload Image
+          <input type="file" id="image-upload" accept="image/*" hidden>
+        </label>
+        <button id="remove-image" class="btn btn-outline" style="display:none;">Remove Image</button>
+      </div>
+    </section>
+
+    <section class="controls-section">
+      <div class="presets-panel">
+        <h3>Presets</h3>
+        <div class="presets-grid" id="presets-grid"></div>
+      </div>
+
+      <div class="sliders-panel">
+        <h3>Filters</h3>
+        <div id="sliders-container"></div>
+      </div>
+
+      <div class="output-panel">
+        <h3>CSS Output</h3>
+        <div class="output-box">
+          <code id="css-output"></code>
+          <button id="copy-css" class="btn btn-primary">Copy CSS</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

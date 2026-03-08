@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robots.txt Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="2" y="6" width="24" height="18" rx="3" stroke="#7c5cfc" stroke-width="2"/>
+            <circle cx="10" cy="15" r="2.5" fill="#7c5cfc"/>
+            <circle cx="18" cy="15" r="2.5" fill="#7c5cfc"/>
+            <rect x="8" y="2" width="12" height="4" rx="2" fill="#7c5cfc" opacity="0.5"/>
+            <line x1="14" y1="6" x2="14" y2="2" stroke="#7c5cfc" stroke-width="2"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Robots.txt Generator</h1>
+          <p class="subtitle">Build, preview, and export your robots.txt file</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="presets-bar">
+      <span class="presets-label">Presets</span>
+      <button class="preset-btn" data-preset="allow-all">Allow All</button>
+      <button class="preset-btn" data-preset="block-all">Block All</button>
+      <button class="preset-btn" data-preset="block-ai">Block AI Crawlers</button>
+      <button class="preset-btn" data-preset="standard-seo">Standard SEO</button>
+    </div>
+
+    <div class="main-layout">
+      <div class="builder-panel">
+        <section class="section">
+          <div class="section-header">
+            <h2>User-Agent Rules</h2>
+            <button class="btn btn-primary btn-sm" id="addRuleBlock">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="1" x2="7" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Add Rule Block
+            </button>
+          </div>
+
+          <div class="quick-add">
+            <span class="quick-add-label">Quick add crawler:</span>
+            <div class="crawler-chips" id="crawlerChips">
+              <button class="chip" data-crawler="*">* (All)</button>
+              <button class="chip" data-crawler="Googlebot">Googlebot</button>
+              <button class="chip" data-crawler="Bingbot">Bingbot</button>
+              <button class="chip" data-crawler="Yandex">Yandex</button>
+              <button class="chip" data-crawler="Baiduspider">Baidu</button>
+              <button class="chip" data-crawler="DuckDuckBot">DuckDuckBot</button>
+              <button class="chip" data-crawler="Slurp">Yahoo</button>
+              <button class="chip" data-crawler="facebookexternalhit">Facebook</button>
+              <button class="chip" data-crawler="Twitterbot">Twitter</button>
+              <button class="chip" data-crawler="GPTBot">GPTBot</button>
+              <button class="chip" data-crawler="ChatGPT-User">ChatGPT</button>
+              <button class="chip" data-crawler="CCBot">CCBot</button>
+              <button class="chip" data-crawler="Google-Extended">Google AI</button>
+              <button class="chip" data-crawler="anthropic-ai">Anthropic</button>
+              <button class="chip" data-crawler="Bytespider">Bytespider</button>
+            </div>
+          </div>
+
+          <div id="ruleBlocks" class="rule-blocks"></div>
+        </section>
+
+        <section class="section">
+          <h2>Global Settings</h2>
+          <div class="settings-grid">
+            <div class="field">
+              <label for="sitemapUrl">Sitemap URL</label>
+              <input type="url" id="sitemapUrl" placeholder="https://example.com/sitemap.xml">
+            </div>
+            <div class="field">
+              <label for="crawlDelay">Crawl-delay (seconds)</label>
+              <input type="number" id="crawlDelay" min="0" max="120" step="1" placeholder="e.g. 10">
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h2>Validation</h2>
+            <button class="btn btn-outline btn-sm" id="validateBtn">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Validate
+            </button>
+          </div>
+          <div id="validationResults" class="validation-results"></div>
+        </section>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-sticky">
+          <div class="preview-header">
+            <h2>Live Preview</h2>
+            <div class="preview-actions">
+              <button class="btn btn-icon" id="copyBtn" title="Copy to clipboard">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3a1.5 1.5 0 011.5-1.5H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <button class="btn btn-icon" id="downloadBtn" title="Download robots.txt">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1.5A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <pre class="preview-code" id="previewCode"># Your robots.txt will appear here
+# Add rules to get started</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

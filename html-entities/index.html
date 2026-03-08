@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Entity Encoder / Decoder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>&lt;/&gt; HTML Entity Encoder / Decoder</h1>
+      <p class="subtitle">Convert between characters and HTML entities</p>
+    </header>
+
+    <div class="converter">
+      <div class="panels">
+        <div class="panel">
+          <div class="panel-header">
+            <label for="input-area">Input</label>
+            <span class="char-count" id="input-count">0 chars</span>
+          </div>
+          <textarea id="input-area" placeholder="Type or paste text here..." spellcheck="false"></textarea>
+        </div>
+
+        <div class="controls-center">
+          <button class="btn btn-primary" id="btn-encode" title="Encode">Encode &rarr;</button>
+          <button class="btn btn-swap" id="btn-swap" title="Swap input and output">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+            </svg>
+          </button>
+          <button class="btn btn-primary" id="btn-decode">&larr; Decode</button>
+          <button class="btn btn-clear" id="btn-clear">Clear</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <label for="output-area">Output</label>
+            <span class="char-count" id="output-count">0 chars</span>
+          </div>
+          <textarea id="output-area" placeholder="Result will appear here..." spellcheck="false" readonly></textarea>
+          <button class="btn-copy" id="btn-copy" title="Copy output">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="options">
+        <label class="toggle">
+          <input type="checkbox" id="opt-realtime" checked>
+          <span class="toggle-label">Real-time encode</span>
+        </label>
+      </div>
+    </div>
+
+    <section class="reference">
+      <div class="reference-header">
+        <h2>Common HTML Entities</h2>
+        <input type="text" id="entity-search" placeholder="Search entities..." spellcheck="false">
+      </div>
+      <p class="reference-hint">Click any entity to copy it</p>
+      <div class="entity-table-wrap">
+        <table class="entity-table" id="entity-table">
+          <thead>
+            <tr>
+              <th>Character</th>
+              <th>Entity</th>
+              <th>Code</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

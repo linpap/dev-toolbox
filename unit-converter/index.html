@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Convert<span class="dot">.</span></h1>
+            <p class="subtitle">Select a category, enter a value, get instant results.</p>
+        </header>
+
+        <nav class="category-tabs" id="categoryTabs">
+            <button class="tab active" data-category="length">Length</button>
+            <button class="tab" data-category="weight">Weight</button>
+            <button class="tab" data-category="temperature">Temperature</button>
+            <button class="tab" data-category="volume">Volume</button>
+            <button class="tab" data-category="area">Area</button>
+            <button class="tab" data-category="speed">Speed</button>
+            <button class="tab" data-category="time">Time</button>
+            <button class="tab" data-category="data">Data</button>
+        </nav>
+
+        <div class="converter-card">
+            <div class="converter-row">
+                <div class="input-group">
+                    <label>From</label>
+                    <input type="number" id="fromValue" class="value-input" placeholder="0" autofocus>
+                    <select id="fromUnit" class="unit-select"></select>
+                </div>
+
+                <button id="swapBtn" class="swap-btn" title="Swap units">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 16l-4-4 4-4"/>
+                        <path d="M17 8l4 4-4 4"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                    </svg>
+                </button>
+
+                <div class="input-group">
+                    <label>To</label>
+                    <input type="number" id="toValue" class="value-input" placeholder="0" readonly>
+                    <select id="toUnit" class="unit-select"></select>
+                </div>
+            </div>
+
+            <div class="formula-display" id="formulaDisplay">
+                <span class="formula-label">Formula</span>
+                <span class="formula-text" id="formulaText">Select units to see the formula</span>
+            </div>
+        </div>
+
+        <div class="quick-reference">
+            <h3>Common Conversions</h3>
+            <div class="quick-grid" id="quickGrid"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

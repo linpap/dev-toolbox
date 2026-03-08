@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>QR<span class="dot">.</span>gen</h1>
+            <p class="subtitle">Generate QR codes from text or URLs. Customize colors, size, and error correction.</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="left-panel">
+                <!-- Input -->
+                <div class="input-section">
+                    <label class="field-label">Content</label>
+                    <textarea id="textInput" class="text-input" placeholder="Enter text or URL..." rows="3"></textarea>
+                </div>
+
+                <!-- Size -->
+                <div class="control-group">
+                    <label class="field-label">Size</label>
+                    <div class="size-options">
+                        <button class="size-btn" data-size="200">Small</button>
+                        <button class="size-btn active" data-size="400">Medium</button>
+                        <button class="size-btn" data-size="600">Large</button>
+                    </div>
+                </div>
+
+                <!-- Error Correction -->
+                <div class="control-group">
+                    <label class="field-label">Error Correction</label>
+                    <div class="ec-options">
+                        <button class="ec-btn" data-level="L" title="Low (~7% recovery)">L</button>
+                        <button class="ec-btn active" data-level="M" title="Medium (~15% recovery)">M</button>
+                        <button class="ec-btn" data-level="Q" title="Quartile (~25% recovery)">Q</button>
+                        <button class="ec-btn" data-level="H" title="High (~30% recovery)">H</button>
+                    </div>
+                    <p class="hint" id="ecHint">~15% error recovery</p>
+                </div>
+
+                <!-- Colors -->
+                <div class="control-group">
+                    <label class="field-label">Colors</label>
+                    <div class="color-row">
+                        <div class="color-picker-group">
+                            <label class="color-label">Foreground</label>
+                            <div class="color-input-wrap">
+                                <input type="color" id="fgColor" value="#ffffff" class="color-picker">
+                                <input type="text" id="fgHex" class="hex-input" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+                        <div class="color-picker-group">
+                            <label class="color-label">Background</label>
+                            <div class="color-input-wrap">
+                                <input type="color" id="bgColor" value="#0f0f13" class="color-picker">
+                                <input type="text" id="bgHex" class="hex-input" value="#0f0f13" maxlength="7">
+                            </div>
+                        </div>
+                        <button id="swapColors" class="btn icon-swap" title="Swap colors">&#8644;</button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <button id="generateBtn" class="btn primary">Generate QR Code</button>
+                </div>
+
+                <div class="download-actions">
+                    <button id="downloadPNG" class="btn" disabled>Download PNG</button>
+                    <button id="downloadSVG" class="btn" disabled>Download SVG</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="preview-area" id="previewArea">
+                    <div class="placeholder" id="placeholder">
+                        <div class="placeholder-icon">&#9634;</div>
+                        <p>Enter text or a URL and click Generate</p>
+                    </div>
+                    <canvas id="qrCanvas"></canvas>
+                </div>
+                <div class="meta-info" id="metaInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

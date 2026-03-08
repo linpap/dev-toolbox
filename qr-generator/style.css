@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f13;
+    color: #e0e0e0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.dot {
+    background: linear-gradient(135deg, #a78bfa, #6366f1, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #666;
+    margin-top: 6px;
+    font-size: 0.88rem;
+}
+
+/* Layout */
+.main-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Field label */
+.field-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+/* Input */
+.input-section {
+    background: #16161d;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #1e1e2a;
+}
+
+.text-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: #0f0f13;
+    border: 1px solid #2a2a35;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.text-input:focus {
+    border-color: #6366f1;
+}
+
+.text-input::placeholder {
+    color: #444;
+}
+
+/* Control groups */
+.control-group {
+    background: #16161d;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #1e1e2a;
+}
+
+/* Size buttons */
+.size-options,
+.ec-options {
+    display: flex;
+    gap: 6px;
+}
+
+.size-btn,
+.ec-btn {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #2a2a35;
+    background: #0f0f13;
+    color: #999;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.size-btn:hover,
+.ec-btn:hover {
+    border-color: #555;
+    color: #fff;
+}
+
+.size-btn.active,
+.ec-btn.active {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: #fff;
+}
+
+.hint {
+    margin-top: 8px;
+    font-size: 0.72rem;
+    color: #555;
+}
+
+/* Color pickers */
+.color-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.color-picker-group {
+    flex: 1;
+}
+
+.color-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.color-input-wrap {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.color-picker {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker::-webkit-color-swatch {
+    border: 2px solid #2a2a35;
+    border-radius: 8px;
+}
+
+.color-picker::-moz-color-swatch {
+    border: 2px solid #2a2a35;
+    border-radius: 8px;
+}
+
+.hex-input {
+    width: 80px;
+    padding: 8px 10px;
+    background: #0f0f13;
+    border: 1px solid #2a2a35;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.hex-input:focus {
+    border-color: #6366f1;
+}
+
+.icon-swap {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 18px;
+    border: 1px solid #2a2a35;
+    background: #16161d;
+    color: #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    border-color: #555;
+    color: #fff;
+}
+
+.btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+    border-color: #2a2a35;
+    color: #ccc;
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border-color: transparent;
+    color: #fff;
+    width: 100%;
+}
+
+.btn.primary:hover {
+    filter: brightness(1.15);
+}
+
+.actions {
+    display: flex;
+}
+
+.download-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.download-actions .btn {
+    flex: 1;
+}
+
+/* Preview */
+.preview-area {
+    background: #16161d;
+    border: 1px solid #1e1e2a;
+    border-radius: 16px;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.placeholder {
+    text-align: center;
+    color: #444;
+}
+
+.placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: 12px;
+    opacity: 0.3;
+}
+
+.placeholder p {
+    font-size: 0.85rem;
+}
+
+#qrCanvas {
+    display: none;
+    border-radius: 4px;
+}
+
+#qrCanvas.visible {
+    display: block;
+}
+
+.meta-info {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.meta-tag {
+    background: #16161d;
+    border: 1px solid #1e1e2a;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.72rem;
+    color: #888;
+}
+
+.meta-tag span {
+    color: #ccc;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: linear-gradient(135deg, #fff, #f0f0f0);
+    color: #111;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 200;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-area {
+        min-height: 300px;
+    }
+
+    .app {
+        padding: 16px;
+    }
+}

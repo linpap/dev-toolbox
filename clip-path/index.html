@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Clip Path Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Clip Path Generator</h1>
+      <p class="subtitle">Create and customize CSS clip-path shapes visually</p>
+    </header>
+
+    <main class="main">
+      <section class="preview-section">
+        <div class="preview-toolbar">
+          <label class="toggle-grid">
+            <input type="checkbox" id="gridToggle">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            <span>Grid</span>
+          </label>
+          <div class="bg-options">
+            <button class="bg-btn active" data-bg="gradient" title="Gradient">
+              <span class="swatch swatch-gradient"></span>
+            </button>
+            <button class="bg-btn" data-bg="image" title="Image">
+              <span class="swatch swatch-image"></span>
+            </button>
+            <button class="bg-btn" data-bg="solid" title="Solid Color">
+              <span class="swatch swatch-solid"></span>
+            </button>
+          </div>
+        </div>
+        <div class="preview-container" id="previewContainer">
+          <div class="preview-grid" id="previewGrid"></div>
+          <div class="preview-ghost" id="previewGhost"></div>
+          <div class="preview-element" id="previewElement"></div>
+          <svg class="points-overlay" id="pointsOverlay"></svg>
+        </div>
+      </section>
+
+      <section class="controls-section">
+        <div class="panel">
+          <h2 class="panel-title">Shape Type</h2>
+          <div class="shape-selector" id="shapeSelector">
+            <button class="shape-btn active" data-shape="polygon">Polygon</button>
+            <button class="shape-btn" data-shape="circle">Circle</button>
+            <button class="shape-btn" data-shape="ellipse">Ellipse</button>
+            <button class="shape-btn" data-shape="inset">Inset</button>
+          </div>
+        </div>
+
+        <div class="panel" id="polygonControls">
+          <h2 class="panel-title">Polygon Points</h2>
+          <p class="panel-hint">Drag points on the preview. Click on an edge to add a point.</p>
+          <div class="point-actions">
+            <button class="btn btn-sm" id="addPointBtn">+ Add Point</button>
+            <button class="btn btn-sm btn-danger" id="removePointBtn">- Remove Last</button>
+          </div>
+          <div class="points-list" id="pointsList"></div>
+        </div>
+
+        <div class="panel hidden" id="circleControls">
+          <h2 class="panel-title">Circle Settings</h2>
+          <div class="control-group">
+            <label>Radius</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="50" id="circleRadius">
+              <span class="slider-val" id="circleRadiusVal">50%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Center X</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="50" id="circleCx">
+              <span class="slider-val" id="circleCxVal">50%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Center Y</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="50" id="circleCy">
+              <span class="slider-val" id="circleCyVal">50%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hidden" id="ellipseControls">
+          <h2 class="panel-title">Ellipse Settings</h2>
+          <div class="control-group">
+            <label>Radius X</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="50" id="ellipseRx">
+              <span class="slider-val" id="ellipseRxVal">50%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Radius Y</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="35" id="ellipseRy">
+              <span class="slider-val" id="ellipseRyVal">35%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Center X</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="50" id="ellipseCx">
+              <span class="slider-val" id="ellipseCxVal">50%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Center Y</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="50" id="ellipseCy">
+              <span class="slider-val" id="ellipseCyVal">50%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hidden" id="insetControls">
+          <h2 class="panel-title">Inset Settings</h2>
+          <div class="control-group">
+            <label>Top</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="50" value="10" id="insetTop">
+              <span class="slider-val" id="insetTopVal">10%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Right</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="50" value="10" id="insetRight">
+              <span class="slider-val" id="insetRightVal">10%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Bottom</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="50" value="10" id="insetBottom">
+              <span class="slider-val" id="insetBottomVal">10%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Left</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="50" value="10" id="insetLeft">
+              <span class="slider-val" id="insetLeftVal">10%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Border Radius</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="50" value="0" id="insetRadius">
+              <span class="slider-val" id="insetRadiusVal">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-title">Presets</h2>
+          <div class="presets-grid" id="presetsGrid">
+            <button class="preset-btn" data-preset="triangle">
+              <svg viewBox="0 0 40 40"><polygon points="20,4 36,36 4,36" fill="currentColor"/></svg>
+              <span>Triangle</span>
+            </button>
+            <button class="preset-btn" data-preset="pentagon">
+              <svg viewBox="0 0 40 40"><polygon points="20,3 38,15 31,36 9,36 2,15" fill="currentColor"/></svg>
+              <span>Pentagon</span>
+            </button>
+            <button class="preset-btn" data-preset="hexagon">
+              <svg viewBox="0 0 40 40"><polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="currentColor"/></svg>
+              <span>Hexagon</span>
+            </button>
+            <button class="preset-btn" data-preset="star">
+              <svg viewBox="0 0 40 40"><polygon points="20,2 24,15 38,15 27,23 31,37 20,28 9,37 13,23 2,15 16,15" fill="currentColor"/></svg>
+              <span>Star</span>
+            </button>
+            <button class="preset-btn" data-preset="cross">
+              <svg viewBox="0 0 40 40"><polygon points="14,4 26,4 26,14 36,14 36,26 26,26 26,36 14,36 14,26 4,26 4,14 14,14" fill="currentColor"/></svg>
+              <span>Cross</span>
+            </button>
+            <button class="preset-btn" data-preset="arrow">
+              <svg viewBox="0 0 40 40"><polygon points="8,14 26,14 26,6 38,20 26,34 26,26 8,26" fill="currentColor"/></svg>
+              <span>Arrow</span>
+            </button>
+            <button class="preset-btn" data-preset="heart">
+              <svg viewBox="0 0 40 40"><path d="M20,36 C12,28 2,22 2,13 C2,6 8,2 14,2 C17,2 19,4 20,6 C21,4 23,2 26,2 C32,2 38,6 38,13 C38,22 28,28 20,36Z" fill="currentColor"/></svg>
+              <span>Heart</span>
+            </button>
+            <button class="preset-btn" data-preset="diamond">
+              <svg viewBox="0 0 40 40"><polygon points="20,2 38,20 20,38 2,20" fill="currentColor"/></svg>
+              <span>Diamond</span>
+            </button>
+            <button class="preset-btn" data-preset="message">
+              <svg viewBox="0 0 40 40"><polygon points="2,4 38,4 38,28 22,28 12,38 14,28 2,28" fill="currentColor"/></svg>
+              <span>Bubble</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel output-panel">
+          <h2 class="panel-title">CSS Output</h2>
+          <div class="code-block">
+            <code id="cssOutput"></code>
+          </div>
+          <button class="btn btn-copy" id="copyBtn">Copy CSS</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+  <script src="app.js"></script>
+</body>
+</html>

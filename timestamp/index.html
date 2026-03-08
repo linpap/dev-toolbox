@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unix Timestamp Converter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <header>
+    <h1>Unix Timestamp Converter</h1>
+    <p class="subtitle">Convert between Unix timestamps and human-readable dates</p>
+  </header>
+
+  <main>
+    <!-- Current Timestamp -->
+    <section class="card current-time-card">
+      <h2>Current Unix Timestamp</h2>
+      <div class="current-timestamp-display">
+        <span id="live-timestamp" class="mono clickable" title="Click to copy">-</span>
+      </div>
+      <div class="current-date-display" id="live-date">-</div>
+    </section>
+
+    <!-- Timezone Selector -->
+    <section class="card">
+      <h2>Timezone</h2>
+      <select id="timezone-select" class="input-field">
+        <!-- Populated by JS -->
+      </select>
+    </section>
+
+    <!-- Timestamp to Date -->
+    <section class="card">
+      <h2>Timestamp to Date</h2>
+      <div class="input-group">
+        <input type="number" id="ts-input" class="input-field" placeholder="Enter Unix timestamp (e.g. 1700000000)">
+        <button id="ts-convert-btn" class="btn">Convert</button>
+      </div>
+      <div id="ts-results" class="results hidden">
+        <div class="result-row">
+          <span class="result-label">ISO 8601</span>
+          <span class="result-value clickable" data-field="iso">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">RFC 2822</span>
+          <span class="result-value clickable" data-field="rfc">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">UTC</span>
+          <span class="result-value clickable" data-field="utc">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Local Time</span>
+          <span class="result-value clickable" data-field="local">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Relative</span>
+          <span class="result-value clickable" data-field="relative">-</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Date to Timestamp -->
+    <section class="card">
+      <h2>Date to Timestamp</h2>
+      <div class="input-group date-inputs">
+        <input type="date" id="date-input" class="input-field">
+        <input type="time" id="time-input" class="input-field" step="1">
+        <button id="date-convert-btn" class="btn">Convert</button>
+      </div>
+      <div id="date-results" class="results hidden">
+        <div class="result-row">
+          <span class="result-label">Seconds</span>
+          <span class="result-value clickable" data-field="seconds">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Milliseconds</span>
+          <span class="result-value clickable" data-field="milliseconds">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">ISO 8601</span>
+          <span class="result-value clickable" data-field="d-iso">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">RFC 2822</span>
+          <span class="result-value clickable" data-field="d-rfc">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Relative</span>
+          <span class="result-value clickable" data-field="d-relative">-</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Timestamps -->
+    <section class="card">
+      <h2>Common Timestamps</h2>
+      <div class="common-timestamps" id="common-timestamps">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Click any value to copy it to clipboard</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

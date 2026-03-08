@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Pass<span class="dot">.</span></h1>
+            <p class="subtitle">Generate secure passwords</p>
+        </header>
+
+        <div class="password-display">
+            <span id="passwordText" class="password-text">Click Generate</span>
+            <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="strength-meter">
+            <div class="strength-bar">
+                <div id="strengthFill" class="strength-fill"></div>
+            </div>
+            <span id="strengthLabel" class="strength-label">--</span>
+        </div>
+
+        <div class="controls">
+            <div class="length-control">
+                <div class="length-header">
+                    <label for="lengthSlider">Length</label>
+                    <span id="lengthValue" class="length-value">16</span>
+                </div>
+                <input type="range" id="lengthSlider" min="8" max="128" value="16" class="slider">
+            </div>
+
+            <div class="options">
+                <label class="toggle-row">
+                    <span>Uppercase (A-Z)</span>
+                    <input type="checkbox" id="optUppercase" checked>
+                    <span class="toggle"></span>
+                </label>
+                <label class="toggle-row">
+                    <span>Lowercase (a-z)</span>
+                    <input type="checkbox" id="optLowercase" checked>
+                    <span class="toggle"></span>
+                </label>
+                <label class="toggle-row">
+                    <span>Numbers (0-9)</span>
+                    <input type="checkbox" id="optNumbers" checked>
+                    <span class="toggle"></span>
+                </label>
+                <label class="toggle-row">
+                    <span>Symbols (!@#$...)</span>
+                    <input type="checkbox" id="optSymbols">
+                    <span class="toggle"></span>
+                </label>
+                <label class="toggle-row">
+                    <span>Exclude ambiguous (0O, 1lI)</span>
+                    <input type="checkbox" id="optExcludeAmbiguous">
+                    <span class="toggle"></span>
+                </label>
+            </div>
+
+            <button id="generateBtn" class="generate-btn">Generate Password</button>
+        </div>
+
+        <div class="batch-section">
+            <div class="batch-header">
+                <h3>Batch Generate</h3>
+                <span class="batch-count">5 passwords</span>
+            </div>
+            <div id="batchList" class="batch-list">
+                <div class="batch-empty">Generate a batch of passwords below</div>
+            </div>
+            <button id="batchBtn" class="batch-btn">Generate 5 Passwords</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Copied to clipboard</div>
+
+    <script src="app.js"></script>
+</body>
+</html>

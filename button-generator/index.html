@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Button Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>CSS Button Generator</h1>
+      <p class="subtitle">Design, preview, and export custom CSS buttons</p>
+    </header>
+
+    <main class="main">
+      <div class="preview-panel">
+        <div class="preview-area" id="previewArea">
+          <button id="previewButton">Click Me</button>
+        </div>
+        <div class="output-section">
+          <div class="output-header">
+            <h3>Generated CSS</h3>
+            <button class="copy-btn" id="copyBtn">Copy CSS</button>
+          </div>
+          <pre id="cssOutput"><code></code></pre>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <!-- Presets -->
+        <section class="control-group">
+          <h3 class="group-title">Presets</h3>
+          <div class="presets-grid" id="presetsGrid">
+            <button class="preset-btn" data-preset="primary">Primary</button>
+            <button class="preset-btn" data-preset="secondary">Secondary</button>
+            <button class="preset-btn" data-preset="outline">Outline</button>
+            <button class="preset-btn" data-preset="ghost">Ghost</button>
+            <button class="preset-btn" data-preset="pill">Pill</button>
+            <button class="preset-btn" data-preset="threed">3D</button>
+            <button class="preset-btn" data-preset="gradient">Gradient</button>
+            <button class="preset-btn" data-preset="minimal">Minimal</button>
+          </div>
+        </section>
+
+        <!-- Button Text -->
+        <section class="control-group">
+          <h3 class="group-title">Button Text</h3>
+          <input type="text" id="buttonText" value="Click Me" class="text-input">
+        </section>
+
+        <!-- Sizing -->
+        <section class="control-group">
+          <h3 class="group-title">Sizing</h3>
+          <div class="control-row">
+            <label>Padding X <span class="value-display" id="paddingXVal">24px</span></label>
+            <input type="range" id="paddingX" min="0" max="80" value="24">
+          </div>
+          <div class="control-row">
+            <label>Padding Y <span class="value-display" id="paddingYVal">12px</span></label>
+            <input type="range" id="paddingY" min="0" max="60" value="12">
+          </div>
+          <div class="control-row">
+            <label>Font Size <span class="value-display" id="fontSizeVal">16px</span></label>
+            <input type="range" id="fontSize" min="10" max="48" value="16">
+          </div>
+          <div class="control-row">
+            <label>Font Weight <span class="value-display" id="fontWeightVal">600</span></label>
+            <input type="range" id="fontWeight" min="100" max="900" value="600" step="100">
+          </div>
+        </section>
+
+        <!-- Border -->
+        <section class="control-group">
+          <h3 class="group-title">Border</h3>
+          <div class="control-row">
+            <label>Border Radius <span class="value-display" id="borderRadiusVal">8px</span></label>
+            <input type="range" id="borderRadius" min="0" max="100" value="8">
+          </div>
+          <div class="control-row">
+            <label>Border Width <span class="value-display" id="borderWidthVal">0px</span></label>
+            <input type="range" id="borderWidth" min="0" max="10" value="0">
+          </div>
+          <div class="control-row">
+            <label>Border Style</label>
+            <select id="borderStyle" class="select-input">
+              <option value="solid">Solid</option>
+              <option value="dashed">Dashed</option>
+              <option value="dotted">Dotted</option>
+              <option value="double">Double</option>
+              <option value="groove">Groove</option>
+              <option value="ridge">Ridge</option>
+              <option value="inset">Inset</option>
+              <option value="outset">Outset</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- Colors -->
+        <section class="control-group">
+          <h3 class="group-title">Colors</h3>
+          <div class="color-row">
+            <label>Background</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="bgColor" value="#6366f1">
+              <span class="color-hex" id="bgColorHex">#6366f1</span>
+            </div>
+          </div>
+          <div class="color-row">
+            <label>Text</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="textColor" value="#ffffff">
+              <span class="color-hex" id="textColorHex">#ffffff</span>
+            </div>
+          </div>
+          <div class="color-row">
+            <label>Border</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="borderColor" value="#6366f1">
+              <span class="color-hex" id="borderColorHex">#6366f1</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gradient -->
+        <section class="control-group">
+          <h3 class="group-title">Gradient Background</h3>
+          <div class="control-row">
+            <label class="toggle-label">
+              <input type="checkbox" id="gradientEnabled">
+              <span>Enable Gradient</span>
+            </label>
+          </div>
+          <div id="gradientControls" class="gradient-controls hidden">
+            <div class="color-row">
+              <label>Start Color</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="gradientStart" value="#6366f1">
+                <span class="color-hex" id="gradientStartHex">#6366f1</span>
+              </div>
+            </div>
+            <div class="color-row">
+              <label>End Color</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="gradientEnd" value="#ec4899">
+                <span class="color-hex" id="gradientEndHex">#ec4899</span>
+              </div>
+            </div>
+            <div class="control-row">
+              <label>Angle <span class="value-display" id="gradientAngleVal">135deg</span></label>
+              <input type="range" id="gradientAngle" min="0" max="360" value="135">
+            </div>
+          </div>
+        </section>
+
+        <!-- Shadow -->
+        <section class="control-group">
+          <h3 class="group-title">Shadow</h3>
+          <div class="control-row">
+            <label>Offset X <span class="value-display" id="shadowXVal">0px</span></label>
+            <input type="range" id="shadowX" min="-30" max="30" value="0">
+          </div>
+          <div class="control-row">
+            <label>Offset Y <span class="value-display" id="shadowYVal">0px</span></label>
+            <input type="range" id="shadowY" min="-30" max="30" value="0">
+          </div>
+          <div class="control-row">
+            <label>Blur <span class="value-display" id="shadowBlurVal">0px</span></label>
+            <input type="range" id="shadowBlur" min="0" max="50" value="0">
+          </div>
+          <div class="control-row">
+            <label>Spread <span class="value-display" id="shadowSpreadVal">0px</span></label>
+            <input type="range" id="shadowSpread" min="-20" max="30" value="0">
+          </div>
+          <div class="color-row">
+            <label>Shadow Color</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="shadowColor" value="#000000">
+              <span class="color-hex" id="shadowColorHex">#000000</span>
+            </div>
+          </div>
+          <div class="control-row">
+            <label>Shadow Opacity <span class="value-display" id="shadowOpacityVal">25%</span></label>
+            <input type="range" id="shadowOpacity" min="0" max="100" value="25">
+          </div>
+        </section>
+
+        <!-- Hover State -->
+        <section class="control-group">
+          <h3 class="group-title">Hover State</h3>
+          <div class="color-row">
+            <label>Hover Background</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="hoverBgColor" value="#4f46e5">
+              <span class="color-hex" id="hoverBgColorHex">#4f46e5</span>
+            </div>
+          </div>
+          <div class="color-row">
+            <label>Hover Text</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="hoverTextColor" value="#ffffff">
+              <span class="color-hex" id="hoverTextColorHex">#ffffff</span>
+            </div>
+          </div>
+          <div class="color-row">
+            <label>Hover Border</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="hoverBorderColor" value="#4f46e5">
+              <span class="color-hex" id="hoverBorderColorHex">#4f46e5</span>
+            </div>
+          </div>
+          <div class="control-row">
+            <label class="toggle-label">
+              <input type="checkbox" id="hoverGradientEnabled">
+              <span>Hover Gradient</span>
+            </label>
+          </div>
+          <div id="hoverGradientControls" class="gradient-controls hidden">
+            <div class="color-row">
+              <label>Hover Gradient Start</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="hoverGradientStart" value="#4f46e5">
+                <span class="color-hex" id="hoverGradientStartHex">#4f46e5</span>
+              </div>
+            </div>
+            <div class="color-row">
+              <label>Hover Gradient End</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="hoverGradientEnd" value="#db2777">
+                <span class="color-hex" id="hoverGradientEndHex">#db2777</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Extras -->
+        <section class="control-group">
+          <h3 class="group-title">Extras</h3>
+          <div class="control-row">
+            <label>Transition <span class="value-display" id="transitionVal">0.2s</span></label>
+            <input type="range" id="transition" min="0" max="10" value="2" step="1">
+          </div>
+          <div class="control-row">
+            <label>Text Transform</label>
+            <select id="textTransform" class="select-input">
+              <option value="none">None</option>
+              <option value="uppercase">Uppercase</option>
+              <option value="capitalize">Capitalize</option>
+              <option value="lowercase">Lowercase</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <label>Cursor</label>
+            <select id="cursorStyle" class="select-input">
+              <option value="pointer">Pointer</option>
+              <option value="default">Default</option>
+              <option value="grab">Grab</option>
+              <option value="crosshair">Crosshair</option>
+              <option value="not-allowed">Not Allowed</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <label>Letter Spacing <span class="value-display" id="letterSpacingVal">0px</span></label>
+            <input type="range" id="letterSpacing" min="0" max="10" value="0" step="0.5">
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">CSS copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

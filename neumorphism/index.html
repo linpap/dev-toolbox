@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neumorphism Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Neumorphism<span class="accent">.css</span></h1>
+      <p class="subtitle">Soft UI CSS Generator</p>
+    </header>
+
+    <main class="main">
+      <div class="preview-panel">
+        <div class="preview-area" id="previewArea">
+          <div class="preview-element" id="previewElement">
+            <span class="preview-text" id="previewText">Card</span>
+          </div>
+        </div>
+
+        <div class="element-selector">
+          <span class="element-selector-label">Element</span>
+          <div class="element-buttons">
+            <button class="element-btn active" data-element="card">Card</button>
+            <button class="element-btn" data-element="button">Button</button>
+            <button class="element-btn" data-element="input">Input</button>
+            <button class="element-btn" data-element="circle">Circle</button>
+          </div>
+        </div>
+
+        <div class="code-output">
+          <div class="code-header">
+            <span>CSS Output</span>
+            <button class="copy-btn" id="copyBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy
+            </button>
+          </div>
+          <pre class="code-block" id="codeOutput"></pre>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <div class="control-group">
+          <label class="control-label">Background Color</label>
+          <div class="color-control">
+            <input type="color" id="bgColor" value="#3a3a4a">
+            <input type="text" class="color-text" id="bgColorText" value="#3a3a4a" spellcheck="false">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Shape</label>
+          <div class="shape-buttons">
+            <button class="shape-btn active" data-shape="flat" title="Flat">
+              <svg viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" rx="6" fill="#555"/></svg>
+              <span>Flat</span>
+            </button>
+            <button class="shape-btn" data-shape="concave" title="Concave">
+              <svg viewBox="0 0 40 40"><defs><radialGradient id="gc" cx="30%" cy="30%"><stop offset="0%" stop-color="#444"/><stop offset="100%" stop-color="#666"/></radialGradient></defs><rect x="6" y="6" width="28" height="28" rx="6" fill="url(#gc)"/></svg>
+              <span>Concave</span>
+            </button>
+            <button class="shape-btn" data-shape="convex" title="Convex">
+              <svg viewBox="0 0 40 40"><defs><radialGradient id="gv" cx="30%" cy="30%"><stop offset="0%" stop-color="#777"/><stop offset="100%" stop-color="#444"/></radialGradient></defs><rect x="6" y="6" width="28" height="28" rx="6" fill="url(#gv)"/></svg>
+              <span>Convex</span>
+            </button>
+            <button class="shape-btn" data-shape="pressed" title="Pressed">
+              <svg viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" rx="6" fill="#444" stroke="#333" stroke-width="2"/><rect x="10" y="10" width="20" height="20" rx="4" fill="#3a3a3a"/></svg>
+              <span>Pressed</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Size <span class="control-value" id="sizeValue">200</span>px</label>
+          <input type="range" class="slider" id="size" min="50" max="400" value="200">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Border Radius <span class="control-value" id="radiusValue">24</span>px</label>
+          <input type="range" class="slider" id="radius" min="0" max="200" value="24">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Distance <span class="control-value" id="distanceValue">12</span>px</label>
+          <input type="range" class="slider" id="distance" min="1" max="50" value="12">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Intensity <span class="control-value" id="intensityValue">0.25</span></label>
+          <input type="range" class="slider" id="intensity" min="5" max="60" value="25">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Blur <span class="control-value" id="blurValue">24</span>px</label>
+          <input type="range" class="slider" id="blur" min="0" max="100" value="24">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Light Direction</label>
+          <div class="direction-grid">
+            <button class="dir-btn active" data-dir="top-left" title="Top Left">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v2H7.41l9.3 9.29-1.42 1.42L6 7.41V11H4V4z"/></svg>
+            </button>
+            <button class="dir-btn" data-dir="top-right" title="Top Right">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4h-7v2h3.59l-9.3 9.29 1.42 1.42L18 7.41V11h2V4z"/></svg>
+            </button>
+            <button class="dir-btn" data-dir="bottom-left" title="Bottom Left">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20h7v-2H7.41l9.3-9.29-1.42-1.42L6 16.59V13H4v7z"/></svg>
+            </button>
+            <button class="dir-btn" data-dir="bottom-right" title="Bottom Right">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 20h-7v-2h3.59l-9.3-9.29 1.42-1.42L18 16.59V13h2v7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

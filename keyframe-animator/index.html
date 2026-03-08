@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Keyframe Animator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Keyframe Animator</h1>
+    <div class="header-actions">
+      <button id="btn-copy-css" title="Copy CSS">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy CSS
+      </button>
+      <button id="btn-export" title="Export CSS">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="workspace">
+      <!-- Preview Area -->
+      <div class="preview-panel">
+        <div class="preview-toolbar">
+          <span class="panel-label">Preview</span>
+          <div class="preview-options">
+            <label class="toggle-label">
+              <input type="checkbox" id="toggle-onion"> Onion Skinning
+            </label>
+            <select id="element-type">
+              <option value="div">Div</option>
+              <option value="text">Text</option>
+              <option value="image">Image</option>
+            </select>
+          </div>
+        </div>
+        <div class="preview-area" id="preview-area">
+          <div class="preview-element" id="preview-element"></div>
+          <div class="onion-container" id="onion-container"></div>
+        </div>
+      </div>
+
+      <!-- Properties Panel -->
+      <div class="properties-panel">
+        <div class="panel-label">Keyframe Properties</div>
+        <div id="keyframe-props" class="props-form">
+          <p class="no-selection">Select a keyframe on the timeline to edit its properties.</p>
+        </div>
+
+        <div class="panel-label" style="margin-top:20px;">Animation Settings</div>
+        <div class="settings-form">
+          <div class="form-row">
+            <label>Name</label>
+            <input type="text" id="anim-name" value="myAnimation" spellcheck="false">
+          </div>
+          <div class="form-row">
+            <label>Duration (s)</label>
+            <input type="number" id="anim-duration" value="1" min="0.1" step="0.1">
+          </div>
+          <div class="form-row">
+            <label>Easing</label>
+            <select id="anim-easing">
+              <option value="ease">ease</option>
+              <option value="linear">linear</option>
+              <option value="ease-in">ease-in</option>
+              <option value="ease-out">ease-out</option>
+              <option value="ease-in-out">ease-in-out</option>
+              <option value="cubic-bezier(0.68,-0.55,0.27,1.55)">bounce</option>
+              <option value="steps(5, end)">steps</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Iterations</label>
+            <input type="text" id="anim-iterations" value="infinite">
+          </div>
+          <div class="form-row">
+            <label>Direction</label>
+            <select id="anim-direction">
+              <option value="normal">normal</option>
+              <option value="reverse">reverse</option>
+              <option value="alternate">alternate</option>
+              <option value="alternate-reverse">alternate-reverse</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Fill Mode</label>
+            <select id="anim-fill">
+              <option value="none">none</option>
+              <option value="forwards">forwards</option>
+              <option value="backwards">backwards</option>
+              <option value="both">both</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-section">
+      <div class="transport-controls">
+        <button id="btn-step-back" title="Step Backward">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button id="btn-play" title="Play" class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="play-icon"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="pause-icon" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <button id="btn-step-fwd" title="Step Forward">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg>
+        </button>
+        <span class="time-display" id="time-display">0.00s / 1.00s</span>
+      </div>
+      <div class="timeline-wrapper">
+        <div class="timeline-ruler" id="timeline-ruler"></div>
+        <div class="timeline-track" id="timeline-track">
+          <div class="timeline-playhead" id="playhead"></div>
+        </div>
+        <div class="timeline-hint">Click on the track to add a keyframe</div>
+      </div>
+      <button id="btn-add-kf" class="add-kf-btn" title="Add keyframe at playhead">+ Add Keyframe</button>
+    </div>
+
+    <!-- CSS Output -->
+    <div class="css-output-section">
+      <div class="panel-label">Generated CSS</div>
+      <pre id="css-output" class="css-output"></pre>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <!-- Export Modal -->
+  <div class="modal-overlay" id="export-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Export Animation</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Copy the generated CSS below and paste it into your project. Apply the animation class to any element.</p>
+        <pre id="export-css" class="css-output"></pre>
+        <button id="btn-copy-export" class="copy-export-btn">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

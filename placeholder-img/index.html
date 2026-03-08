@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Placeholder Image Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <header>
+    <h1>Placeholder Image Generator</h1>
+    <p class="subtitle">Generate custom placeholder images instantly</p>
+  </header>
+
+  <main>
+    <div class="app-layout">
+      <section class="controls-panel">
+        <div class="control-group">
+          <label class="group-label">Dimensions</label>
+          <div class="dimensions-row">
+            <div class="field">
+              <label for="width">Width</label>
+              <input type="number" id="width" value="800" min="1" max="4096">
+            </div>
+            <span class="dimension-separator">&times;</span>
+            <div class="field">
+              <label for="height">Height</label>
+              <input type="number" id="height" value="600" min="1" max="4096">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="group-label">Colors</label>
+          <div class="colors-row">
+            <div class="field">
+              <label for="bg-color">Background</label>
+              <div class="color-input-wrapper">
+                <input type="color" id="bg-color" value="#2a2a3e">
+                <input type="text" id="bg-color-text" value="#2a2a3e" class="color-text" maxlength="7">
+              </div>
+            </div>
+            <div class="field">
+              <label for="text-color">Text</label>
+              <div class="color-input-wrapper">
+                <input type="color" id="text-color" value="#8888aa">
+                <input type="text" id="text-color-text" value="#8888aa" class="color-text" maxlength="7">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="group-label">Text</label>
+          <div class="field">
+            <label for="custom-text">Custom Text</label>
+            <input type="text" id="custom-text" placeholder="Leave empty for dimensions (e.g. 800x600)">
+          </div>
+          <div class="font-size-row">
+            <div class="field">
+              <label for="font-size-mode">Font Size</label>
+              <select id="font-size-mode">
+                <option value="auto">Auto</option>
+                <option value="manual">Manual</option>
+              </select>
+            </div>
+            <div class="field" id="manual-font-size-field" style="display:none;">
+              <label for="font-size">Size (px)</label>
+              <input type="number" id="font-size" value="32" min="8" max="512">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="group-label">Format</label>
+          <div class="format-options">
+            <label class="format-option">
+              <input type="radio" name="format" value="png" checked>
+              <span>PNG</span>
+            </label>
+            <label class="format-option">
+              <input type="radio" name="format" value="jpeg">
+              <span>JPEG</span>
+            </label>
+            <label class="format-option">
+              <input type="radio" name="format" value="svg">
+              <span>SVG</span>
+            </label>
+            <label class="format-option">
+              <input type="radio" name="format" value="webp">
+              <span>WebP</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="group-label">Presets</label>
+          <div class="presets-grid">
+            <button class="preset-btn" data-w="150" data-h="150">Thumbnail<span>150&times;150</span></button>
+            <button class="preset-btn" data-w="400" data-h="300">Card<span>400&times;300</span></button>
+            <button class="preset-btn" data-w="1920" data-h="1080">Hero<span>1920&times;1080</span></button>
+            <button class="preset-btn" data-w="80" data-h="80">Avatar<span>80&times;80</span></button>
+            <button class="preset-btn" data-w="728" data-h="90">Banner<span>728&times;90</span></button>
+            <button class="preset-btn" data-w="1200" data-h="630">Social<span>1200&times;630</span></button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="group-label">Batch Generate</label>
+          <p class="hint">Select multiple presets to generate at once.</p>
+          <div class="batch-checks">
+            <label class="batch-check"><input type="checkbox" data-w="150" data-h="150"> Thumbnail</label>
+            <label class="batch-check"><input type="checkbox" data-w="400" data-h="300"> Card</label>
+            <label class="batch-check"><input type="checkbox" data-w="1920" data-h="1080"> Hero</label>
+            <label class="batch-check"><input type="checkbox" data-w="80" data-h="80"> Avatar</label>
+            <label class="batch-check"><input type="checkbox" data-w="728" data-h="90"> Banner</label>
+            <label class="batch-check"><input type="checkbox" data-w="1200" data-h="630"> Social</label>
+          </div>
+          <button class="btn btn-secondary" id="batch-generate-btn">Batch Generate &amp; Download</button>
+        </div>
+      </section>
+
+      <section class="preview-panel">
+        <div class="preview-container">
+          <canvas id="preview-canvas"></canvas>
+        </div>
+
+        <div class="actions-bar">
+          <button class="btn btn-primary" id="download-btn">Download Image</button>
+          <button class="btn btn-secondary" id="copy-uri-btn">Copy Data URI</button>
+        </div>
+
+        <div class="output-group">
+          <label class="group-label">HTML img Tag</label>
+          <div class="code-block">
+            <pre><code id="img-tag-output"></code></pre>
+            <button class="copy-btn" id="copy-tag-btn" title="Copy HTML">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

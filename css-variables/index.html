@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Custom Properties Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-left">
+        <h1 class="logo">
+          <span class="logo-icon">{&nbsp;}</span>
+          Design Token Manager
+        </h1>
+      </div>
+      <div class="header-right">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Search variables..." />
+        </div>
+        <button class="btn btn-ghost" id="importBtn" title="Import CSS">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Import
+        </button>
+        <div class="export-group">
+          <button class="btn btn-ghost" id="exportCssBtn">Export CSS</button>
+          <button class="btn btn-ghost" id="exportScssBtn">Export SCSS</button>
+          <button class="btn btn-ghost" id="exportJsonBtn">Export JSON</button>
+        </div>
+        <button class="btn btn-ghost" id="presetsBtn" title="Presets">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m8.66-15-5.2 3m-6.92 4-5.2 3M22.66 18l-5.2-3m-6.92-4-5.2-3"/></svg>
+          Presets
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Categories</h2>
+        </div>
+        <nav class="category-nav" id="categoryNav"></nav>
+        <div class="sidebar-footer">
+          <button class="btn btn-primary btn-full" id="addVariableBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Variable
+          </button>
+        </div>
+      </aside>
+
+      <section class="editor-panel" id="editorPanel">
+        <div class="panel-header">
+          <h2 id="panelTitle">All Variables</h2>
+          <span class="variable-count" id="variableCount">0 variables</span>
+        </div>
+        <div class="variables-list" id="variablesList"></div>
+        <div class="empty-state" id="emptyState">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <p>No variables yet. Add one or import existing CSS.</p>
+        </div>
+      </section>
+
+      <section class="preview-panel">
+        <div class="panel-header">
+          <h2>Live Preview</h2>
+        </div>
+        <div class="preview-content" id="previewContent">
+          <div class="preview-section">
+            <h3>Buttons</h3>
+            <div class="preview-row">
+              <button class="preview-btn preview-btn-primary">Primary</button>
+              <button class="preview-btn preview-btn-secondary">Secondary</button>
+              <button class="preview-btn preview-btn-outline">Outline</button>
+            </div>
+          </div>
+          <div class="preview-section">
+            <h3>Card</h3>
+            <div class="preview-card">
+              <div class="preview-card-header">Card Title</div>
+              <div class="preview-card-body">
+                <p>This is a sample card component showing how your design tokens look when applied.</p>
+              </div>
+              <div class="preview-card-footer">
+                <button class="preview-btn preview-btn-primary preview-btn-sm">Action</button>
+              </div>
+            </div>
+          </div>
+          <div class="preview-section">
+            <h3>Typography</h3>
+            <h1 class="preview-h1">Heading One</h1>
+            <h2 class="preview-h2">Heading Two</h2>
+            <p class="preview-body">Body text with <strong>bold</strong> and <em>italic</em> styles. This paragraph demonstrates the base typography tokens in action.</p>
+            <p class="preview-small">Small / caption text</p>
+          </div>
+          <div class="preview-section">
+            <h3>Inputs</h3>
+            <input class="preview-input" type="text" placeholder="Text input..." />
+            <div class="preview-badge-row">
+              <span class="preview-badge">Badge</span>
+              <span class="preview-badge preview-badge-alt">Alt Badge</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Add/Edit Variable Modal -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add Variable</h3>
+        <button class="btn-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="varCategory">Category</label>
+          <select id="varCategory">
+            <option value="colors">Colors</option>
+            <option value="typography">Typography</option>
+            <option value="spacing">Spacing</option>
+            <option value="shadows">Shadows</option>
+            <option value="borders">Borders</option>
+            <option value="misc">Misc</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="varName">Variable Name</label>
+          <input type="text" id="varName" placeholder="e.g. primary-color" />
+          <span class="form-hint">Will be prefixed with <code>--</code></span>
+        </div>
+        <div class="form-group">
+          <label for="varValue">Value</label>
+          <div class="value-input-row">
+            <input type="text" id="varValue" placeholder="e.g. #6366f1" />
+            <input type="color" id="varColorPicker" class="color-picker-input" value="#6366f1" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="modalCancel">Cancel</button>
+        <button class="btn btn-primary" id="modalSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h3>Import CSS Variables</h3>
+        <button class="btn-close" id="importModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="form-hint" style="margin-bottom: 12px;">Paste a <code>:root { }</code> block or any CSS with custom properties.</p>
+        <textarea id="importTextarea" rows="12" placeholder=":root {
+  --primary-color: #6366f1;
+  --font-size-base: 16px;
+  --spacing-md: 1rem;
+}"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="importModalCancel">Cancel</button>
+        <button class="btn btn-primary" id="importModalConfirm">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal-overlay" id="exportModal">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h3 id="exportModalTitle">Export</h3>
+        <button class="btn-close" id="exportModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <pre id="exportOutput" class="export-output"></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="exportModalDone">Close</button>
+        <button class="btn btn-primary" id="copyExportBtn">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Presets Modal -->
+  <div class="modal-overlay" id="presetsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Load Preset</h3>
+        <button class="btn-close" id="presetsModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="form-hint" style="margin-bottom: 16px;">Loading a preset will replace all current variables.</p>
+        <div class="preset-options">
+          <button class="preset-card" data-preset="dark">
+            <div class="preset-swatch preset-swatch-dark">
+              <span class="swatch-dot" style="background:#6366f1"></span>
+              <span class="swatch-dot" style="background:#0f0f13"></span>
+              <span class="swatch-dot" style="background:#1a1a24"></span>
+              <span class="swatch-dot" style="background:#e2e2e8"></span>
+            </div>
+            <span class="preset-label">Dark Theme</span>
+          </button>
+          <button class="preset-card" data-preset="light">
+            <div class="preset-swatch preset-swatch-light">
+              <span class="swatch-dot" style="background:#4f46e5"></span>
+              <span class="swatch-dot" style="background:#ffffff"></span>
+              <span class="swatch-dot" style="background:#f8f8fa"></span>
+              <span class="swatch-dot" style="background:#1a1a2e"></span>
+            </div>
+            <span class="preset-label">Light Theme</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <style id="previewStyles"></style>
+  <script src="app.js"></script>
+</body>
+</html>

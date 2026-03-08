@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f13;
+    color: #e0e0e0;
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #fff;
+}
+
+.accent {
+    color: #6c63ff;
+}
+
+.subtitle {
+    color: #666;
+    margin-top: 6px;
+    font-size: 0.95rem;
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tool-btn {
+    padding: 8px 18px;
+    border: 1px solid #2a2a30;
+    background: #1a1a22;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #aaa;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tool-btn:hover {
+    border-color: #6c63ff;
+    color: #ddd;
+}
+
+.tool-btn.primary {
+    background: #6c63ff;
+    border-color: #6c63ff;
+    color: #fff;
+}
+
+.tool-btn.primary:hover {
+    background: #5b52ee;
+    border-color: #5b52ee;
+}
+
+/* Toggle switch */
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #888;
+    user-select: none;
+}
+
+.toggle-row input[type="checkbox"] {
+    display: none;
+}
+
+.toggle {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: #2a2a30;
+    border-radius: 10px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: #666;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.toggle-row input:checked + .toggle {
+    background: #6c63ff;
+}
+
+.toggle-row input:checked + .toggle::after {
+    left: 19px;
+    background: #fff;
+}
+
+/* Editor container */
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    height: calc(100vh - 320px);
+    min-height: 400px;
+}
+
+.panel {
+    background: #16161e;
+    border: 1px solid #222230;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #555;
+    border-bottom: 1px solid #222230;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.panel-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.char-count {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #444;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+textarea {
+    flex: 1;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #ccc;
+    background: transparent;
+}
+
+textarea::placeholder {
+    color: #3a3a44;
+}
+
+textarea[readonly] {
+    color: #a0a0b0;
+}
+
+/* Copy button */
+.copy-btn {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.copy-btn:hover {
+    color: #6c63ff;
+}
+
+/* Drop zone */
+.drop-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid #222230;
+    color: #444;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.drop-zone svg {
+    flex-shrink: 0;
+}
+
+.file-label {
+    color: #6c63ff;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.file-label:hover {
+    color: #8b84ff;
+}
+
+/* Drop overlay */
+.drop-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(108, 99, 255, 0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.drop-overlay.active {
+    display: flex;
+}
+
+.drop-message {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 40px 60px;
+    border: 3px dashed rgba(255, 255, 255, 0.45);
+    border-radius: 16px;
+}
+
+/* Status bar */
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 8px 16px;
+    background: #16161e;
+    border: 1px solid #222230;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.status-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #333;
+    flex-shrink: 0;
+}
+
+.status-bar.success .status-icon {
+    background: #4ade80;
+}
+
+.status-bar.error .status-icon {
+    background: #f87171;
+}
+
+.status-bar.success {
+    color: #4ade80;
+}
+
+.status-bar.error {
+    color: #f87171;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1e1e28;
+    color: #e0e0e0;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border: 1px solid #2a2a34;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 200;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scrollbar */
+textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #2a2a34;
+    border-radius: 3px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #3a3a44;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app {
+        padding: 20px 16px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .editor-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .panel {
+        min-height: 250px;
+    }
+}

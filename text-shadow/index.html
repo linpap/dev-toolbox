@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Text Shadow Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Text Shadow Generator</h1>
+      <p class="subtitle">Design beautiful CSS text shadows visually</p>
+    </header>
+
+    <main class="main">
+      <section class="preview-section">
+        <div class="preview-box" id="previewBox">
+          <span class="preview-text" id="previewText" contenteditable="true">Shadow</span>
+        </div>
+        <div class="preview-controls">
+          <div class="control-group">
+            <label>Preview Text Color</label>
+            <div class="color-input-wrap">
+              <input type="color" id="textColor" value="#ffffff">
+              <span class="color-hex" id="textColorHex">#ffffff</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Background Color</label>
+            <div class="color-input-wrap">
+              <input type="color" id="bgColor" value="#0f0f13">
+              <span class="color-hex" id="bgColorHex">#0f0f13</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Font Size</label>
+            <div class="inline-input">
+              <input type="range" id="fontSizeSlider" min="16" max="200" value="72">
+              <input type="number" id="fontSizeInput" min="16" max="200" value="72">
+              <span class="unit">px</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Font Family</label>
+            <select id="fontFamily">
+              <option value="'Inter', sans-serif">Inter</option>
+              <option value="'Arial', sans-serif">Arial</option>
+              <option value="'Georgia', serif">Georgia</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Verdana', sans-serif">Verdana</option>
+              <option value="'Impact', sans-serif">Impact</option>
+              <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+              <option value="cursive">Cursive</option>
+              <option value="fantasy">Fantasy</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls-section">
+        <div class="panel presets-panel">
+          <h2>Presets</h2>
+          <div class="presets-grid" id="presetsGrid"></div>
+        </div>
+
+        <div class="panel layers-panel">
+          <div class="panel-header">
+            <h2>Shadow Layers</h2>
+            <button class="btn btn-add" id="addLayerBtn">+ Add Layer</button>
+          </div>
+          <div class="layers-list" id="layersList"></div>
+        </div>
+
+        <div class="panel output-panel">
+          <h2>CSS Output</h2>
+          <div class="code-block">
+            <pre id="cssOutput"></pre>
+            <button class="btn btn-copy" id="copyBtn">Copy CSS</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

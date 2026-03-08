@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typography Scale Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&family=Merriweather:wght@300;400;700&family=Source+Code+Pro:wght@400;500;700&family=Lora:wght@400;500;700&family=Open+Sans:wght@300;400;600;700&family=Raleway:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="header__title">Type Scale</h1>
+      <p class="header__subtitle">Generate harmonious typography scales for your projects</p>
+    </header>
+
+    <main class="main">
+      <aside class="controls">
+        <section class="control-group">
+          <label class="control-label" for="base-size">Base Font Size</label>
+          <div class="input-row">
+            <input type="number" id="base-size" class="input-number" value="16" min="8" max="72" step="1">
+            <span class="input-unit">px</span>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <label class="control-label" for="scale-ratio">Scale Ratio</label>
+          <select id="scale-ratio" class="input-select">
+            <option value="1.067">Minor Second (1.067)</option>
+            <option value="1.125">Major Second (1.125)</option>
+            <option value="1.2" selected>Minor Third (1.2)</option>
+            <option value="1.25">Major Third (1.25)</option>
+            <option value="1.333">Perfect Fourth (1.333)</option>
+            <option value="1.414">Augmented Fourth (1.414)</option>
+            <option value="1.5">Perfect Fifth (1.5)</option>
+            <option value="1.618">Golden Ratio (1.618)</option>
+            <option value="custom">Custom</option>
+          </select>
+          <div id="custom-ratio-wrap" class="custom-ratio-wrap hidden">
+            <input type="number" id="custom-ratio" class="input-number" value="1.333" min="1" max="3" step="0.001">
+          </div>
+        </section>
+
+        <section class="control-group">
+          <label class="control-label" for="font-family">Font Family</label>
+          <select id="font-family" class="input-select">
+            <option value="Inter" selected>Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Merriweather">Merriweather</option>
+            <option value="Lora">Lora</option>
+            <option value="Source Code Pro">Source Code Pro</option>
+            <option value="Georgia">Georgia</option>
+            <option value="system-ui">System UI</option>
+          </select>
+        </section>
+
+        <section class="control-group">
+          <label class="control-label" for="line-height">Line Height</label>
+          <div class="input-row">
+            <input type="range" id="line-height" class="input-range" value="1.5" min="1" max="2.5" step="0.05">
+            <span class="range-value" id="line-height-value">1.5</span>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <label class="control-label" for="letter-spacing">Letter Spacing</label>
+          <div class="input-row">
+            <input type="range" id="letter-spacing" class="input-range" value="0" min="-0.05" max="0.2" step="0.005">
+            <span class="range-value" id="letter-spacing-value">0em</span>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <label class="control-label">Size Chart</label>
+          <div id="size-chart" class="size-chart"></div>
+        </section>
+      </aside>
+
+      <section class="preview-area">
+        <div class="preview-header">
+          <h2 class="section-title">Preview</h2>
+        </div>
+        <div id="preview" class="preview"></div>
+
+        <div class="css-output-section">
+          <div class="css-output-header">
+            <h2 class="section-title">CSS Output</h2>
+            <button id="copy-css" class="btn-copy">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              Copy CSS
+            </button>
+          </div>
+          <pre id="css-output" class="css-output"><code></code></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

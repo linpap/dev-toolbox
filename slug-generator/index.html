@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Slug Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>URL Slug Generator</h1>
+      <p class="subtitle">Transform text into clean, URL-friendly slugs</p>
+    </header>
+
+    <main>
+      <!-- Mode Toggle -->
+      <div class="mode-toggle">
+        <button class="mode-btn active" data-mode="single">Single</button>
+        <button class="mode-btn" data-mode="bulk">Bulk</button>
+      </div>
+
+      <!-- Input Section -->
+      <section class="input-section">
+        <label for="text-input">Input Text</label>
+        <div class="input-wrapper">
+          <input type="text" id="text-input" placeholder="Enter your text here..." autocomplete="off">
+          <span class="char-count" id="char-count">0 chars</span>
+        </div>
+        <textarea id="bulk-input" class="hidden" placeholder="Enter multiple lines of text...&#10;Each line becomes a separate slug"></textarea>
+      </section>
+
+      <!-- Options -->
+      <section class="options-section">
+        <h2>Options</h2>
+        <div class="options-grid">
+          <div class="option-group">
+            <label for="separator">Separator</label>
+            <select id="separator">
+              <option value="-">Hyphen (-)</option>
+              <option value="_">Underscore (_)</option>
+              <option value=".">Dot (.)</option>
+            </select>
+          </div>
+          <div class="option-group">
+            <label for="max-length">Max Length</label>
+            <input type="number" id="max-length" min="0" max="200" value="0" placeholder="0 = no limit">
+          </div>
+          <div class="option-group toggle-group">
+            <label for="lowercase-toggle">Lowercase</label>
+            <button class="toggle active" id="lowercase-toggle" role="switch" aria-checked="true">
+              <span class="toggle-knob"></span>
+            </button>
+          </div>
+          <div class="option-group toggle-group">
+            <label for="transliterate-toggle">Transliterate</label>
+            <button class="toggle active" id="transliterate-toggle" role="switch" aria-checked="true">
+              <span class="toggle-knob"></span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Output Section -->
+      <section class="output-section">
+        <label>Generated Slug</label>
+        <div class="output-wrapper">
+          <div class="slug-output" id="slug-output">your-slug-here</div>
+          <button class="copy-btn" id="copy-btn" title="Copy to clipboard">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+          </button>
+        </div>
+
+        <!-- Bulk Output -->
+        <div class="bulk-output hidden" id="bulk-output"></div>
+
+        <!-- URL Preview -->
+        <div class="url-preview">
+          <span class="url-label">Preview</span>
+          <div class="url-display" id="url-preview">example.com/<strong>your-slug-here</strong></div>
+        </div>
+      </section>
+
+      <!-- History -->
+      <section class="history-section">
+        <div class="history-header">
+          <h2>Recent Slugs</h2>
+          <button class="clear-btn" id="clear-history">Clear</button>
+        </div>
+        <div class="history-list" id="history-list">
+          <p class="history-empty">No slugs generated yet</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspect Ratio Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Aspect Ratio Calculator</h1>
+      <p class="subtitle">Calculate, compare, and export aspect ratios</p>
+    </header>
+
+    <main class="main">
+      <!-- Primary Calculator -->
+      <section class="calculator-section">
+        <div class="calc-grid">
+          <!-- Input Panel -->
+          <div class="panel input-panel">
+            <h2 class="panel-title">Dimensions</h2>
+            <div class="input-row">
+              <div class="input-group">
+                <label for="width">Width</label>
+                <input type="number" id="width" value="1920" min="1">
+              </div>
+              <div class="lock-toggle" id="lockToggle" title="Lock ratio">
+                <svg class="lock-icon unlocked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+                </svg>
+                <svg class="lock-icon locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <div class="input-group">
+                <label for="height">Height</label>
+                <input type="number" id="height" value="1080" min="1">
+              </div>
+            </div>
+
+            <div class="ratio-display">
+              <span class="ratio-label">Ratio</span>
+              <span class="ratio-value" id="ratioValue">16:9</span>
+              <span class="ratio-decimal" id="ratioDecimal">1.7778</span>
+            </div>
+
+            <div class="quick-ratios">
+              <h3>Common Ratios</h3>
+              <div class="ratio-chips">
+                <button class="chip" data-w="1" data-h="1">1:1</button>
+                <button class="chip" data-w="4" data-h="3">4:3</button>
+                <button class="chip active" data-w="16" data-h="9">16:9</button>
+                <button class="chip" data-w="21" data-h="9">21:9</button>
+                <button class="chip" data-w="3" data-h="2">3:2</button>
+                <button class="chip" data-w="2" data-h="3">2:3</button>
+                <button class="chip" data-w="9" data-h="16">9:16</button>
+                <button class="chip" data-w="3" data-h="4">3:4</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="panel preview-panel">
+            <h2 class="panel-title">Preview</h2>
+            <div class="preview-container">
+              <div class="preview-box" id="previewBox">
+                <span class="preview-label" id="previewLabel">16:9</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CSS Output -->
+      <section class="panel css-panel">
+        <h2 class="panel-title">CSS Output</h2>
+        <div class="css-outputs">
+          <div class="css-block">
+            <div class="css-block-header">
+              <span class="css-label">aspect-ratio property</span>
+              <button class="copy-btn" data-target="cssAspectRatio">Copy</button>
+            </div>
+            <code class="css-code" id="cssAspectRatio">aspect-ratio: 16 / 9;</code>
+          </div>
+          <div class="css-block">
+            <div class="css-block-header">
+              <span class="css-label">Padding-bottom hack</span>
+              <button class="copy-btn" data-target="cssPadding">Copy</button>
+            </div>
+            <code class="css-code" id="cssPadding">padding-bottom: 56.25%;</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resolution Table -->
+      <section class="panel resolution-panel">
+        <h2 class="panel-title">Common Resolutions</h2>
+        <div class="table-wrap">
+          <table class="res-table" id="resTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Width</th>
+                <th>Height</th>
+                <th>Megapixels</th>
+              </tr>
+            </thead>
+            <tbody id="resTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Compare Section -->
+      <section class="panel compare-panel">
+        <h2 class="panel-title">Compare Ratios</h2>
+        <div class="compare-grid">
+          <div class="compare-side">
+            <div class="compare-inputs">
+              <div class="input-group">
+                <label for="compareW1">Width</label>
+                <input type="number" id="compareW1" value="1920" min="1">
+              </div>
+              <span class="compare-x">&times;</span>
+              <div class="input-group">
+                <label for="compareH1">Height</label>
+                <input type="number" id="compareH1" value="1080" min="1">
+              </div>
+            </div>
+            <div class="compare-ratio" id="compareRatio1">16:9</div>
+            <div class="compare-preview-container">
+              <div class="compare-preview" id="comparePreview1"></div>
+            </div>
+          </div>
+          <div class="compare-vs">VS</div>
+          <div class="compare-side">
+            <div class="compare-inputs">
+              <div class="input-group">
+                <label for="compareW2">Width</label>
+                <input type="number" id="compareW2" value="1080" min="1">
+              </div>
+              <span class="compare-x">&times;</span>
+              <div class="input-group">
+                <label for="compareH2">Height</label>
+                <input type="number" id="compareH2" value="1080" min="1">
+              </div>
+            </div>
+            <div class="compare-ratio" id="compareRatio2">1:1</div>
+            <div class="compare-preview-container">
+              <div class="compare-preview" id="comparePreview2"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Aspect Ratio Calculator</p>
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Copied to clipboard</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>CSS Grid Generator</h1>
+      <p class="subtitle">Design grid layouts visually and export clean CSS</p>
+    </header>
+
+    <div class="layout">
+      <aside class="controls-panel">
+        <section class="control-group">
+          <h3>Presets</h3>
+          <div class="presets-grid">
+            <button class="preset-btn" data-preset="holy-grail">Holy Grail</button>
+            <button class="preset-btn" data-preset="dashboard">Dashboard</button>
+            <button class="preset-btn" data-preset="gallery">Gallery</button>
+            <button class="preset-btn" data-preset="blog">Blog</button>
+            <button class="preset-btn" data-preset="sidebar">Sidebar</button>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h3>Columns</h3>
+          <div id="columns-list" class="tracks-list"></div>
+          <button class="btn btn-add" id="add-col-btn">+ Add Column</button>
+        </section>
+
+        <section class="control-group">
+          <h3>Rows</h3>
+          <div id="rows-list" class="tracks-list"></div>
+          <button class="btn btn-add" id="add-row-btn">+ Add Row</button>
+        </section>
+
+        <section class="control-group">
+          <h3>Gap</h3>
+          <div class="gap-controls">
+            <label>
+              <span>Row Gap</span>
+              <input type="text" id="row-gap" value="10px" class="input-sm">
+            </label>
+            <label>
+              <span>Col Gap</span>
+              <input type="text" id="col-gap" value="10px" class="input-sm">
+            </label>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h3>Alignment</h3>
+          <div class="alignment-controls">
+            <label>
+              <span>justify-items</span>
+              <select id="justify-items">
+                <option value="stretch">stretch</option>
+                <option value="start">start</option>
+                <option value="end">end</option>
+                <option value="center">center</option>
+              </select>
+            </label>
+            <label>
+              <span>align-items</span>
+              <select id="align-items">
+                <option value="stretch">stretch</option>
+                <option value="start">start</option>
+                <option value="end">end</option>
+                <option value="center">center</option>
+              </select>
+            </label>
+            <label>
+              <span>justify-content</span>
+              <select id="justify-content">
+                <option value="stretch">stretch</option>
+                <option value="start">start</option>
+                <option value="end">end</option>
+                <option value="center">center</option>
+                <option value="space-between">space-between</option>
+                <option value="space-around">space-around</option>
+                <option value="space-evenly">space-evenly</option>
+              </select>
+            </label>
+            <label>
+              <span>align-content</span>
+              <select id="align-content">
+                <option value="stretch">stretch</option>
+                <option value="start">start</option>
+                <option value="end">end</option>
+                <option value="center">center</option>
+                <option value="space-between">space-between</option>
+                <option value="space-around">space-around</option>
+                <option value="space-evenly">space-evenly</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h3>Grid Template Areas</h3>
+          <label class="toggle-label">
+            <input type="checkbox" id="areas-toggle">
+            <span>Enable template areas</span>
+          </label>
+          <div id="areas-editor" class="areas-editor hidden">
+            <p class="hint">Click cells in the preview and type an area name. Use the same name on adjacent cells to define regions.</p>
+            <div id="areas-inputs" class="areas-inputs"></div>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main-area">
+        <div class="preview-header">
+          <h2>Preview</h2>
+          <div class="preview-actions">
+            <button class="btn btn-secondary" id="reset-cells-btn">Reset Cells</button>
+          </div>
+        </div>
+        <p class="hint" id="span-hint">Click a cell, then Shift+click another cell to span/merge them.</p>
+        <div class="grid-preview-wrapper">
+          <div id="grid-preview" class="grid-preview"></div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-header">
+            <h2>Generated CSS</h2>
+            <button class="btn btn-primary" id="copy-btn">Copy CSS</button>
+          </div>
+          <pre id="css-output" class="css-output"><code></code></pre>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
+  <div id="cell-editor" class="cell-editor hidden">
+    <h4>Cell Settings</h4>
+    <label>
+      <span>grid-column-start</span>
+      <input type="number" id="ce-col-start" min="1">
+    </label>
+    <label>
+      <span>grid-column-end</span>
+      <input type="number" id="ce-col-end" min="1">
+    </label>
+    <label>
+      <span>grid-row-start</span>
+      <input type="number" id="ce-row-start" min="1">
+    </label>
+    <label>
+      <span>grid-row-end</span>
+      <input type="number" id="ce-row-end" min="1">
+    </label>
+    <div class="cell-editor-actions">
+      <button class="btn btn-primary btn-sm" id="ce-apply">Apply</button>
+      <button class="btn btn-secondary btn-sm" id="ce-cancel">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="ce-remove">Remove Span</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

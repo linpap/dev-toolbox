@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Box Shadow Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Box Shadow Generator</h1>
+      <p class="subtitle">Design and export CSS box shadows</p>
+    </header>
+
+    <main class="main">
+      <section class="preview-section">
+        <div class="preview-area">
+          <div class="preview-box" id="previewBox"></div>
+        </div>
+      </section>
+
+      <section class="controls-section">
+        <div class="presets">
+          <h3>Presets</h3>
+          <div class="preset-grid" id="presetGrid"></div>
+        </div>
+
+        <div class="shadow-layers" id="shadowLayers"></div>
+
+        <button class="btn btn-add" id="addShadowBtn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Add Shadow Layer
+        </button>
+
+        <div class="output-section">
+          <h3>CSS Output</h3>
+          <div class="output-box">
+            <pre><code id="cssOutput"></code></pre>
+            <button class="btn btn-copy" id="copyBtn">Copy CSS</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

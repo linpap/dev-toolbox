@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Design Tester</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="toolbar-left">
+      <h1 class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        Responsive Tester
+      </h1>
+    </div>
+
+    <div class="toolbar-center">
+      <form id="url-form" class="url-bar">
+        <svg class="url-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+        </svg>
+        <input type="url" id="url-input" placeholder="Enter URL to preview..." value="https://example.com">
+        <button type="submit" class="btn btn-primary" id="load-btn">Load</button>
+      </form>
+    </div>
+
+    <div class="toolbar-right">
+      <div class="breakpoint-badge" id="breakpoint-badge">md</div>
+    </div>
+  </header>
+
+  <div class="controls-bar">
+    <div class="control-group">
+      <label class="control-label">Device</label>
+      <select id="device-select" class="select-input">
+        <optgroup label="Phones">
+          <option value="375x667">iPhone SE</option>
+          <option value="390x844" selected>iPhone 14</option>
+          <option value="430x932">iPhone 14 Pro Max</option>
+          <option value="360x800">Samsung Galaxy S21</option>
+          <option value="412x915">Pixel 7</option>
+        </optgroup>
+        <optgroup label="Tablets">
+          <option value="768x1024">iPad Mini</option>
+          <option value="1024x1366">iPad Pro</option>
+        </optgroup>
+        <optgroup label="Desktop">
+          <option value="1366x768">Laptop</option>
+          <option value="1440x900">MacBook Pro</option>
+          <option value="1920x1080">Desktop HD</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="custom">Custom</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Size</label>
+      <div class="dimension-inputs">
+        <input type="number" id="width-input" class="dim-input" min="200" max="3840" value="390">
+        <span class="dim-separator">&times;</span>
+        <input type="number" id="height-input" class="dim-input" min="200" max="2160" value="844">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Orientation</label>
+      <div class="toggle-group" id="orientation-toggle">
+        <button class="toggle-btn active" data-orientation="portrait" title="Portrait">
+          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="1" width="12" height="16" rx="2"/>
+            <line x1="5" y1="14" x2="9" y2="14"/>
+          </svg>
+        </button>
+        <button class="toggle-btn" data-orientation="landscape" title="Landscape">
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="1" width="16" height="12" rx="2"/>
+            <line x1="14" y1="5" x2="14" y2="9"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Zoom</label>
+      <div class="zoom-controls" id="zoom-controls">
+        <button class="zoom-btn" data-zoom="0.5">50%</button>
+        <button class="zoom-btn" data-zoom="0.75">75%</button>
+        <button class="zoom-btn active" data-zoom="1">100%</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Overlay</label>
+      <div class="toggle-group">
+        <button class="toggle-btn" id="grid-toggle" title="Toggle grid overlay">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>
+          </svg>
+        </button>
+        <button class="toggle-btn" id="ruler-toggle" title="Toggle rulers">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 4h20v6H2z"/><path d="M6 4v3"/><path d="M10 4v6"/><path d="M14 4v3"/><path d="M18 4v6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="viewport-area" id="viewport-area">
+    <div class="device-wrapper" id="device-wrapper">
+      <div class="device-frame" id="device-frame">
+        <div class="device-notch" id="device-notch"></div>
+        <div class="device-screen" id="device-screen">
+          <div class="ruler ruler-horizontal" id="ruler-h"></div>
+          <div class="ruler ruler-vertical" id="ruler-v"></div>
+          <div class="grid-overlay" id="grid-overlay"></div>
+          <iframe id="preview-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+        </div>
+        <div class="device-chin" id="device-chin">
+          <div class="device-home-btn"></div>
+        </div>
+      </div>
+      <div class="device-label" id="device-label">iPhone 14 &mdash; 390 &times; 844</div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

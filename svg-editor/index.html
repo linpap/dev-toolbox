@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG Editor / Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <header>
+    <div class="logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7c6ef0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+        <line x1="12" y1="22" x2="12" y2="15.5"/>
+        <polyline points="22 8.5 12 15.5 2 8.5"/>
+        <polyline points="2 15.5 12 8.5 22 15.5"/>
+        <line x1="12" y1="2" x2="12" y2="8.5"/>
+      </svg>
+      <h1>SVG Editor<span class="accent">/Optimizer</span></h1>
+    </div>
+    <div class="header-actions">
+      <label class="upload-btn" for="file-upload">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload SVG
+      </label>
+      <input type="file" id="file-upload" accept=".svg" hidden>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel editor-panel">
+      <div class="panel-header">
+        <h2>SVG Input</h2>
+        <div class="size-badge" id="size-before" title="Original size">--</div>
+      </div>
+      <textarea id="svg-input" spellcheck="false" placeholder="Paste your SVG code here..."></textarea>
+    </section>
+
+    <section class="panel controls-panel">
+      <div class="control-group">
+        <h3>Optimize</h3>
+        <label class="toggle"><input type="checkbox" id="opt-comments" checked><span class="toggle-slider"></span>Remove comments</label>
+        <label class="toggle"><input type="checkbox" id="opt-metadata" checked><span class="toggle-slider"></span>Remove metadata</label>
+        <label class="toggle"><input type="checkbox" id="opt-empty-groups" checked><span class="toggle-slider"></span>Remove empty groups</label>
+        <label class="toggle"><input type="checkbox" id="opt-shorten-ids" checked><span class="toggle-slider"></span>Shorten IDs</label>
+        <label class="toggle"><input type="checkbox" id="opt-decimals" checked><span class="toggle-slider"></span>Reduce decimal precision</label>
+        <div class="field-row" id="decimal-precision-row">
+          <label for="decimal-places">Decimal places</label>
+          <input type="number" id="decimal-places" value="2" min="0" max="6" class="small-input">
+        </div>
+        <button class="btn primary" id="btn-optimize">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Optimize
+        </button>
+      </div>
+
+      <div class="control-group">
+        <h3>Attributes</h3>
+        <div class="field-row">
+          <label for="attr-width">Width</label>
+          <input type="text" id="attr-width" placeholder="e.g. 100">
+        </div>
+        <div class="field-row">
+          <label for="attr-height">Height</label>
+          <input type="text" id="attr-height" placeholder="e.g. 100">
+        </div>
+        <div class="field-row">
+          <label for="attr-viewbox">viewBox</label>
+          <input type="text" id="attr-viewbox" placeholder="e.g. 0 0 100 100">
+        </div>
+        <div class="field-row color-field">
+          <label for="attr-fill">Fill</label>
+          <div class="color-input-wrapper">
+            <input type="color" id="fill-picker" value="#000000" class="color-picker">
+            <input type="text" id="attr-fill" placeholder="e.g. #ff0000">
+          </div>
+        </div>
+        <div class="field-row color-field">
+          <label for="attr-stroke">Stroke</label>
+          <div class="color-input-wrapper">
+            <input type="color" id="stroke-picker" value="#000000" class="color-picker">
+            <input type="text" id="attr-stroke" placeholder="e.g. #0000ff">
+          </div>
+        </div>
+        <button class="btn secondary" id="btn-apply-attrs">Apply Attributes</button>
+      </div>
+
+      <div class="control-group">
+        <h3>Export</h3>
+        <button class="btn secondary" id="btn-copy">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy SVG
+        </button>
+        <button class="btn secondary" id="btn-download">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download SVG
+        </button>
+        <button class="btn secondary" id="btn-data-uri">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Copy as Data URI
+        </button>
+        <button class="btn secondary" id="btn-base64">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h.01M7 12h.01M7 16h.01M11 8h6M11 12h6M11 16h6"/></svg>
+          Copy as Base64
+        </button>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="panel-header">
+        <h2>Preview</h2>
+        <div class="preview-meta">
+          <div class="size-badge optimized" id="size-after" title="Optimized size">--</div>
+          <div class="savings-badge" id="savings" title="Savings">--</div>
+        </div>
+      </div>
+      <div class="preview-bg" id="preview-bg">
+        <div id="svg-preview"></div>
+      </div>
+      <div class="preview-toolbar">
+        <button class="icon-btn" id="bg-light" title="Light background">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="icon-btn" id="bg-dark" title="Dark background">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="icon-btn active" id="bg-checker" title="Checker background">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/><rect x="13" y="3" width="8" height="8" opacity="0.3"/><rect x="3" y="13" width="8" height="8" opacity="0.3"/></svg>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Tag Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <header>
+    <div class="header-inner">
+      <h1>&lt;meta&gt; <span>Tag Generator</span></h1>
+      <p class="subtitle">Generate optimized meta tags for SEO and social sharing</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <!-- Left Column: Form -->
+      <div class="form-column">
+
+        <!-- Basic Meta Tags -->
+        <section class="card">
+          <h2 class="card-title">Basic Meta Tags</h2>
+          <div class="field">
+            <label for="meta-title">Page Title</label>
+            <input type="text" id="meta-title" placeholder="My Awesome Website">
+            <div class="field-info">
+              <span class="char-count" id="title-count">0 / 60</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="meta-description">Description</label>
+            <textarea id="meta-description" rows="3" placeholder="A brief description of your page content..."></textarea>
+            <div class="field-info">
+              <span class="char-count" id="desc-count">0 / 160</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="meta-keywords">Keywords</label>
+            <input type="text" id="meta-keywords" placeholder="web, design, seo, tools">
+          </div>
+          <div class="field">
+            <label for="meta-author">Author</label>
+            <input type="text" id="meta-author" placeholder="John Doe">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="meta-charset">Charset</label>
+              <select id="meta-charset">
+                <option value="UTF-8" selected>UTF-8</option>
+                <option value="ISO-8859-1">ISO-8859-1</option>
+                <option value="ASCII">ASCII</option>
+                <option value="UTF-16">UTF-16</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="meta-viewport">Viewport</label>
+              <select id="meta-viewport">
+                <option value="width=device-width, initial-scale=1.0" selected>Responsive (recommended)</option>
+                <option value="width=device-width">Width only</option>
+                <option value="width=1024">Fixed 1024px</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="meta-robots">Robots</label>
+            <select id="meta-robots">
+              <option value="index, follow" selected>Index, Follow</option>
+              <option value="noindex, follow">No Index, Follow</option>
+              <option value="index, nofollow">Index, No Follow</option>
+              <option value="noindex, nofollow">No Index, No Follow</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="meta-canonical">Canonical URL</label>
+            <input type="url" id="meta-canonical" placeholder="https://example.com/page">
+          </div>
+          <div class="field">
+            <label for="meta-favicon">Favicon URL</label>
+            <input type="url" id="meta-favicon" placeholder="https://example.com/favicon.ico">
+          </div>
+        </section>
+
+        <!-- Open Graph -->
+        <section class="card">
+          <h2 class="card-title">Open Graph</h2>
+          <div class="field">
+            <label for="og-title">og:title</label>
+            <input type="text" id="og-title" placeholder="Defaults to page title">
+          </div>
+          <div class="field">
+            <label for="og-description">og:description</label>
+            <textarea id="og-description" rows="2" placeholder="Defaults to page description"></textarea>
+          </div>
+          <div class="field">
+            <label for="og-image">og:image</label>
+            <input type="url" id="og-image" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="field">
+            <label for="og-url">og:url</label>
+            <input type="url" id="og-url" placeholder="https://example.com/page">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="og-type">og:type</label>
+              <select id="og-type">
+                <option value="website" selected>website</option>
+                <option value="article">article</option>
+                <option value="profile">profile</option>
+                <option value="book">book</option>
+                <option value="music.song">music.song</option>
+                <option value="video.movie">video.movie</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="og-site-name">og:site_name</label>
+              <input type="text" id="og-site-name" placeholder="My Website">
+            </div>
+          </div>
+        </section>
+
+        <!-- Twitter Card -->
+        <section class="card">
+          <h2 class="card-title">Twitter Card</h2>
+          <div class="field">
+            <label for="twitter-card">twitter:card</label>
+            <select id="twitter-card">
+              <option value="summary_large_image" selected>Summary Large Image</option>
+              <option value="summary">Summary</option>
+              <option value="app">App</option>
+              <option value="player">Player</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="twitter-title">twitter:title</label>
+            <input type="text" id="twitter-title" placeholder="Defaults to page title">
+          </div>
+          <div class="field">
+            <label for="twitter-description">twitter:description</label>
+            <textarea id="twitter-description" rows="2" placeholder="Defaults to page description"></textarea>
+          </div>
+          <div class="field">
+            <label for="twitter-image">twitter:image</label>
+            <input type="url" id="twitter-image" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="field">
+            <label for="twitter-site">twitter:site</label>
+            <input type="text" id="twitter-site" placeholder="@username">
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Previews & Output -->
+      <div class="preview-column">
+
+        <!-- Google Preview -->
+        <section class="card">
+          <h2 class="card-title">Google Search Preview</h2>
+          <div class="google-preview">
+            <div class="google-url" id="google-url">https://example.com</div>
+            <div class="google-title" id="google-title">Page Title</div>
+            <div class="google-desc" id="google-desc">Page description will appear here. Write a compelling description to improve click-through rates from search results.</div>
+          </div>
+        </section>
+
+        <!-- Social Preview -->
+        <section class="card">
+          <h2 class="card-title">Social Media Card Preview</h2>
+          <div class="social-preview">
+            <div class="social-image" id="social-image">
+              <span>No image set</span>
+            </div>
+            <div class="social-body">
+              <div class="social-site" id="social-site">example.com</div>
+              <div class="social-title" id="social-title">Page Title</div>
+              <div class="social-desc" id="social-desc">Page description will appear here.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Generated Code -->
+        <section class="card">
+          <div class="card-title-row">
+            <h2 class="card-title">Generated Meta Tags</h2>
+            <button class="btn-copy" id="btn-copy" title="Copy to clipboard">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy
+            </button>
+          </div>
+          <pre class="code-output"><code id="code-output"></code></pre>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter & Text Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Word<span class="accent">Counter</span></h1>
+            <p class="subtitle">Paste your text. Analyze words, characters, and readability in real time.</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="input-section">
+                <div class="panel-header">
+                    <span>Input Text</span>
+                    <div class="header-actions">
+                        <button id="clearBtn" class="btn small">Clear</button>
+                    </div>
+                </div>
+                <textarea id="textInput" placeholder="Start typing or paste your text here..." spellcheck="false"></textarea>
+
+                <div class="case-toolbar">
+                    <span class="toolbar-label">Transform:</span>
+                    <button class="btn small case-btn" data-case="upper">UPPERCASE</button>
+                    <button class="btn small case-btn" data-case="lower">lowercase</button>
+                    <button class="btn small case-btn" data-case="title">Title Case</button>
+                    <button class="btn small case-btn" data-case="sentence">Sentence case</button>
+                    <button id="copyBtn" class="btn small accent">Copy Text</button>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="panel-header"><span>Statistics</span></div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="wordCount">0</div>
+                        <div class="stat-label">Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="charCount">0</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="charNoSpaceCount">0</div>
+                        <div class="stat-label">Chars (no spaces)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sentenceCount">0</div>
+                        <div class="stat-label">Sentences</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="paragraphCount">0</div>
+                        <div class="stat-label">Paragraphs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgWordLength">0</div>
+                        <div class="stat-label">Avg Word Length</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="readingTime">0s</div>
+                        <div class="stat-label">Reading Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="speakingTime">0s</div>
+                        <div class="stat-label">Speaking Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="analysis-layout">
+            <div class="analysis-panel">
+                <div class="panel-header"><span>Top 10 Words</span></div>
+                <div id="topWords" class="word-list">
+                    <div class="empty-state">Enter text to see frequent words</div>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="panel-header"><span>Keyword Density</span></div>
+                <div id="keywordDensity" class="word-list">
+                    <div class="empty-state">Enter text to see keyword density</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

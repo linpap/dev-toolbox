@@ -3,805 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev Toolbox | linpap</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Dev Toolbox</title>
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --bg: #08080c;
-            --surface: #111118;
-            --surface-2: #1a1a24;
-            --border: #222233;
-            --text: #e0e0ee;
-            --text-dim: #777790;
-            --accent: #7c6aff;
-            --accent-glow: rgba(124, 106, 255, 0.15);
-            --green: #34d399;
-            --blue: #60a5fa;
-            --orange: #fb923c;
-            --pink: #f472b6;
-            --cyan: #22d3ee;
-            --red: #f87171;
-            --yellow: #fbbf24;
-            --purple: #a78bfa;
-            --teal: #2dd4bf;
-            --lime: #a3e635;
-            --rose: #fb7185;
-            --indigo: #818cf8;
-            --amber: #f59e0b;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 3rem 2rem;
         }
 
-        /* ===== HERO ===== */
-        .hero {
-            position: relative;
-            text-align: center;
-            padding: 80px 24px 60px;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 65%);
-            pointer-events: none;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            padding: 8px 20px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--text-dim);
-            margin-bottom: 28px;
-        }
-
-        .hero-badge .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 8px var(--green);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.2rem);
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .hero h1 .gradient-text {
-            background: linear-gradient(135deg, #7c6aff 0%, #60a5fa 40%, #22d3ee 70%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--text-dim);
-            max-width: 560px;
-            margin: 0 auto 36px;
-            line-height: 1.7;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 48px;
-            flex-wrap: wrap;
-        }
-
-        .stat { text-align: center; }
-
-        .stat-num {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fff;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        /* ===== DIVIDER ===== */
-        .divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
-        }
-
-        /* ===== TOOLS GRID ===== */
-        .tools-section {
-            max-width: 1200px;
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            padding: 60px 24px 80px;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .section-header h2 {
-            font-size: 1.8rem;
+        h1 {
+            font-size: 2.5rem;
             font-weight: 700;
+            margin-bottom: 0.5rem;
             color: #fff;
-            margin-bottom: 10px;
         }
 
-        .section-header p {
-            color: var(--text-dim);
-            font-size: 0.95rem;
+        h1 span { color: #6c63ff; }
+
+        .subtitle {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 20px;
-        }
-
-        /* ===== TOOL CARD ===== */
-        .tool-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--card-accent, var(--accent));
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--card-accent, var(--accent));
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--card-accent, var(--accent));
-        }
-
-        .tool-card:hover::before { opacity: 1; }
-
-        .card-top {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            flex-shrink: 0;
-            background: var(--icon-bg, var(--accent-glow));
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 2px;
-        }
-
-        .card-repo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--text-dim);
-        }
-
-        .card-desc {
-            color: #999aab;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            flex: 1;
-            margin-bottom: 18px;
-        }
-
-        .card-features {
+        .filter-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 18px;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        .feature-tag {
-            font-size: 0.7rem;
-            font-weight: 500;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: var(--surface-2);
-            color: var(--text-dim);
-            border: 1px solid var(--border);
-        }
-
-        /* Card action buttons */
-        .card-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .card-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
+        .filter-btn {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            color: #aaa;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
             cursor: pointer;
-            border: none;
-        }
-
-        .card-btn.launch {
-            background: var(--card-accent, var(--accent));
-            color: #fff;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .card-btn.launch:hover {
-            filter: brightness(1.15);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        }
-
-        .card-btn.source {
-            background: var(--surface-2);
-            color: var(--text-dim);
-            border: 1px solid var(--border);
-        }
-
-        .card-btn.source:hover {
-            color: #fff;
-            border-color: #555;
-        }
-
-        .card-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            text-align: center;
-            padding: 40px 24px;
-            border-top: 1px solid var(--border);
-            color: var(--text-dim);
             font-size: 0.85rem;
+            transition: all 0.2s;
         }
 
-        .footer a {
-            color: var(--accent);
-            text-decoration: none;
+        .filter-btn:hover, .filter-btn.active {
+            background: #6c63ff;
+            border-color: #6c63ff;
+            color: #fff;
         }
 
-        .footer a:hover { text-decoration: underline; }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 12px;
+        .category {
+            margin-bottom: 2.5rem;
         }
 
-        /* ===== SEARCH ===== */
-        .search-wrap {
-            max-width: 480px;
-            margin: 0 auto 40px;
-            position: relative;
+        .category-title {
+            font-size: 1.1rem;
+            color: #6c63ff;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 14px 20px 14px 48px;
-            background: var(--surface);
-            border: 1px solid var(--border);
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+
+        .project {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
             border-radius: 12px;
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.92rem;
-            outline: none;
-            transition: border-color 0.2s;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            display: block;
         }
 
-        .search-input::placeholder { color: #555566; }
-        .search-input:focus { border-color: var(--accent); }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #555566;
-            font-size: 0.95rem;
-            pointer-events: none;
+        .project:hover {
+            transform: translateY(-3px);
+            border-color: #6c63ff;
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
         }
 
-        .tool-card.hidden { display: none; }
-
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-dim);
-            display: none;
+        .project h2 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
         }
 
-        .no-results.show { display: block; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .hero { padding: 50px 20px 40px; }
-            .hero-stats { gap: 32px; }
-            .tools-grid { grid-template-columns: 1fr; }
-            .tools-section { padding: 40px 16px 60px; }
+        .project p {
+            color: #999;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 2rem; }
-            .tool-card { padding: 20px; }
-            .card-actions { flex-direction: column; }
+        .tag {
+            display: inline-block;
+            background: #2a2a2a;
+            color: #aaa;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.8rem;
+            margin-right: 0.3rem;
+        }
+
+        .hidden { display: none; }
+
+        .count {
+            color: #555;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Dev Toolbox<span>.</span></h1>
+        <p class="subtitle">50 web tools built with HTML, CSS, and JavaScript.</p>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-badge">
-            <span class="dot"></span>
-            Open Source
-        </div>
-        <h1>
-            <span class="gradient-text">Dev Toolbox</span><br>
-            by linpap
-        </h1>
-        <p>A growing collection of lightweight, privacy-friendly web tools. No accounts, no tracking, no bloat &mdash; just HTML, CSS, and vanilla JavaScript.</p>
-        <div class="hero-stats">
-            <div class="stat">
-                <div class="stat-num">13</div>
-                <div class="stat-label">Tools</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">0</div>
-                <div class="stat-label">Dependencies</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">100%</div>
-                <div class="stat-label">Client-Side</div>
-            </div>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- TOOLS -->
-    <section class="tools-section">
-        <div class="section-header">
-            <h2>All Tools</h2>
-            <p>Click &ldquo;Launch Tool&rdquo; to use it live, or &ldquo;Source&rdquo; to view the code on GitHub.</p>
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All <span class="count">50</span></button>
+            <button class="filter-btn" data-filter="css">CSS Generators</button>
+            <button class="filter-btn" data-filter="design">Design</button>
+            <button class="filter-btn" data-filter="devtool">Dev Tools</button>
+            <button class="filter-btn" data-filter="text">Text & Data</button>
+            <button class="filter-btn" data-filter="seo">SEO & Meta</button>
+            <button class="filter-btn" data-filter="utility">Utilities</button>
         </div>
 
-        <div class="search-wrap">
-            <span class="search-icon">&#128269;</span>
-            <input type="text" class="search-input" id="searchInput" placeholder="Search tools...">
+        <!-- CSS Generators -->
+        <div class="category" data-category="css">
+            <h3 class="category-title">CSS Generators</h3>
+            <div class="projects">
+                <a class="project" href="gradient-generator/index.html">
+                    <h2>CSS Gradient Generator</h2>
+                    <p>Build linear, radial, and conic gradients visually. Pick from presets and copy the CSS.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="box-shadow/index.html">
+                    <h2>CSS Box Shadow Generator</h2>
+                    <p>Design and export CSS box shadows with presets and live preview.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="text-shadow/index.html">
+                    <h2>CSS Text Shadow Generator</h2>
+                    <p>Design beautiful CSS text shadows visually with live preview.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="border-radius/index.html">
+                    <h2>CSS Border Radius Generator</h2>
+                    <p>Design and preview CSS border-radius in real time with a visual editor.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="glassmorphism/index.html">
+                    <h2>Glassmorphism Generator</h2>
+                    <p>Design beautiful frosted glass effects with interactive controls.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="neumorphism/index.html">
+                    <h2>Neumorphism Generator</h2>
+                    <p>Soft UI CSS generator for neumorphism effects with live preview.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="clip-path/index.html">
+                    <h2>CSS Clip Path Generator</h2>
+                    <p>Create and customize CSS clip-path shapes visually with a grid editor.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="css-filters/index.html">
+                    <h2>CSS Filter Editor</h2>
+                    <p>Edit and preview CSS filters with before/after comparison.</p>
+                    <span class="tag">CSS</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="animation-generator/index.html">
+                    <h2>CSS Animation Generator</h2>
+                    <p>Visual editor for creating and previewing CSS animations with presets.</p>
+                    <span class="tag">CSS</span><span class="tag">Animation</span>
+                </a>
+                <a class="project" href="keyframe-animator/index.html">
+                    <h2>CSS Keyframe Animator</h2>
+                    <p>Create and export complex CSS keyframe animations step by step.</p>
+                    <span class="tag">CSS</span><span class="tag">Animation</span>
+                </a>
+                <a class="project" href="flexbox-playground/index.html">
+                    <h2>Flexbox Playground</h2>
+                    <p>Interactive playground for learning and testing CSS flexbox layouts.</p>
+                    <span class="tag">CSS</span><span class="tag">Layout</span>
+                </a>
+                <a class="project" href="grid-generator/index.html">
+                    <h2>CSS Grid Generator</h2>
+                    <p>Design grid layouts visually and export clean CSS with presets.</p>
+                    <span class="tag">CSS</span><span class="tag">Layout</span>
+                </a>
+                <a class="project" href="button-generator/index.html">
+                    <h2>CSS Button Generator</h2>
+                    <p>Design, preview, and export custom CSS buttons with hover states.</p>
+                    <span class="tag">CSS</span><span class="tag">Component</span>
+                </a>
+                <a class="project" href="card-generator/index.html">
+                    <h2>CSS Card Generator</h2>
+                    <p>Design, preview, and export card components with multiple presets.</p>
+                    <span class="tag">CSS</span><span class="tag">Component</span>
+                </a>
+                <a class="project" href="tailwind-builder/index.html">
+                    <h2>Tailwind CSS Builder</h2>
+                    <p>Click classes to build and preview Tailwind CSS designs interactively.</p>
+                    <span class="tag">CSS</span><span class="tag">Tailwind</span>
+                </a>
+                <a class="project" href="css-variables/index.html">
+                    <h2>CSS Variables Manager</h2>
+                    <p>Manage CSS custom properties and design tokens with import/export.</p>
+                    <span class="tag">CSS</span><span class="tag">Design System</span>
+                </a>
+            </div>
         </div>
 
-        <div class="tools-grid" id="toolsGrid">
-
-            <!-- 1. Color Palette Generator -->
-            <div class="tool-card" style="--card-accent: var(--pink); --icon-bg: rgba(244,114,182,0.12);" data-keywords="color palette generator wheel hex rgb hsl design">
-                <div class="card-top">
-                    <div class="card-icon">&#127912;</div>
-                    <div>
-                        <div class="card-title">Color Palette Generator</div>
-                        <div class="card-repo">linpap/color-palette</div>
-                    </div>
-                </div>
-                <div class="card-desc">Generate beautiful color palettes using a color wheel picker with 18 harmony modes. Press Space for random palettes, click any color to copy its hex value. Export as CSS, Tailwind, SCSS, JSON, or SVG.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Color Wheel</span>
-                    <span class="feature-tag">18 Harmonies</span>
-                    <span class="feature-tag">Export Formats</span>
-                    <span class="feature-tag">Canvas</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/color-palette/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/color-palette" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
+        <!-- Design Tools -->
+        <div class="category" data-category="design">
+            <h3 class="category-title">Design Tools</h3>
+            <div class="projects">
+                <a class="project" href="color-palette/index.html">
+                    <h2>Color Palette Generator</h2>
+                    <p>Generate palettes with a color wheel. Press Space for random palettes, click to copy hex.</p>
+                    <span class="tag">Design</span><span class="tag">Canvas</span>
+                </a>
+                <a class="project" href="contrast-checker/index.html">
+                    <h2>WCAG Contrast Checker</h2>
+                    <p>WCAG 2.1 color contrast analysis for accessibility compliance.</p>
+                    <span class="tag">Accessibility</span><span class="tag">Design</span>
+                </a>
+                <a class="project" href="type-scale/index.html">
+                    <h2>Typography Scale Generator</h2>
+                    <p>Generate harmonious typography scales for design systems.</p>
+                    <span class="tag">Design</span><span class="tag">Typography</span>
+                </a>
+                <a class="project" href="spacing-calc/index.html">
+                    <h2>Spacing Calculator</h2>
+                    <p>Generate consistent spacing scales for design systems.</p>
+                    <span class="tag">Design</span><span class="tag">CSS</span>
+                </a>
+                <a class="project" href="px-to-rem/index.html">
+                    <h2>PX to REM Converter</h2>
+                    <p>Convert between pixels and rem with adjustable base font size.</p>
+                    <span class="tag">CSS</span><span class="tag">Converter</span>
+                </a>
+                <a class="project" href="aspect-ratio/index.html">
+                    <h2>Aspect Ratio Calculator</h2>
+                    <p>Calculate, compare, and export aspect ratios for images and videos.</p>
+                    <span class="tag">Design</span><span class="tag">Utilities</span>
+                </a>
+                <a class="project" href="favicon-gen/index.html">
+                    <h2>Favicon Generator</h2>
+                    <p>Create favicons from text, emoji, or images. Export in multiple sizes.</p>
+                    <span class="tag">Design</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="placeholder-img/index.html">
+                    <h2>Placeholder Image Generator</h2>
+                    <p>Generate custom placeholder images with configurable size, color, and text.</p>
+                    <span class="tag">Design</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="image-compressor/index.html">
+                    <h2>Image Compressor</h2>
+                    <p>Client-side image compression with support for multiple formats.</p>
+                    <span class="tag">Images</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="svg-editor/index.html">
+                    <h2>SVG Editor / Optimizer</h2>
+                    <p>Edit, optimize, and manipulate SVG files with live preview.</p>
+                    <span class="tag">SVG</span><span class="tag">Design</span>
+                </a>
             </div>
-
-            <!-- 2. Markdown to HTML Converter -->
-            <div class="tool-card" style="--card-accent: var(--purple); --icon-bg: rgba(167,139,250,0.12);" data-keywords="markdown html converter preview theme blog">
-                <div class="card-top">
-                    <div class="card-icon">&#128221;</div>
-                    <div>
-                        <div class="card-title">Markdown to HTML</div>
-                        <div class="card-repo">linpap/markdown-converter</div>
-                    </div>
-                </div>
-                <div class="card-desc">Paste or drag-and-drop Markdown to get instant rendered HTML. Choose from Clean, Blog, and Dark themes. Auto-generates table of contents, supports syntax highlighting, copy or download the full document.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Live Preview</span>
-                    <span class="feature-tag">3 Themes</span>
-                    <span class="feature-tag">Syntax Highlight</span>
-                    <span class="feature-tag">Drag & Drop</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/markdown-converter/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/markdown-converter" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 3. Pomodoro Timer -->
-            <div class="tool-card" style="--card-accent: var(--red); --icon-bg: rgba(248,113,113,0.12);" data-keywords="pomodoro timer focus productivity sessions break">
-                <div class="card-top">
-                    <div class="card-icon">&#9202;</div>
-                    <div>
-                        <div class="card-title">Pomodoro Timer</div>
-                        <div class="card-repo">linpap/pomodoro</div>
-                    </div>
-                </div>
-                <div class="card-desc">A focus timer using the Pomodoro Technique. Configurable work sessions (25 min), short breaks (5 min), and long breaks (15 min). SVG progress ring, audio notifications, task labeling, and daily session log saved to local storage.</div>
-                <div class="card-features">
-                    <span class="feature-tag">SVG Ring</span>
-                    <span class="feature-tag">Audio Alerts</span>
-                    <span class="feature-tag">Session Log</span>
-                    <span class="feature-tag">Configurable</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/pomodoro/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/pomodoro" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 4. JSON Formatter -->
-            <div class="tool-card" style="--card-accent: var(--yellow); --icon-bg: rgba(251,191,36,0.12);" data-keywords="json formatter validator prettify minify tree view">
-                <div class="card-top">
-                    <div class="card-icon">&#123;&#125;</div>
-                    <div>
-                        <div class="card-title">JSON Formatter & Validator</div>
-                        <div class="card-repo">linpap/json-formatter</div>
-                    </div>
-                </div>
-                <div class="card-desc">Paste JSON to instantly format, minify, or validate. Syntax highlighting with color-coded keys, strings, numbers, booleans, and nulls. Collapsible tree view for nested structures. Configurable 2 or 4 space indentation.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Syntax Highlight</span>
-                    <span class="feature-tag">Tree View</span>
-                    <span class="feature-tag">Validation</span>
-                    <span class="feature-tag">Minify</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/json-formatter/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/json-formatter" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 5. Password Generator -->
-            <div class="tool-card" style="--card-accent: var(--green); --icon-bg: rgba(52,211,153,0.12);" data-keywords="password generator security strength entropy">
-                <div class="card-top">
-                    <div class="card-icon">&#128272;</div>
-                    <div>
-                        <div class="card-title">Password Generator</div>
-                        <div class="card-repo">linpap/password-generator</div>
-                    </div>
-                </div>
-                <div class="card-desc">Generate cryptographically secure passwords using the Web Crypto API. Adjust length (8&ndash;128), toggle character sets, entropy-based strength meter. Batch generate 5 passwords at once. Option to exclude ambiguous characters.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Crypto API</span>
-                    <span class="feature-tag">Strength Meter</span>
-                    <span class="feature-tag">Batch Mode</span>
-                    <span class="feature-tag">Configurable</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/password-generator/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/password-generator" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 6. Unit Converter -->
-            <div class="tool-card" style="--card-accent: var(--blue); --icon-bg: rgba(96,165,250,0.12);" data-keywords="unit converter length weight temperature volume area speed time data">
-                <div class="card-top">
-                    <div class="card-icon">&#9878;</div>
-                    <div>
-                        <div class="card-title">Unit Converter</div>
-                        <div class="card-repo">linpap/unit-converter</div>
-                    </div>
-                </div>
-                <div class="card-desc">Convert between units across 8 categories: Length, Weight, Temperature, Volume, Area, Speed, Time, and Data. Real-time conversion, swap button, formula display, and quick-reference cards for common conversions.</div>
-                <div class="card-features">
-                    <span class="feature-tag">8 Categories</span>
-                    <span class="feature-tag">Real-time</span>
-                    <span class="feature-tag">Formula Display</span>
-                    <span class="feature-tag">50+ Units</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/unit-converter/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/unit-converter" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 7. Regex Tester -->
-            <div class="tool-card" style="--card-accent: var(--indigo); --icon-bg: rgba(129,140,248,0.12);" data-keywords="regex regular expression tester pattern match replace">
-                <div class="card-top">
-                    <div class="card-icon">&#47;.*&#47;</div>
-                    <div>
-                        <div class="card-title">Regex Tester</div>
-                        <div class="card-repo">linpap/regex-tester</div>
-                    </div>
-                </div>
-                <div class="card-desc">Test regular expressions with live match highlighting. Toggle flags (g, i, m, s), view all matches with capture groups, built-in replace mode, and a categorized cheatsheet sidebar with click-to-insert patterns.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Live Highlight</span>
-                    <span class="feature-tag">Capture Groups</span>
-                    <span class="feature-tag">Replace Mode</span>
-                    <span class="feature-tag">Cheatsheet</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/regex-tester/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/regex-tester" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 8. Lorem Ipsum Generator -->
-            <div class="tool-card" style="--card-accent: var(--teal); --icon-bg: rgba(45,212,191,0.12);" data-keywords="lorem ipsum placeholder text generator paragraphs sentences">
-                <div class="card-top">
-                    <div class="card-icon">&#9998;</div>
-                    <div>
-                        <div class="card-title">Lorem Ipsum Generator</div>
-                        <div class="card-repo">linpap/lorem-ipsum</div>
-                    </div>
-                </div>
-                <div class="card-desc">Generate placeholder text by paragraphs, sentences, or word count. Four styles: Classic Latin, Hipster, Tech, and Pirate. Toggle &ldquo;Start with Lorem ipsum...&rdquo; and HTML output mode. Live word and character counts.</div>
-                <div class="card-features">
-                    <span class="feature-tag">4 Styles</span>
-                    <span class="feature-tag">HTML Output</span>
-                    <span class="feature-tag">Word Count</span>
-                    <span class="feature-tag">Configurable</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/lorem-ipsum/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/lorem-ipsum" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 9. QR Code Generator -->
-            <div class="tool-card" style="--card-accent: var(--cyan); --icon-bg: rgba(34,211,238,0.12);" data-keywords="qr code generator barcode url download png svg">
-                <div class="card-top">
-                    <div class="card-icon">&#9641;</div>
-                    <div>
-                        <div class="card-title">QR Code Generator</div>
-                        <div class="card-repo">linpap/qr-generator</div>
-                    </div>
-                </div>
-                <div class="card-desc">Generate QR codes from any text or URL. Customize foreground/background colors, choose from three sizes, set error correction level (L/M/Q/H). Download as PNG or SVG. Auto-detects content type.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Custom Colors</span>
-                    <span class="feature-tag">PNG / SVG</span>
-                    <span class="feature-tag">Error Correction</span>
-                    <span class="feature-tag">Auto-detect</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/qr-generator/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/qr-generator" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 10. CSS Gradient Generator -->
-            <div class="tool-card" style="--card-accent: var(--orange); --icon-bg: rgba(251,146,60,0.12);" data-keywords="css gradient generator linear radial conic design">
-                <div class="card-top">
-                    <div class="card-icon">&#127752;</div>
-                    <div>
-                        <div class="card-title">CSS Gradient Generator</div>
-                        <div class="card-repo">linpap/gradient-generator</div>
-                    </div>
-                </div>
-                <div class="card-desc">Build beautiful gradients visually. Supports linear, radial, and conic types. Add up to 10 color stops, use angle presets, randomize, reverse, or pick from 10 curated presets. Copy the CSS with one click.</div>
-                <div class="card-features">
-                    <span class="feature-tag">3 Types</span>
-                    <span class="feature-tag">Color Stops</span>
-                    <span class="feature-tag">10 Presets</span>
-                    <span class="feature-tag">Copy CSS</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/gradient-generator/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/gradient-generator" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 11. Base64 Encoder/Decoder -->
-            <div class="tool-card" style="--card-accent: var(--lime); --icon-bg: rgba(163,230,53,0.12);" data-keywords="base64 encoder decoder encode decode file upload">
-                <div class="card-top">
-                    <div class="card-icon">&#60;/&#62;</div>
-                    <div>
-                        <div class="card-title">Base64 Encoder / Decoder</div>
-                        <div class="card-repo">linpap/base64-tool</div>
-                    </div>
-                </div>
-                <div class="card-desc">Encode and decode Base64 in real-time. Auto-detects input type. Supports file uploads via drag-and-drop, URL-safe Base64 mode, full Unicode support, and a swap button to flip input/output.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Real-time</span>
-                    <span class="feature-tag">File Upload</span>
-                    <span class="feature-tag">URL-safe</span>
-                    <span class="feature-tag">Unicode</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/base64-tool/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/base64-tool" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 12. Word Counter -->
-            <div class="tool-card" style="--card-accent: var(--rose); --icon-bg: rgba(251,113,133,0.12);" data-keywords="word counter character sentence paragraph reading time text analyzer">
-                <div class="card-top">
-                    <div class="card-icon">&#128203;</div>
-                    <div>
-                        <div class="card-title">Word Counter</div>
-                        <div class="card-repo">linpap/word-counter</div>
-                    </div>
-                </div>
-                <div class="card-desc">Analyze text in real-time with 8 stats: words, characters, sentences, paragraphs, avg word length, reading time, and speaking time. Top 10 frequent words bar chart, keyword density, and one-click case transforms.</div>
-                <div class="card-features">
-                    <span class="feature-tag">8 Stats</span>
-                    <span class="feature-tag">Frequency Chart</span>
-                    <span class="feature-tag">Keyword Density</span>
-                    <span class="feature-tag">Case Transform</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/word-counter/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/word-counter" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
-            <!-- 13. Stopwatch -->
-            <div class="tool-card" style="--card-accent: var(--amber); --icon-bg: rgba(245,158,11,0.12);" data-keywords="stopwatch timer lap times split csv keyboard">
-                <div class="card-top">
-                    <div class="card-icon">&#9201;</div>
-                    <div>
-                        <div class="card-title">Stopwatch</div>
-                        <div class="card-repo">linpap/stopwatch</div>
-                    </div>
-                </div>
-                <div class="card-desc">Precise stopwatch with lap time tracking. Displays HH:MM:SS.cs with SVG progress ring. Highlights fastest (green) and slowest (red) laps. Export laps as CSV. Keyboard shortcuts: Space, L, R.</div>
-                <div class="card-features">
-                    <span class="feature-tag">Lap Times</span>
-                    <span class="feature-tag">SVG Ring</span>
-                    <span class="feature-tag">CSV Export</span>
-                    <span class="feature-tag">Keyboard Shortcuts</span>
-                </div>
-                <div class="card-actions">
-                    <a class="card-btn launch" href="https://linpap.github.io/stopwatch/" target="_blank">Launch Tool</a>
-                    <a class="card-btn source" href="https://github.com/linpap/stopwatch" target="_blank">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        Source
-                    </a>
-                </div>
-            </div>
-
         </div>
 
-        <div class="no-results" id="noResults">
-            No tools match your search.
+        <!-- Dev Tools -->
+        <div class="category" data-category="devtool">
+            <h3 class="category-title">Dev Tools</h3>
+            <div class="projects">
+                <a class="project" href="json-formatter/index.html">
+                    <h2>JSON Formatter & Validator</h2>
+                    <p>Format, minify, and validate JSON. Syntax highlighting, tree view, and configurable indentation.</p>
+                    <span class="tag">JSON</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="regex-tester/index.html">
+                    <h2>Regex Tester</h2>
+                    <p>Test regex with live highlighting, capture groups, replace mode, and cheatsheet.</p>
+                    <span class="tag">Regex</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="css-minifier/index.html">
+                    <h2>CSS Minifier / Beautifier</h2>
+                    <p>Minify or beautify CSS code with file upload support.</p>
+                    <span class="tag">CSS</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="js-minifier/index.html">
+                    <h2>JS Minifier / Beautifier</h2>
+                    <p>Minify or beautify JavaScript code with file upload support.</p>
+                    <span class="tag">JavaScript</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="base64-tool/index.html">
+                    <h2>Base64 Encoder/Decoder</h2>
+                    <p>Encode and decode Base64 strings. Supports file uploads and URL-safe mode.</p>
+                    <span class="tag">Encoding</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="html-entities/index.html">
+                    <h2>HTML Entity Encoder/Decoder</h2>
+                    <p>Convert between characters and HTML entities instantly.</p>
+                    <span class="tag">HTML</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="password-generator/index.html">
+                    <h2>Password Generator</h2>
+                    <p>Generate secure passwords with customizable length, character sets, and strength meter.</p>
+                    <span class="tag">Security</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="qr-generator/index.html">
+                    <h2>QR Code Generator</h2>
+                    <p>Generate QR codes from text or URLs. Customize colors and download as PNG or SVG.</p>
+                    <span class="tag">QR Code</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="responsive-tester/index.html">
+                    <h2>Responsive Design Tester</h2>
+                    <p>Test website responsiveness across different device sizes.</p>
+                    <span class="tag">Testing</span><span class="tag">Dev Tool</span>
+                </a>
+                <a class="project" href="form-builder/index.html">
+                    <h2>Form Builder</h2>
+                    <p>Visual form builder to create and export HTML forms with validation.</p>
+                    <span class="tag">HTML</span><span class="tag">Component</span>
+                </a>
+                <a class="project" href="table-generator/index.html">
+                    <h2>HTML Table Generator</h2>
+                    <p>Create, style, and export tables in HTML, Markdown, or CSV.</p>
+                    <span class="tag">HTML</span><span class="tag">Component</span>
+                </a>
+            </div>
         </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="https://github.com/linpap" target="_blank">GitHub</a>
-            <a href="https://github.com/linpap/dev-toolbox" target="_blank">Source</a>
+        <!-- Text & Data -->
+        <div class="category" data-category="text">
+            <h3 class="category-title">Text & Data</h3>
+            <div class="projects">
+                <a class="project" href="markdown/index.html">
+                    <h2>Markdown to HTML Converter</h2>
+                    <p>Paste markdown and get rendered HTML. Supports Clean, Blog, and Dark themes.</p>
+                    <span class="tag">Markdown</span><span class="tag">Text</span>
+                </a>
+                <a class="project" href="word-counter/index.html">
+                    <h2>Word Counter</h2>
+                    <p>Word, character, sentence counts. Reading time, keyword density, and top words.</p>
+                    <span class="tag">Text</span><span class="tag">Analysis</span>
+                </a>
+                <a class="project" href="lorem-ipsum/index.html">
+                    <h2>Lorem Ipsum Generator</h2>
+                    <p>Placeholder text in Classic Latin, Hipster, Tech, or Pirate styles.</p>
+                    <span class="tag">Text</span><span class="tag">Generator</span>
+                </a>
+                <a class="project" href="slug-generator/index.html">
+                    <h2>URL Slug Generator</h2>
+                    <p>Transform text into clean, URL-friendly slugs with bulk mode.</p>
+                    <span class="tag">Text</span><span class="tag">SEO</span>
+                </a>
+                <a class="project" href="unit-converter/index.html">
+                    <h2>Unit Converter</h2>
+                    <p>Convert length, weight, temperature, volume, area, speed, time, and data units.</p>
+                    <span class="tag">Converter</span><span class="tag">Utilities</span>
+                </a>
+                <a class="project" href="timestamp/index.html">
+                    <h2>Unix Timestamp Converter</h2>
+                    <p>Convert between Unix timestamps and human-readable dates with timezone support.</p>
+                    <span class="tag">Date/Time</span><span class="tag">Dev Tool</span>
+                </a>
+            </div>
         </div>
-        <p>Built with HTML, CSS &amp; JavaScript &mdash; no frameworks, no tracking.</p>
-    </footer>
+
+        <!-- SEO & Meta -->
+        <div class="category" data-category="seo">
+            <h3 class="category-title">SEO & Meta</h3>
+            <div class="projects">
+                <a class="project" href="meta-tags/index.html">
+                    <h2>Meta Tag Generator</h2>
+                    <p>Generate optimized meta tags for SEO and social sharing.</p>
+                    <span class="tag">SEO</span><span class="tag">HTML</span>
+                </a>
+                <a class="project" href="og-preview/index.html">
+                    <h2>OG Preview</h2>
+                    <p>Preview how links appear across social platforms using Open Graph tags.</p>
+                    <span class="tag">SEO</span><span class="tag">Social Media</span>
+                </a>
+                <a class="project" href="robots-txt/index.html">
+                    <h2>Robots.txt Generator</h2>
+                    <p>Build, preview, and export robots.txt files for SEO.</p>
+                    <span class="tag">SEO</span><span class="tag">Dev Tool</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Utilities -->
+        <div class="category" data-category="utility">
+            <h3 class="category-title">Utilities</h3>
+            <div class="projects">
+                <a class="project" href="pomodoro/index.html">
+                    <h2>Pomodoro Timer</h2>
+                    <p>Focus timer with work sessions, short breaks, and long breaks.</p>
+                    <span class="tag">Timer</span><span class="tag">Productivity</span>
+                </a>
+                <a class="project" href="stopwatch/index.html">
+                    <h2>Stopwatch</h2>
+                    <p>Precise stopwatch with lap times, highlights, progress ring, and CSV export.</p>
+                    <span class="tag">Timer</span><span class="tag">Utilities</span>
+                </a>
+                <a class="project" href="portfolio/index.html">
+                    <h2>Portfolio Showcase</h2>
+                    <p>Developer portfolio and toolbox showcase page.</p>
+                    <span class="tag">Portfolio</span><span class="tag">Showcase</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const cards = document.querySelectorAll('.tool-card');
-        const noResults = document.getElementById('noResults');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const categories = document.querySelectorAll('.category');
 
-        searchInput.addEventListener('input', () => {
-            const q = searchInput.value.toLowerCase().trim();
-            let visible = 0;
-
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
-                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
-                const keywords = (card.dataset.keywords || '').toLowerCase();
-                const match = !q || title.includes(q) || desc.includes(q) || keywords.includes(q);
-
-                card.classList.toggle('hidden', !match);
-                if (match) visible++;
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                categories.forEach(cat => {
+                    cat.classList.toggle('hidden', filter !== 'all' && cat.dataset.category !== filter);
+                });
             });
-
-            noResults.classList.toggle('show', visible === 0);
         });
     </script>
 </body>

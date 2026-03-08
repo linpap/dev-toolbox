@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compressor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="logo">Image<span>Compressor</span></h1>
+      <p class="tagline">Client-side compression. Nothing leaves your browser.</p>
+    </header>
+
+    <main class="main">
+      <!-- Upload Area -->
+      <div id="dropzone" class="dropzone">
+        <div class="dropzone-content">
+          <svg class="dropzone-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M24 32V12m0 0l-8 8m8-8l8 8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 32v4a4 4 0 004 4h24a4 4 0 004-4v-4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="dropzone-label">Drop images here or <button id="browseBtn" class="browse-btn">browse files</button></p>
+          <p class="dropzone-hint">Supports JPEG, PNG, WebP, GIF, BMP, TIFF</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      </div>
+
+      <!-- Global Controls -->
+      <section id="controlsSection" class="controls-section hidden">
+        <h2 class="section-title">Compression Settings</h2>
+        <div class="controls-grid">
+          <div class="control-group">
+            <label class="control-label">Quality</label>
+            <div class="slider-row">
+              <input type="range" id="qualitySlider" class="slider" min="1" max="100" value="75">
+              <span id="qualityValue" class="slider-value">75%</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Output Format</label>
+            <div class="format-btns">
+              <button class="format-btn active" data-format="jpeg">JPEG</button>
+              <button class="format-btn" data-format="png">PNG</button>
+              <button class="format-btn" data-format="webp">WebP</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Resize</label>
+            <div class="resize-row">
+              <div class="resize-field">
+                <label>W</label>
+                <input type="number" id="resizeWidth" class="input-field" placeholder="auto">
+              </div>
+              <span class="resize-x">&times;</span>
+              <div class="resize-field">
+                <label>H</label>
+                <input type="number" id="resizeHeight" class="input-field" placeholder="auto">
+              </div>
+              <div class="resize-field scale-field">
+                <label>Scale</label>
+                <input type="number" id="resizeScale" class="input-field" placeholder="100" min="1" max="100" value="100">
+                <span class="unit">%</span>
+              </div>
+              <label class="checkbox-label">
+                <input type="checkbox" id="keepAspect" checked>
+                <span class="checkmark"></span>
+                Lock ratio
+              </label>
+            </div>
+          </div>
+
+          <div class="control-actions">
+            <button id="compressAllBtn" class="btn btn-primary">Compress All</button>
+            <button id="downloadAllBtn" class="btn btn-secondary hidden">Download All</button>
+            <button id="clearAllBtn" class="btn btn-ghost">Clear All</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Image Cards -->
+      <section id="imageList" class="image-list"></section>
+    </main>
+  </div>
+
+  <!-- Card template -->
+  <template id="imageCardTemplate">
+    <div class="image-card">
+      <div class="card-header">
+        <span class="card-filename"></span>
+        <button class="card-remove" title="Remove">&times;</button>
+      </div>
+      <div class="card-body">
+        <div class="preview-container">
+          <div class="preview-mode-toggle">
+            <button class="preview-toggle-btn active" data-mode="side">Side by Side</button>
+            <button class="preview-toggle-btn" data-mode="slider">Slider</button>
+          </div>
+          <div class="preview-area preview-side">
+            <div class="preview-pane original-pane">
+              <span class="preview-badge">Original</span>
+              <img class="preview-img" alt="Original">
+            </div>
+            <div class="preview-pane compressed-pane">
+              <span class="preview-badge">Compressed</span>
+              <img class="preview-img" alt="Compressed">
+              <div class="preview-placeholder">Adjust settings &amp; compress</div>
+            </div>
+          </div>
+          <div class="preview-area preview-slider hidden">
+            <div class="slider-wrapper">
+              <img class="slider-img-before" alt="Before">
+              <div class="slider-img-after-clip">
+                <img class="slider-img-after" alt="After">
+              </div>
+              <input type="range" class="comparison-slider" min="0" max="100" value="50">
+              <div class="slider-line"></div>
+              <span class="slider-badge slider-badge-left">Original</span>
+              <span class="slider-badge slider-badge-right">Compressed</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat">
+            <span class="stat-label">Original</span>
+            <span class="stat-value original-size">--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Compressed</span>
+            <span class="stat-value compressed-size">--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Savings</span>
+            <span class="stat-value savings-value">--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Dimensions</span>
+            <span class="stat-value dimensions-value">--</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-primary card-compress-btn">Compress</button>
+        <button class="btn btn-sm btn-secondary card-download-btn hidden">Download</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

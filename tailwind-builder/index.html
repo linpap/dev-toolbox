@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind CSS Class Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <header>
+    <div class="header-inner">
+      <h1><span class="accent">Tailwind</span> Class Builder</h1>
+      <p class="subtitle">Click classes to build. Preview live.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="top-bar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search classes..." autocomplete="off">
+      </div>
+      <div class="action-buttons">
+        <button id="btn-copy-classes" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Classes
+        </button>
+        <button id="btn-copy-css" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy CSS
+        </button>
+        <button id="btn-clear" class="btn btn-danger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+          Clear All
+        </button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <section class="panel panel-categories" id="categories-panel">
+        <h2 class="panel-title">Categories</h2>
+        <div id="categories-container"></div>
+      </section>
+
+      <section class="panel panel-output">
+        <div class="output-section">
+          <h2 class="panel-title">Live Preview</h2>
+          <div class="preview-area">
+            <div id="preview-box">Preview Element</div>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <h2 class="panel-title">Active Classes
+            <span id="class-count" class="badge">0</span>
+          </h2>
+          <div class="active-classes" id="active-classes">
+            <p class="empty-state">No classes selected</p>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <h2 class="panel-title">Class String</h2>
+          <pre class="code-block" id="class-string-output"><!-- filled by JS --></pre>
+        </div>
+
+        <div class="output-section">
+          <h2 class="panel-title">Equivalent CSS</h2>
+          <pre class="code-block code-css" id="css-output"><!-- filled by JS --></pre>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

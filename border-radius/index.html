@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Border Radius Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Border Radius Generator</h1>
+      <p class="subtitle">Design and preview CSS border-radius in real time</p>
+    </header>
+
+    <main class="main">
+      <section class="preview-section">
+        <div class="preview-container" id="previewContainer">
+          <div class="preview-box" id="previewBox">
+            <span class="preview-label">Preview</span>
+          </div>
+          <div class="resize-handle" id="resizeHandle" title="Drag to resize"></div>
+        </div>
+        <div class="preview-controls">
+          <label class="color-control">
+            <span>Background</span>
+            <input type="color" id="bgColor" value="#6c5ce7">
+          </label>
+          <label class="color-control">
+            <span>Border Color</span>
+            <input type="color" id="borderColor" value="#a29bfe">
+          </label>
+          <label class="range-control">
+            <span>Border Width</span>
+            <input type="range" id="borderWidth" min="0" max="20" value="3">
+            <output id="borderWidthVal">3px</output>
+          </label>
+        </div>
+      </section>
+
+      <section class="controls-section">
+        <div class="controls-header">
+          <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="simple" id="simpleModeBtn">Simple</button>
+            <button class="mode-btn" data-mode="advanced" id="advancedModeBtn">Advanced</button>
+          </div>
+          <button class="link-btn" id="linkBtn" title="Link all corners">
+            <svg class="link-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span id="linkLabel">Linked</span>
+          </button>
+        </div>
+
+        <div class="sliders" id="simpleSliders">
+          <div class="slider-group" data-corner="tl">
+            <label>Top Left</label>
+            <input type="range" min="0" max="200" value="30" class="corner-slider" data-corner="tl">
+            <input type="number" min="0" max="200" value="30" class="corner-input" data-corner="tl">
+            <span class="unit">px</span>
+          </div>
+          <div class="slider-group" data-corner="tr">
+            <label>Top Right</label>
+            <input type="range" min="0" max="200" value="30" class="corner-slider" data-corner="tr">
+            <input type="number" min="0" max="200" value="30" class="corner-input" data-corner="tr">
+            <span class="unit">px</span>
+          </div>
+          <div class="slider-group" data-corner="br">
+            <label>Bottom Right</label>
+            <input type="range" min="0" max="200" value="30" class="corner-slider" data-corner="br">
+            <input type="number" min="0" max="200" value="30" class="corner-input" data-corner="br">
+            <span class="unit">px</span>
+          </div>
+          <div class="slider-group" data-corner="bl">
+            <label>Bottom Left</label>
+            <input type="range" min="0" max="200" value="30" class="corner-slider" data-corner="bl">
+            <input type="number" min="0" max="200" value="30" class="corner-input" data-corner="bl">
+            <span class="unit">px</span>
+          </div>
+        </div>
+
+        <div class="sliders advanced-sliders hidden" id="advancedSliders">
+          <p class="advanced-hint">Horizontal / Vertical radius per corner</p>
+          <div class="slider-group-adv" data-corner="tl">
+            <label>Top Left</label>
+            <div class="dual-inputs">
+              <div class="input-pair">
+                <span class="axis-label">H</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="tl" data-axis="h">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="tl" data-axis="h">
+                <span class="unit">px</span>
+              </div>
+              <div class="input-pair">
+                <span class="axis-label">V</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="tl" data-axis="v">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="tl" data-axis="v">
+                <span class="unit">px</span>
+              </div>
+            </div>
+          </div>
+          <div class="slider-group-adv" data-corner="tr">
+            <label>Top Right</label>
+            <div class="dual-inputs">
+              <div class="input-pair">
+                <span class="axis-label">H</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="tr" data-axis="h">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="tr" data-axis="h">
+                <span class="unit">px</span>
+              </div>
+              <div class="input-pair">
+                <span class="axis-label">V</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="tr" data-axis="v">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="tr" data-axis="v">
+                <span class="unit">px</span>
+              </div>
+            </div>
+          </div>
+          <div class="slider-group-adv" data-corner="br">
+            <label>Bottom Right</label>
+            <div class="dual-inputs">
+              <div class="input-pair">
+                <span class="axis-label">H</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="br" data-axis="h">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="br" data-axis="h">
+                <span class="unit">px</span>
+              </div>
+              <div class="input-pair">
+                <span class="axis-label">V</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="br" data-axis="v">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="br" data-axis="v">
+                <span class="unit">px</span>
+              </div>
+            </div>
+          </div>
+          <div class="slider-group-adv" data-corner="bl">
+            <label>Bottom Left</label>
+            <div class="dual-inputs">
+              <div class="input-pair">
+                <span class="axis-label">H</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="bl" data-axis="h">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="bl" data-axis="h">
+                <span class="unit">px</span>
+              </div>
+              <div class="input-pair">
+                <span class="axis-label">V</span>
+                <input type="range" min="0" max="200" value="30" class="corner-slider-adv" data-corner="bl" data-axis="v">
+                <input type="number" min="0" max="200" value="30" class="corner-input-adv" data-corner="bl" data-axis="v">
+                <span class="unit">px</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="presets">
+          <h3>Presets</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" data-preset="circle">
+              <div class="preset-thumb circle"></div>
+              <span>Circle</span>
+            </button>
+            <button class="preset-btn" data-preset="pill">
+              <div class="preset-thumb pill"></div>
+              <span>Pill</span>
+            </button>
+            <button class="preset-btn" data-preset="squircle">
+              <div class="preset-thumb squircle"></div>
+              <span>Squircle</span>
+            </button>
+            <button class="preset-btn" data-preset="blob">
+              <div class="preset-thumb blob"></div>
+              <span>Blob</span>
+            </button>
+            <button class="preset-btn" data-preset="leaf">
+              <div class="preset-thumb leaf"></div>
+              <span>Leaf</span>
+            </button>
+            <button class="preset-btn" data-preset="ticket">
+              <div class="preset-thumb ticket"></div>
+              <span>Ticket</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="output">
+          <h3>CSS Output</h3>
+          <div class="code-block">
+            <pre><code id="cssOutput"></code></pre>
+            <button class="copy-btn" id="copyBtn" title="Copy CSS">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

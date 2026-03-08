@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Toolbox | linpap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #08080c;
+            --surface: #111118;
+            --surface-2: #1a1a24;
+            --border: #222233;
+            --text: #e0e0ee;
+            --text-dim: #777790;
+            --accent: #7c6aff;
+            --accent-glow: rgba(124, 106, 255, 0.15);
+            --green: #34d399;
+            --blue: #60a5fa;
+            --orange: #fb923c;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --red: #f87171;
+            --yellow: #fbbf24;
+            --purple: #a78bfa;
+            --teal: #2dd4bf;
+            --lime: #a3e635;
+            --rose: #fb7185;
+            --indigo: #818cf8;
+            --amber: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 80px 24px 60px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            margin-bottom: 28px;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #7c6aff 0%, #60a5fa 40%, #22d3ee 70%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            max-width: 560px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-num {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+        }
+
+        /* ===== TOOLS GRID ===== */
+        .tools-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        /* ===== TOOL CARD ===== */
+        .tool-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--card-accent, var(--accent));
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-accent, var(--accent));
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--card-accent, var(--accent));
+        }
+
+        .tool-card:hover::before { opacity: 1; }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            background: var(--icon-bg, var(--accent-glow));
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .card-repo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+        }
+
+        .card-desc {
+            color: #999aab;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            flex: 1;
+            margin-bottom: 18px;
+        }
+
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+
+        .feature-tag {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--surface-2);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+        }
+
+        /* Card action buttons */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .card-btn.launch {
+            background: var(--card-accent, var(--accent));
+            color: #fff;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .card-btn.launch:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .card-btn.source {
+            background: var(--surface-2);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+        }
+
+        .card-btn.source:hover {
+            color: #fff;
+            border-color: #555;
+        }
+
+        .card-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 40px 24px;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== SEARCH ===== */
+        .search-wrap {
+            max-width: 480px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input::placeholder { color: #555566; }
+        .search-input:focus { border-color: var(--accent); }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555566;
+            font-size: 0.95rem;
+            pointer-events: none;
+        }
+
+        .tool-card.hidden { display: none; }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+            display: none;
+        }
+
+        .no-results.show { display: block; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero { padding: 50px 20px 40px; }
+            .hero-stats { gap: 32px; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .tools-section { padding: 40px 16px 60px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            .tool-card { padding: 20px; }
+            .card-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Open Source
+        </div>
+        <h1>
+            <span class="gradient-text">Dev Toolbox</span><br>
+            by linpap
+        </h1>
+        <p>A growing collection of lightweight, privacy-friendly web tools. No accounts, no tracking, no bloat &mdash; just HTML, CSS, and vanilla JavaScript.</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">48</div>
+                <div class="stat-label">Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">0</div>
+                <div class="stat-label">Dependencies</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Client-Side</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- TOOLS -->
+    <section class="tools-section">
+        <div class="section-header">
+            <h2>All Tools</h2>
+            <p>48 tools and counting &mdash; click &ldquo;Launch Tool&rdquo; to use it live, or &ldquo;Source&rdquo; to view the code on GitHub.</p>
+        </div>
+
+        <div class="search-wrap">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search tools...">
+        </div>
+
+        <div class="tools-grid" id="toolsGrid">
+
+            <!-- 1. Color Palette Generator -->
+            <div class="tool-card" style="--card-accent: var(--pink); --icon-bg: rgba(244,114,182,0.12);" data-keywords="color palette generator wheel hex rgb hsl design">
+                <div class="card-top">
+                    <div class="card-icon">&#127912;</div>
+                    <div>
+                        <div class="card-title">Color Palette Generator</div>
+                        <div class="card-repo">linpap/color-palette</div>
+                    </div>
+                </div>
+                <div class="card-desc">Generate beautiful color palettes using a color wheel picker with 18 harmony modes. Press Space for random palettes, click any color to copy its hex value. Export as CSS, Tailwind, SCSS, JSON, or SVG.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Color Wheel</span>
+                    <span class="feature-tag">18 Harmonies</span>
+                    <span class="feature-tag">Export Formats</span>
+                    <span class="feature-tag">Canvas</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/color-palette/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/color-palette" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Markdown to HTML Converter -->
+            <div class="tool-card" style="--card-accent: var(--purple); --icon-bg: rgba(167,139,250,0.12);" data-keywords="markdown html converter preview theme blog">
+                <div class="card-top">
+                    <div class="card-icon">&#128221;</div>
+                    <div>
+                        <div class="card-title">Markdown to HTML</div>
+                        <div class="card-repo">linpap/markdown-converter</div>
+                    </div>
+                </div>
+                <div class="card-desc">Paste or drag-and-drop Markdown to get instant rendered HTML. Choose from Clean, Blog, and Dark themes. Auto-generates table of contents, supports syntax highlighting, copy or download the full document.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Live Preview</span>
+                    <span class="feature-tag">3 Themes</span>
+                    <span class="feature-tag">Syntax Highlight</span>
+                    <span class="feature-tag">Drag & Drop</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/markdown-converter/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/markdown-converter" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. Pomodoro Timer -->
+            <div class="tool-card" style="--card-accent: var(--red); --icon-bg: rgba(248,113,113,0.12);" data-keywords="pomodoro timer focus productivity sessions break">
+                <div class="card-top">
+                    <div class="card-icon">&#9202;</div>
+                    <div>
+                        <div class="card-title">Pomodoro Timer</div>
+                        <div class="card-repo">linpap/pomodoro</div>
+                    </div>
+                </div>
+                <div class="card-desc">A focus timer using the Pomodoro Technique. Configurable work sessions (25 min), short breaks (5 min), and long breaks (15 min). SVG progress ring, audio notifications, task labeling, and daily session log saved to local storage.</div>
+                <div class="card-features">
+                    <span class="feature-tag">SVG Ring</span>
+                    <span class="feature-tag">Audio Alerts</span>
+                    <span class="feature-tag">Session Log</span>
+                    <span class="feature-tag">Configurable</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/pomodoro/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/pomodoro" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4. JSON Formatter -->
+            <div class="tool-card" style="--card-accent: var(--yellow); --icon-bg: rgba(251,191,36,0.12);" data-keywords="json formatter validator prettify minify tree view">
+                <div class="card-top">
+                    <div class="card-icon">&#123;&#125;</div>
+                    <div>
+                        <div class="card-title">JSON Formatter & Validator</div>
+                        <div class="card-repo">linpap/json-formatter</div>
+                    </div>
+                </div>
+                <div class="card-desc">Paste JSON to instantly format, minify, or validate. Syntax highlighting with color-coded keys, strings, numbers, booleans, and nulls. Collapsible tree view for nested structures. Configurable 2 or 4 space indentation.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Syntax Highlight</span>
+                    <span class="feature-tag">Tree View</span>
+                    <span class="feature-tag">Validation</span>
+                    <span class="feature-tag">Minify</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/json-formatter/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/json-formatter" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. Password Generator -->
+            <div class="tool-card" style="--card-accent: var(--green); --icon-bg: rgba(52,211,153,0.12);" data-keywords="password generator security strength entropy">
+                <div class="card-top">
+                    <div class="card-icon">&#128272;</div>
+                    <div>
+                        <div class="card-title">Password Generator</div>
+                        <div class="card-repo">linpap/password-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Generate cryptographically secure passwords using the Web Crypto API. Adjust length (8&ndash;128), toggle character sets, entropy-based strength meter. Batch generate 5 passwords at once. Option to exclude ambiguous characters.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Crypto API</span>
+                    <span class="feature-tag">Strength Meter</span>
+                    <span class="feature-tag">Batch Mode</span>
+                    <span class="feature-tag">Configurable</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/password-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/password-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6. Unit Converter -->
+            <div class="tool-card" style="--card-accent: var(--blue); --icon-bg: rgba(96,165,250,0.12);" data-keywords="unit converter length weight temperature volume area speed time data">
+                <div class="card-top">
+                    <div class="card-icon">&#9878;</div>
+                    <div>
+                        <div class="card-title">Unit Converter</div>
+                        <div class="card-repo">linpap/unit-converter</div>
+                    </div>
+                </div>
+                <div class="card-desc">Convert between units across 8 categories: Length, Weight, Temperature, Volume, Area, Speed, Time, and Data. Real-time conversion, swap button, formula display, and quick-reference cards for common conversions.</div>
+                <div class="card-features">
+                    <span class="feature-tag">8 Categories</span>
+                    <span class="feature-tag">Real-time</span>
+                    <span class="feature-tag">Formula Display</span>
+                    <span class="feature-tag">50+ Units</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/unit-converter/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/unit-converter" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7. Regex Tester -->
+            <div class="tool-card" style="--card-accent: var(--indigo); --icon-bg: rgba(129,140,248,0.12);" data-keywords="regex regular expression tester pattern match replace">
+                <div class="card-top">
+                    <div class="card-icon">&#47;.*&#47;</div>
+                    <div>
+                        <div class="card-title">Regex Tester</div>
+                        <div class="card-repo">linpap/regex-tester</div>
+                    </div>
+                </div>
+                <div class="card-desc">Test regular expressions with live match highlighting. Toggle flags (g, i, m, s), view all matches with capture groups, built-in replace mode, and a categorized cheatsheet sidebar with click-to-insert patterns.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Live Highlight</span>
+                    <span class="feature-tag">Capture Groups</span>
+                    <span class="feature-tag">Replace Mode</span>
+                    <span class="feature-tag">Cheatsheet</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/regex-tester/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/regex-tester" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8. Lorem Ipsum Generator -->
+            <div class="tool-card" style="--card-accent: var(--teal); --icon-bg: rgba(45,212,191,0.12);" data-keywords="lorem ipsum placeholder text generator paragraphs sentences">
+                <div class="card-top">
+                    <div class="card-icon">&#9998;</div>
+                    <div>
+                        <div class="card-title">Lorem Ipsum Generator</div>
+                        <div class="card-repo">linpap/lorem-ipsum</div>
+                    </div>
+                </div>
+                <div class="card-desc">Generate placeholder text by paragraphs, sentences, or word count. Four styles: Classic Latin, Hipster, Tech, and Pirate. Toggle &ldquo;Start with Lorem ipsum...&rdquo; and HTML output mode. Live word and character counts.</div>
+                <div class="card-features">
+                    <span class="feature-tag">4 Styles</span>
+                    <span class="feature-tag">HTML Output</span>
+                    <span class="feature-tag">Word Count</span>
+                    <span class="feature-tag">Configurable</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/lorem-ipsum/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/lorem-ipsum" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9. QR Code Generator -->
+            <div class="tool-card" style="--card-accent: var(--cyan); --icon-bg: rgba(34,211,238,0.12);" data-keywords="qr code generator barcode url download png svg">
+                <div class="card-top">
+                    <div class="card-icon">&#9641;</div>
+                    <div>
+                        <div class="card-title">QR Code Generator</div>
+                        <div class="card-repo">linpap/qr-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Generate QR codes from any text or URL. Customize foreground/background colors, choose from three sizes, set error correction level (L/M/Q/H). Download as PNG or SVG. Auto-detects content type.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Custom Colors</span>
+                    <span class="feature-tag">PNG / SVG</span>
+                    <span class="feature-tag">Error Correction</span>
+                    <span class="feature-tag">Auto-detect</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/qr-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/qr-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10. CSS Gradient Generator -->
+            <div class="tool-card" style="--card-accent: var(--orange); --icon-bg: rgba(251,146,60,0.12);" data-keywords="css gradient generator linear radial conic design">
+                <div class="card-top">
+                    <div class="card-icon">&#127752;</div>
+                    <div>
+                        <div class="card-title">CSS Gradient Generator</div>
+                        <div class="card-repo">linpap/gradient-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Build beautiful gradients visually. Supports linear, radial, and conic types. Add up to 10 color stops, use angle presets, randomize, reverse, or pick from 10 curated presets. Copy the CSS with one click.</div>
+                <div class="card-features">
+                    <span class="feature-tag">3 Types</span>
+                    <span class="feature-tag">Color Stops</span>
+                    <span class="feature-tag">10 Presets</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/gradient-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/gradient-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11. Base64 Encoder/Decoder -->
+            <div class="tool-card" style="--card-accent: var(--lime); --icon-bg: rgba(163,230,53,0.12);" data-keywords="base64 encoder decoder encode decode file upload">
+                <div class="card-top">
+                    <div class="card-icon">&#60;/&#62;</div>
+                    <div>
+                        <div class="card-title">Base64 Encoder / Decoder</div>
+                        <div class="card-repo">linpap/base64-tool</div>
+                    </div>
+                </div>
+                <div class="card-desc">Encode and decode Base64 in real-time. Auto-detects input type. Supports file uploads via drag-and-drop, URL-safe Base64 mode, full Unicode support, and a swap button to flip input/output.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Real-time</span>
+                    <span class="feature-tag">File Upload</span>
+                    <span class="feature-tag">URL-safe</span>
+                    <span class="feature-tag">Unicode</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/base64-tool/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/base64-tool" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12. Word Counter -->
+            <div class="tool-card" style="--card-accent: var(--rose); --icon-bg: rgba(251,113,133,0.12);" data-keywords="word counter character sentence paragraph reading time text analyzer">
+                <div class="card-top">
+                    <div class="card-icon">&#128203;</div>
+                    <div>
+                        <div class="card-title">Word Counter</div>
+                        <div class="card-repo">linpap/word-counter</div>
+                    </div>
+                </div>
+                <div class="card-desc">Analyze text in real-time with 8 stats: words, characters, sentences, paragraphs, avg word length, reading time, and speaking time. Top 10 frequent words bar chart, keyword density, and one-click case transforms.</div>
+                <div class="card-features">
+                    <span class="feature-tag">8 Stats</span>
+                    <span class="feature-tag">Frequency Chart</span>
+                    <span class="feature-tag">Keyword Density</span>
+                    <span class="feature-tag">Case Transform</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/word-counter/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/word-counter" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13. Stopwatch -->
+            <div class="tool-card" style="--card-accent: var(--amber); --icon-bg: rgba(245,158,11,0.12);" data-keywords="stopwatch timer lap times split csv keyboard">
+                <div class="card-top">
+                    <div class="card-icon">&#9201;</div>
+                    <div>
+                        <div class="card-title">Stopwatch</div>
+                        <div class="card-repo">linpap/stopwatch</div>
+                    </div>
+                </div>
+                <div class="card-desc">Precise stopwatch with lap time tracking. Displays HH:MM:SS.cs with SVG progress ring. Highlights fastest (green) and slowest (red) laps. Export laps as CSV. Keyboard shortcuts: Space, L, R.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Lap Times</span>
+                    <span class="feature-tag">SVG Ring</span>
+                    <span class="feature-tag">CSV Export</span>
+                    <span class="feature-tag">Keyboard Shortcuts</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/stopwatch/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/stopwatch" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14. Box Shadow Generator -->
+            <div class="tool-card" style="--card-accent: var(--purple); --icon-bg: rgba(167,139,250,0.12);" data-keywords="box shadow css generator layers presets preview">
+                <div class="card-top">
+                    <div class="card-icon">&#9632;</div>
+                    <div>
+                        <div class="card-title">Box Shadow Generator</div>
+                        <div class="card-repo">linpap/box-shadow</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual CSS box-shadow builder with multiple layers, presets, and real-time preview. Stack shadows, adjust offsets, blur, spread, and color for each layer independently.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Multiple Layers</span>
+                    <span class="feature-tag">Presets</span>
+                    <span class="feature-tag">Real-time Preview</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/box-shadow/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/box-shadow" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15. Border Radius Generator -->
+            <div class="tool-card" style="--card-accent: var(--blue); --icon-bg: rgba(96,165,250,0.12);" data-keywords="border radius css generator corners shape presets">
+                <div class="card-top">
+                    <div class="card-icon">&#9635;</div>
+                    <div>
+                        <div class="card-title">Border Radius Generator</div>
+                        <div class="card-repo">linpap/border-radius</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual border-radius editor with per-corner control, advanced 8-value syntax, and shape presets. Fine-tune each corner independently and copy the CSS output instantly.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Per-Corner</span>
+                    <span class="feature-tag">8-Value Syntax</span>
+                    <span class="feature-tag">Shape Presets</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/border-radius/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/border-radius" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 16. Flexbox Playground -->
+            <div class="tool-card" style="--card-accent: var(--green); --icon-bg: rgba(52,211,153,0.12);" data-keywords="flexbox css playground layout container items axis">
+                <div class="card-top">
+                    <div class="card-icon">&#9776;</div>
+                    <div>
+                        <div class="card-title">Flexbox Playground</div>
+                        <div class="card-repo">linpap/flexbox-playground</div>
+                    </div>
+                </div>
+                <div class="card-desc">Interactive CSS Flexbox visualizer with container and per-item controls, axis indicators. Experiment with justify-content, align-items, flex-wrap, and more in real time.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Container Controls</span>
+                    <span class="feature-tag">Per-Item</span>
+                    <span class="feature-tag">Axis Indicators</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/flexbox-playground/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/flexbox-playground" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 17. CSS Grid Generator -->
+            <div class="tool-card" style="--card-accent: var(--cyan); --icon-bg: rgba(34,211,238,0.12);" data-keywords="css grid generator layout template areas columns rows">
+                <div class="card-top">
+                    <div class="card-icon">&#9638;</div>
+                    <div>
+                        <div class="card-title">CSS Grid Generator</div>
+                        <div class="card-repo">linpap/grid-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual CSS Grid builder with cell spanning, template areas, and layout presets. Define rows, columns, gaps, and named areas with a drag-friendly interface.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Cell Spanning</span>
+                    <span class="feature-tag">Template Areas</span>
+                    <span class="feature-tag">Layout Presets</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/grid-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/grid-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 18. CSS Animation Generator -->
+            <div class="tool-card" style="--card-accent: var(--pink); --icon-bg: rgba(244,114,182,0.12);" data-keywords="css animation keyframe generator timeline bezier curve presets">
+                <div class="card-top">
+                    <div class="card-icon">&#127916;</div>
+                    <div>
+                        <div class="card-title">CSS Animation Generator</div>
+                        <div class="card-repo">linpap/animation-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Keyframe animation builder with timeline, bezier curve editor, and 8 presets. Create complex multi-step animations visually and export clean CSS @keyframes code.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Timeline</span>
+                    <span class="feature-tag">Bezier Editor</span>
+                    <span class="feature-tag">8 Presets</span>
+                    <span class="feature-tag">@keyframes</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/animation-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/animation-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 19. Text Shadow Generator -->
+            <div class="tool-card" style="--card-accent: var(--orange); --icon-bg: rgba(251,146,60,0.12);" data-keywords="text shadow css generator neon retro 3d presets layers">
+                <div class="card-top">
+                    <div class="card-icon">&#128172;</div>
+                    <div>
+                        <div class="card-title">Text Shadow Generator</div>
+                        <div class="card-repo">linpap/text-shadow</div>
+                    </div>
+                </div>
+                <div class="card-desc">CSS text-shadow builder with multiple layers, 8 presets (neon, retro, 3D, etc). Stack shadows, adjust offsets, blur, and color per layer for stunning text effects.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Multiple Layers</span>
+                    <span class="feature-tag">8 Presets</span>
+                    <span class="feature-tag">Neon / Retro / 3D</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/text-shadow/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/text-shadow" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 20. CSS Filter Editor -->
+            <div class="tool-card" style="--card-accent: var(--indigo); --icon-bg: rgba(129,140,248,0.12);" data-keywords="css filter editor blur brightness contrast grayscale saturate image">
+                <div class="card-top">
+                    <div class="card-icon">&#128247;</div>
+                    <div>
+                        <div class="card-title">CSS Filter Editor</div>
+                        <div class="card-repo">linpap/css-filters</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual CSS filter editor with 10 filter sliders, image upload, before/after comparison. Adjust blur, brightness, contrast, grayscale, hue-rotate, saturate, and more.</div>
+                <div class="card-features">
+                    <span class="feature-tag">10 Filters</span>
+                    <span class="feature-tag">Image Upload</span>
+                    <span class="feature-tag">Before / After</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/css-filters/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/css-filters" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 21. Glassmorphism Generator -->
+            <div class="tool-card" style="--card-accent: var(--teal); --icon-bg: rgba(45,212,191,0.12);" data-keywords="glassmorphism glass css generator blur opacity frosted">
+                <div class="card-top">
+                    <div class="card-icon">&#128142;</div>
+                    <div>
+                        <div class="card-title">Glassmorphism Generator</div>
+                        <div class="card-repo">linpap/glassmorphism</div>
+                    </div>
+                </div>
+                <div class="card-desc">Glass-effect CSS generator with animated blobs, blur, opacity, and border controls. Create frosted glass UI components with customizable backdrop-filter settings.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Animated Blobs</span>
+                    <span class="feature-tag">Blur Control</span>
+                    <span class="feature-tag">Opacity</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/glassmorphism/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/glassmorphism" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 22. Neumorphism Generator -->
+            <div class="tool-card" style="--card-accent: var(--rose); --icon-bg: rgba(251,113,133,0.12);" data-keywords="neumorphism soft ui shadow generator css shape light">
+                <div class="card-top">
+                    <div class="card-icon">&#9711;</div>
+                    <div>
+                        <div class="card-title">Neumorphism Generator</div>
+                        <div class="card-repo">linpap/neumorphism</div>
+                    </div>
+                </div>
+                <div class="card-desc">Soft UI shadow generator with shape modes, light direction, and auto-calculated shadows. Create neumorphic components with concave, convex, flat, and pressed styles.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Shape Modes</span>
+                    <span class="feature-tag">Light Direction</span>
+                    <span class="feature-tag">Auto Shadows</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/neumorphism/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/neumorphism" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 23. CSS Clip Path Generator -->
+            <div class="tool-card" style="--card-accent: var(--amber); --icon-bg: rgba(245,158,11,0.12);" data-keywords="clip path css generator polygon shape presets draggable">
+                <div class="card-top">
+                    <div class="card-icon">&#9004;</div>
+                    <div>
+                        <div class="card-title">CSS Clip Path Generator</div>
+                        <div class="card-repo">linpap/clip-path</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual clip-path editor with draggable polygon points, shape presets, grid overlay. Create complex clipping shapes with circle, ellipse, polygon, and inset modes.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Draggable Points</span>
+                    <span class="feature-tag">Shape Presets</span>
+                    <span class="feature-tag">Grid Overlay</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/clip-path/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/clip-path" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 24. px to rem Converter -->
+            <div class="tool-card" style="--card-accent: var(--blue); --icon-bg: rgba(96,165,250,0.12);" data-keywords="px rem em pt converter css units conversion table">
+                <div class="card-top">
+                    <div class="card-icon">&#128207;</div>
+                    <div>
+                        <div class="card-title">px to rem Converter</div>
+                        <div class="card-repo">linpap/px-to-rem</div>
+                    </div>
+                </div>
+                <div class="card-desc">Bidirectional px/rem/em/pt converter with conversion table and CSS block converter. Set a custom base font size and instantly convert between CSS units.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Bidirectional</span>
+                    <span class="feature-tag">Conversion Table</span>
+                    <span class="feature-tag">CSS Block</span>
+                    <span class="feature-tag">Custom Base</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/px-to-rem/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/px-to-rem" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 25. HTML Entity Encoder -->
+            <div class="tool-card" style="--card-accent: var(--purple); --icon-bg: rgba(167,139,250,0.12);" data-keywords="html entity encoder decoder special characters ampersand">
+                <div class="card-top">
+                    <div class="card-icon">&#38;#</div>
+                    <div>
+                        <div class="card-title">HTML Entity Encoder</div>
+                        <div class="card-repo">linpap/html-entities</div>
+                    </div>
+                </div>
+                <div class="card-desc">Encode/decode HTML entities with 65+ entity reference table. Convert special characters to their HTML entity equivalents and vice versa with one click.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Encode / Decode</span>
+                    <span class="feature-tag">65+ Entities</span>
+                    <span class="feature-tag">Reference Table</span>
+                    <span class="feature-tag">Copy Output</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/html-entities/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/html-entities" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 26. Color Contrast Checker -->
+            <div class="tool-card" style="--card-accent: var(--green); --icon-bg: rgba(52,211,153,0.12);" data-keywords="color contrast checker wcag accessibility a11y compliance">
+                <div class="card-top">
+                    <div class="card-icon">&#9876;</div>
+                    <div>
+                        <div class="card-title">Color Contrast Checker</div>
+                        <div class="card-repo">linpap/contrast-checker</div>
+                    </div>
+                </div>
+                <div class="card-desc">WCAG contrast ratio checker with compliance badges and accessible color suggestions. Test foreground/background color pairs against AA and AAA accessibility standards.</div>
+                <div class="card-features">
+                    <span class="feature-tag">WCAG 2.1</span>
+                    <span class="feature-tag">AA / AAA</span>
+                    <span class="feature-tag">Color Suggestions</span>
+                    <span class="feature-tag">Live Preview</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/contrast-checker/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/contrast-checker" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 27. Timestamp Converter -->
+            <div class="tool-card" style="--card-accent: var(--orange); --icon-bg: rgba(251,146,60,0.12);" data-keywords="timestamp unix converter date time timezone epoch">
+                <div class="card-top">
+                    <div class="card-icon">&#128340;</div>
+                    <div>
+                        <div class="card-title">Timestamp Converter</div>
+                        <div class="card-repo">linpap/timestamp</div>
+                    </div>
+                </div>
+                <div class="card-desc">Unix timestamp converter with multiple date formats, timezone support, live clock. Convert between Unix epoch, ISO 8601, RFC 2822, and human-readable formats.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Multiple Formats</span>
+                    <span class="feature-tag">Timezone Support</span>
+                    <span class="feature-tag">Live Clock</span>
+                    <span class="feature-tag">Epoch Convert</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/timestamp/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/timestamp" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 28. Slug Generator -->
+            <div class="tool-card" style="--card-accent: var(--cyan); --icon-bg: rgba(34,211,238,0.12);" data-keywords="slug generator url friendly seo transliteration bulk">
+                <div class="card-top">
+                    <div class="card-icon">&#128279;</div>
+                    <div>
+                        <div class="card-title">Slug Generator</div>
+                        <div class="card-repo">linpap/slug-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">URL slug generator with transliteration, bulk mode, and URL preview. Convert titles and text into clean, SEO-friendly URL slugs with customizable separators.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Transliteration</span>
+                    <span class="feature-tag">Bulk Mode</span>
+                    <span class="feature-tag">URL Preview</span>
+                    <span class="feature-tag">Custom Separators</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/slug-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/slug-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 29. Meta Tag Generator -->
+            <div class="tool-card" style="--card-accent: var(--pink); --icon-bg: rgba(244,114,182,0.12);" data-keywords="meta tag generator seo og open graph twitter card html head">
+                <div class="card-top">
+                    <div class="card-icon">&#127991;</div>
+                    <div>
+                        <div class="card-title">Meta Tag Generator</div>
+                        <div class="card-repo">linpap/meta-tags</div>
+                    </div>
+                </div>
+                <div class="card-desc">HTML meta tag generator with OG, Twitter Card, Google search preview. Fill in your page details and get ready-to-paste meta tags for optimal SEO and social sharing.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Open Graph</span>
+                    <span class="feature-tag">Twitter Card</span>
+                    <span class="feature-tag">Google Preview</span>
+                    <span class="feature-tag">Copy HTML</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/meta-tags/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/meta-tags" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 30. Open Graph Preview -->
+            <div class="tool-card" style="--card-accent: var(--indigo); --icon-bg: rgba(129,140,248,0.12);" data-keywords="open graph preview social media card facebook twitter linkedin discord slack">
+                <div class="card-top">
+                    <div class="card-icon">&#128065;</div>
+                    <div>
+                        <div class="card-title">Open Graph Preview</div>
+                        <div class="card-repo">linpap/og-preview</div>
+                    </div>
+                </div>
+                <div class="card-desc">Social media card preview for Facebook, Twitter, LinkedIn, Discord, Slack, iMessage. See exactly how your links will appear when shared across 6 major platforms.</div>
+                <div class="card-features">
+                    <span class="feature-tag">6 Platforms</span>
+                    <span class="feature-tag">Live Preview</span>
+                    <span class="feature-tag">Card Layouts</span>
+                    <span class="feature-tag">Image Upload</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/og-preview/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/og-preview" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 31. HTML Table Generator -->
+            <div class="tool-card" style="--card-accent: var(--yellow); --icon-bg: rgba(251,191,36,0.12);" data-keywords="html table generator builder merge cells export markdown csv">
+                <div class="card-top">
+                    <div class="card-icon">&#128202;</div>
+                    <div>
+                        <div class="card-title">HTML Table Generator</div>
+                        <div class="card-repo">linpap/table-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual table builder with merge cells, export as HTML/Markdown/CSV. Add rows and columns, edit cell content inline, and style your tables with built-in themes.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Merge Cells</span>
+                    <span class="feature-tag">HTML / Markdown</span>
+                    <span class="feature-tag">CSV Export</span>
+                    <span class="feature-tag">Inline Edit</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/table-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/table-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 32. Favicon Generator -->
+            <div class="tool-card" style="--card-accent: var(--red); --icon-bg: rgba(248,113,113,0.12);" data-keywords="favicon generator icon text emoji ico png svg download">
+                <div class="card-top">
+                    <div class="card-icon">&#11088;</div>
+                    <div>
+                        <div class="card-title">Favicon Generator</div>
+                        <div class="card-repo">linpap/favicon-gen</div>
+                    </div>
+                </div>
+                <div class="card-desc">Text/emoji favicon creator with multi-size preview, ICO/PNG/SVG download. Type a letter or pick an emoji to generate favicons for all standard sizes.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Text / Emoji</span>
+                    <span class="feature-tag">Multi-size</span>
+                    <span class="feature-tag">ICO / PNG / SVG</span>
+                    <span class="feature-tag">Live Preview</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/favicon-gen/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/favicon-gen" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 33. Placeholder Image Generator -->
+            <div class="tool-card" style="--card-accent: var(--teal); --icon-bg: rgba(45,212,191,0.12);" data-keywords="placeholder image generator canvas preset sizes batch download">
+                <div class="card-top">
+                    <div class="card-icon">&#128444;</div>
+                    <div>
+                        <div class="card-title">Placeholder Image Generator</div>
+                        <div class="card-repo">linpap/placeholder-img</div>
+                    </div>
+                </div>
+                <div class="card-desc">Canvas-based placeholder image generator with preset sizes, batch mode. Create custom placeholder images with text overlays, colors, and dimensions for mockups.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Canvas-based</span>
+                    <span class="feature-tag">Preset Sizes</span>
+                    <span class="feature-tag">Batch Mode</span>
+                    <span class="feature-tag">PNG Download</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/placeholder-img/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/placeholder-img" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 34. Button Generator -->
+            <div class="tool-card" style="--card-accent: var(--rose); --icon-bg: rgba(251,113,133,0.12);" data-keywords="button generator css hover states gradients shadows presets">
+                <div class="card-top">
+                    <div class="card-icon">&#128307;</div>
+                    <div>
+                        <div class="card-title">Button Generator</div>
+                        <div class="card-repo">linpap/button-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">CSS button builder with hover states, gradients, shadows, 8 presets. Design custom buttons with border-radius, padding, font controls, and transition effects.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Hover States</span>
+                    <span class="feature-tag">Gradients</span>
+                    <span class="feature-tag">8 Presets</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/button-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/button-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 35. Typography Scale Generator -->
+            <div class="tool-card" style="--card-accent: var(--purple); --icon-bg: rgba(167,139,250,0.12);" data-keywords="typography scale generator modular ratio font size css custom properties">
+                <div class="card-top">
+                    <div class="card-icon">&#128288;</div>
+                    <div>
+                        <div class="card-title">Typography Scale Generator</div>
+                        <div class="card-repo">linpap/type-scale</div>
+                    </div>
+                </div>
+                <div class="card-desc">Modular type scale generator with 8 named ratios and CSS custom properties output. Preview heading sizes from h1 to h6 with your chosen scale ratio and base size.</div>
+                <div class="card-features">
+                    <span class="feature-tag">8 Ratios</span>
+                    <span class="feature-tag">CSS Variables</span>
+                    <span class="feature-tag">Live Preview</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/type-scale/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/type-scale" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 36. Spacing Calculator -->
+            <div class="tool-card" style="--card-accent: var(--blue); --icon-bg: rgba(96,165,250,0.12);" data-keywords="spacing calculator css scale box model tailwind margin padding">
+                <div class="card-top">
+                    <div class="card-icon">&#8614;</div>
+                    <div>
+                        <div class="card-title">Spacing Calculator</div>
+                        <div class="card-repo">linpap/spacing-calc</div>
+                    </div>
+                </div>
+                <div class="card-desc">CSS spacing scale generator with box model demo and Tailwind comparison. Build consistent spacing systems with configurable base units and scale multipliers.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Box Model Demo</span>
+                    <span class="feature-tag">Tailwind Compare</span>
+                    <span class="feature-tag">Scale Generator</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/spacing-calc/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/spacing-calc" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 37. SVG Editor -->
+            <div class="tool-card" style="--card-accent: var(--green); --icon-bg: rgba(52,211,153,0.12);" data-keywords="svg editor optimizer preview attributes data uri base64">
+                <div class="card-top">
+                    <div class="card-icon">&#9883;</div>
+                    <div>
+                        <div class="card-title">SVG Editor</div>
+                        <div class="card-repo">linpap/svg-editor</div>
+                    </div>
+                </div>
+                <div class="card-desc">SVG optimizer with live preview, attribute editing, data URI/base64 export. Paste SVG markup, strip unnecessary attributes, and export optimized code or data URIs.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Live Preview</span>
+                    <span class="feature-tag">Attribute Edit</span>
+                    <span class="feature-tag">Data URI</span>
+                    <span class="feature-tag">Optimizer</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/svg-editor/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/svg-editor" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 38. CSS Minifier -->
+            <div class="tool-card" style="--card-accent: var(--orange); --icon-bg: rgba(251,146,60,0.12);" data-keywords="css minifier beautifier syntax highlighting file stats upload">
+                <div class="card-top">
+                    <div class="card-icon">&#128230;</div>
+                    <div>
+                        <div class="card-title">CSS Minifier</div>
+                        <div class="card-repo">linpap/css-minifier</div>
+                    </div>
+                </div>
+                <div class="card-desc">CSS minifier/beautifier with syntax highlighting, file stats, upload/download. Compress your CSS to reduce file size or beautify minified code for readability.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Minify / Beautify</span>
+                    <span class="feature-tag">Syntax Highlight</span>
+                    <span class="feature-tag">File Stats</span>
+                    <span class="feature-tag">Upload / Download</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/css-minifier/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/css-minifier" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 39. JS Minifier -->
+            <div class="tool-card" style="--card-accent: var(--yellow); --icon-bg: rgba(251,191,36,0.12);" data-keywords="javascript js minifier beautifier syntax highlighting file stats">
+                <div class="card-top">
+                    <div class="card-icon">&#9889;</div>
+                    <div>
+                        <div class="card-title">JS Minifier</div>
+                        <div class="card-repo">linpap/js-minifier</div>
+                    </div>
+                </div>
+                <div class="card-desc">JavaScript minifier/beautifier with syntax highlighting and file stats. Compress JS code for production or format minified scripts for debugging and review.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Minify / Beautify</span>
+                    <span class="feature-tag">Syntax Highlight</span>
+                    <span class="feature-tag">File Stats</span>
+                    <span class="feature-tag">Upload / Download</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/js-minifier/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/js-minifier" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 40. Responsive Tester -->
+            <div class="tool-card" style="--card-accent: var(--cyan); --icon-bg: rgba(34,211,238,0.12);" data-keywords="responsive tester design device presets zoom ruler mobile tablet">
+                <div class="card-top">
+                    <div class="card-icon">&#128241;</div>
+                    <div>
+                        <div class="card-title">Responsive Tester</div>
+                        <div class="card-repo">linpap/responsive-tester</div>
+                    </div>
+                </div>
+                <div class="card-desc">Responsive design tester with device presets, zoom, and ruler overlay. Preview any URL in phone, tablet, and desktop viewports side by side.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Device Presets</span>
+                    <span class="feature-tag">Zoom Control</span>
+                    <span class="feature-tag">Ruler Overlay</span>
+                    <span class="feature-tag">Live URL</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/responsive-tester/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/responsive-tester" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 41. Form Builder -->
+            <div class="tool-card" style="--card-accent: var(--pink); --icon-bg: rgba(244,114,182,0.12);" data-keywords="form builder drag drop html elements input select checkbox radio themes">
+                <div class="card-top">
+                    <div class="card-icon">&#128196;</div>
+                    <div>
+                        <div class="card-title">Form Builder</div>
+                        <div class="card-repo">linpap/form-builder</div>
+                    </div>
+                </div>
+                <div class="card-desc">Drag-and-drop HTML form builder with 12 element types and 4 style themes. Build forms visually with inputs, selects, checkboxes, radios, and more.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Drag & Drop</span>
+                    <span class="feature-tag">12 Elements</span>
+                    <span class="feature-tag">4 Themes</span>
+                    <span class="feature-tag">Export HTML</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/form-builder/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/form-builder" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 42. Card Generator -->
+            <div class="tool-card" style="--card-accent: var(--amber); --icon-bg: rgba(245,158,11,0.12);" data-keywords="card generator css component layout variants hover effects presets">
+                <div class="card-top">
+                    <div class="card-icon">&#127183;</div>
+                    <div>
+                        <div class="card-title">Card Generator</div>
+                        <div class="card-repo">linpap/card-generator</div>
+                    </div>
+                </div>
+                <div class="card-desc">CSS card component builder with layout variants, hover effects, 6 presets. Design card UIs with image, title, description, and action button arrangements.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Layout Variants</span>
+                    <span class="feature-tag">Hover Effects</span>
+                    <span class="feature-tag">6 Presets</span>
+                    <span class="feature-tag">Copy CSS</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/card-generator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/card-generator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 43. Robots.txt Generator -->
+            <div class="tool-card" style="--card-accent: var(--red); --icon-bg: rgba(248,113,113,0.12);" data-keywords="robots txt generator crawler blocking validation presets ai bots">
+                <div class="card-top">
+                    <div class="card-icon">&#129302;</div>
+                    <div>
+                        <div class="card-title">Robots.txt Generator</div>
+                        <div class="card-repo">linpap/robots-txt</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual robots.txt builder with AI crawler blocking, validation, presets. Configure user-agent rules, disallow paths, and generate a standards-compliant robots.txt file.</div>
+                <div class="card-features">
+                    <span class="feature-tag">AI Crawler Block</span>
+                    <span class="feature-tag">Validation</span>
+                    <span class="feature-tag">Presets</span>
+                    <span class="feature-tag">Download</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/robots-txt/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/robots-txt" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 44. CSS Variable Manager -->
+            <div class="tool-card" style="--card-accent: var(--indigo); --icon-bg: rgba(129,140,248,0.12);" data-keywords="css variables custom properties design tokens manager import export scss json">
+                <div class="card-top">
+                    <div class="card-icon">&#127912;</div>
+                    <div>
+                        <div class="card-title">CSS Variable Manager</div>
+                        <div class="card-repo">linpap/css-variables</div>
+                    </div>
+                </div>
+                <div class="card-desc">Design token manager with categories, live preview, import/export CSS/SCSS/JSON. Organize your CSS custom properties into color, spacing, typography, and more.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Categories</span>
+                    <span class="feature-tag">Live Preview</span>
+                    <span class="feature-tag">Import / Export</span>
+                    <span class="feature-tag">CSS / SCSS / JSON</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/css-variables/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/css-variables" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 45. Aspect Ratio Calculator -->
+            <div class="tool-card" style="--card-accent: var(--teal); --icon-bg: rgba(45,212,191,0.12);" data-keywords="aspect ratio calculator css lock resolution table comparison video image">
+                <div class="card-top">
+                    <div class="card-icon">&#128187;</div>
+                    <div>
+                        <div class="card-title">Aspect Ratio Calculator</div>
+                        <div class="card-repo">linpap/aspect-ratio</div>
+                    </div>
+                </div>
+                <div class="card-desc">Aspect ratio calculator with lock ratio, CSS output, resolution table, comparison. Calculate dimensions, convert between ratios, and generate CSS aspect-ratio code.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Lock Ratio</span>
+                    <span class="feature-tag">CSS Output</span>
+                    <span class="feature-tag">Resolution Table</span>
+                    <span class="feature-tag">Comparison</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/aspect-ratio/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/aspect-ratio" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 46. Tailwind Class Builder -->
+            <div class="tool-card" style="--card-accent: var(--purple); --icon-bg: rgba(167,139,250,0.12);" data-keywords="tailwind css class builder visual utility preview output">
+                <div class="card-top">
+                    <div class="card-icon">&#128296;</div>
+                    <div>
+                        <div class="card-title">Tailwind Class Builder</div>
+                        <div class="card-repo">linpap/tailwind-builder</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual Tailwind CSS class builder with 280+ classes, live preview, CSS output. Browse utility classes by category, compose them visually, and see the generated CSS.</div>
+                <div class="card-features">
+                    <span class="feature-tag">280+ Classes</span>
+                    <span class="feature-tag">Live Preview</span>
+                    <span class="feature-tag">CSS Output</span>
+                    <span class="feature-tag">Category Browse</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/tailwind-builder/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/tailwind-builder" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 47. Image Compressor -->
+            <div class="tool-card" style="--card-accent: var(--green); --icon-bg: rgba(52,211,153,0.12);" data-keywords="image compressor resize format conversion before after preview client side">
+                <div class="card-top">
+                    <div class="card-icon">&#128248;</div>
+                    <div>
+                        <div class="card-title">Image Compressor</div>
+                        <div class="card-repo">linpap/image-compressor</div>
+                    </div>
+                </div>
+                <div class="card-desc">Client-side image compressor with before/after preview, resize, format conversion. Reduce file sizes without uploading to any server. Supports JPEG, PNG, and WebP.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Before / After</span>
+                    <span class="feature-tag">Resize</span>
+                    <span class="feature-tag">Format Convert</span>
+                    <span class="feature-tag">Client-side</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/image-compressor/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/image-compressor" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- 48. Keyframe Animator -->
+            <div class="tool-card" style="--card-accent: var(--pink); --icon-bg: rgba(244,114,182,0.12);" data-keywords="keyframe animator css timeline onion skinning interpolation visual">
+                <div class="card-top">
+                    <div class="card-icon">&#127910;</div>
+                    <div>
+                        <div class="card-title">Keyframe Animator</div>
+                        <div class="card-repo">linpap/keyframe-animator</div>
+                    </div>
+                </div>
+                <div class="card-desc">Visual CSS keyframe animator with timeline, onion skinning, interpolation. Create frame-by-frame animations with a visual timeline and export clean @keyframes CSS.</div>
+                <div class="card-features">
+                    <span class="feature-tag">Timeline</span>
+                    <span class="feature-tag">Onion Skinning</span>
+                    <span class="feature-tag">Interpolation</span>
+                    <span class="feature-tag">@keyframes</span>
+                </div>
+                <div class="card-actions">
+                    <a class="card-btn launch" href="https://linpap.github.io/keyframe-animator/" target="_blank">Launch Tool</a>
+                    <a class="card-btn source" href="https://github.com/linpap/keyframe-animator" target="_blank">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Source
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="no-results" id="noResults">
+            No tools match your search.
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/linpap" target="_blank">GitHub</a>
+            <a href="https://github.com/linpap/dev-toolbox" target="_blank">Source</a>
+        </div>
+        <p>Built with HTML, CSS &amp; JavaScript &mdash; no frameworks, no tracking.</p>
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.tool-card');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.toLowerCase().trim();
+            let visible = 0;
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+                const keywords = (card.dataset.keywords || '').toLowerCase();
+                const match = !q || title.includes(q) || desc.includes(q) || keywords.includes(q);
+
+                card.classList.toggle('hidden', !match);
+                if (match) visible++;
+            });
+
+            noResults.classList.toggle('show', visible === 0);
+        });
+    </script>
+</body>
+</html>

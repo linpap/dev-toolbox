@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PX to REM Converter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>px <span class="accent">&harr;</span> rem</h1>
+      <p class="subtitle">Unit Converter</p>
+    </header>
+
+    <!-- Base Font Size -->
+    <section class="base-size-section">
+      <label for="baseSlider">Base font size: <strong id="baseValue">16</strong>px</label>
+      <div class="slider-row">
+        <input type="range" id="baseSlider" min="8" max="32" value="16" step="1">
+      </div>
+    </section>
+
+    <!-- Main Converter -->
+    <section class="converter-section">
+      <div class="input-group">
+        <label for="pxInput">PX</label>
+        <div class="input-wrap">
+          <input type="number" id="pxInput" placeholder="16" step="any">
+          <button class="copy-btn" data-target="pxInput" title="Copy value">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="swap-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16l-4-4 4-4"/><path d="M17 8l4 4-4 4"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+      </div>
+      <div class="input-group">
+        <label for="remInput">REM</label>
+        <div class="input-wrap">
+          <input type="number" id="remInput" placeholder="1" step="any">
+          <button class="copy-btn" data-target="remInput" title="Copy value">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extra Units -->
+    <section class="extra-units-section">
+      <h2>More Units</h2>
+      <div class="extra-grid">
+        <div class="extra-unit">
+          <label for="emInput">EM</label>
+          <div class="input-wrap">
+            <input type="number" id="emInput" placeholder="1" step="any">
+            <button class="copy-btn" data-target="emInput" title="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+          </div>
+        </div>
+        <div class="extra-unit">
+          <label for="ptInput">PT</label>
+          <div class="input-wrap">
+            <input type="number" id="ptInput" placeholder="12" step="any">
+            <button class="copy-btn" data-target="ptInput" title="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+          </div>
+        </div>
+        <div class="extra-unit">
+          <label for="vhInput">VH</label>
+          <div class="input-wrap">
+            <input type="number" id="vhInput" placeholder="—" step="any">
+            <button class="copy-btn" data-target="vhInput" title="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+          </div>
+        </div>
+        <div class="extra-unit">
+          <label for="vwInput">VW</label>
+          <div class="input-wrap">
+            <input type="number" id="vwInput" placeholder="—" step="any">
+            <button class="copy-btn" data-target="vwInput" title="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conversion Table -->
+    <section class="table-section">
+      <h2>Conversion Table</h2>
+      <div class="table-wrap">
+        <table id="conversionTable">
+          <thead>
+            <tr>
+              <th>PX</th>
+              <th>REM</th>
+              <th>EM</th>
+              <th>PT</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CSS Block Converter -->
+    <section class="css-converter-section">
+      <h2>CSS Block Converter</h2>
+      <p class="hint">Paste a CSS block below to convert all px values to rem.</p>
+      <div class="css-converter-grid">
+        <div class="css-col">
+          <label for="cssInput">Input (px)</label>
+          <textarea id="cssInput" rows="10" placeholder=".card {
+  padding: 24px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  border-radius: 8px;
+}"></textarea>
+        </div>
+        <div class="css-col">
+          <label for="cssOutput">Output (rem)</label>
+          <textarea id="cssOutput" rows="10" readonly placeholder="Converted CSS will appear here..."></textarea>
+          <button class="copy-output-btn" id="copyCssOutput">Copy Output</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Click any table cell or use the copy buttons to copy values.</p>
+    </footer>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

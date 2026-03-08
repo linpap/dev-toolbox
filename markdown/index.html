@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to HTML Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>MD <span class="accent">&#8594;</span> HTML</h1>
+            <p class="subtitle">Paste or drop your markdown. Get beautiful HTML.</p>
+            <div class="controls">
+                <div class="theme-selector">
+                    <button class="theme-btn active" data-theme="clean">Clean</button>
+                    <button class="theme-btn" data-theme="blog">Blog</button>
+                    <button class="theme-btn" data-theme="dark">Dark</button>
+                </div>
+                <div class="actions">
+                    <button id="copyBtn" class="action-btn">Copy HTML</button>
+                    <button id="downloadBtn" class="action-btn">Download</button>
+                    <label class="action-btn upload-label" for="fileInput">Upload .md</label>
+                    <input type="file" id="fileInput" accept=".md,.markdown,.txt" hidden>
+                </div>
+            </div>
+        </header>
+
+        <div class="editor-container">
+            <div class="panel input-panel">
+                <div class="panel-header">Markdown</div>
+                <textarea id="markdownInput" placeholder="# Hello World
+
+Write your markdown here...
+
+## Features
+- **Bold** and *italic* text
+- [Links](https://example.com)
+- Code blocks with syntax highlighting
+- Tables, lists, and more
+
+```javascript
+console.log('Hello!');
+```
+
+| Column 1 | Column 2 |
+|----------|----------|
+| Data     | Data     |
+"></textarea>
+            </div>
+            <div class="panel preview-panel">
+                <div class="panel-header">Preview</div>
+                <div id="preview" class="preview-content theme-clean">
+                    <div class="empty-state">
+                        <p>Your rendered HTML will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="drop-overlay" id="dropOverlay">
+            <div class="drop-message">Drop your .md file here</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github.min.css" id="hljs-light">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark.min.css" id="hljs-dark" disabled>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter & Validator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>JSON <span class="accent">{ }</span> Formatter</h1>
+            <p class="subtitle">Paste your JSON. Format, validate, and explore.</p>
+        </header>
+
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <button id="formatBtn" class="tool-btn primary">Format</button>
+                <button id="minifyBtn" class="tool-btn">Minify</button>
+                <button id="copyBtn" class="tool-btn">Copy</button>
+                <button id="clearBtn" class="tool-btn">Clear</button>
+            </div>
+            <div class="toolbar-group">
+                <div class="tab-selector">
+                    <label>Indent:</label>
+                    <button class="tab-btn active" data-size="2">2</button>
+                    <button class="tab-btn" data-size="4">4</button>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="code">Code</button>
+                    <button class="view-btn" data-view="tree">Tree</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="validationBar" class="validation-bar">
+            <span class="validation-icon"></span>
+            <span class="validation-message">Paste JSON to validate</span>
+        </div>
+
+        <div class="editor-container">
+            <div class="panel input-panel">
+                <div class="panel-header">Input</div>
+                <textarea id="jsonInput" placeholder='{"name": "example", "value": 42, "nested": {"key": "value"}, "list": [1, 2, 3]}' spellcheck="false"></textarea>
+            </div>
+            <div class="panel output-panel">
+                <div class="panel-header">Output</div>
+                <div id="output" class="output-content">
+                    <div class="empty-state">Formatted output will appear here</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

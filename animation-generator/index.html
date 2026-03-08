@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Animation Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="logo">CSS Animation Generator</h1>
+      <div class="presets-bar">
+        <span class="presets-label">Presets</span>
+        <div class="preset-chips" id="presetChips"></div>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Left: Preview + Timeline -->
+      <section class="left-panel">
+        <div class="panel preview-panel">
+          <div class="panel-header">
+            <h2>Preview</h2>
+            <div class="playback-controls">
+              <button id="btnPlay" class="btn-icon" title="Play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+              <button id="btnPause" class="btn-icon" title="Pause"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg></button>
+              <button id="btnRestart" class="btn-icon" title="Restart"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></button>
+            </div>
+          </div>
+          <div class="preview-stage" id="previewStage">
+            <div class="animated-element" id="animatedElement"></div>
+          </div>
+        </div>
+
+        <div class="panel timeline-panel">
+          <div class="panel-header">
+            <h2>Keyframe Timeline</h2>
+          </div>
+          <div class="timeline-wrapper">
+            <div class="timeline-track" id="timelineTrack">
+              <div class="timeline-bar"></div>
+            </div>
+            <div class="timeline-labels" id="timelineLabels"></div>
+          </div>
+        </div>
+
+        <!-- Keyframe Properties -->
+        <div class="panel keyframe-props-panel" id="keyframePropsPanel">
+          <div class="panel-header">
+            <h2>Keyframe: <span id="activeKeyframeLabel">0%</span></h2>
+          </div>
+          <div class="props-grid">
+            <div class="prop-group">
+              <label>Translate X <span class="unit">px</span></label>
+              <input type="range" min="-300" max="300" value="0" data-prop="translateX" class="kf-input range-input">
+              <input type="number" value="0" data-prop="translateX" class="kf-input num-input">
+            </div>
+            <div class="prop-group">
+              <label>Translate Y <span class="unit">px</span></label>
+              <input type="range" min="-300" max="300" value="0" data-prop="translateY" class="kf-input range-input">
+              <input type="number" value="0" data-prop="translateY" class="kf-input num-input">
+            </div>
+            <div class="prop-group">
+              <label>Rotate <span class="unit">deg</span></label>
+              <input type="range" min="-360" max="360" value="0" data-prop="rotate" class="kf-input range-input">
+              <input type="number" value="0" data-prop="rotate" class="kf-input num-input">
+            </div>
+            <div class="prop-group">
+              <label>Scale</label>
+              <input type="range" min="0" max="3" step="0.05" value="1" data-prop="scale" class="kf-input range-input">
+              <input type="number" step="0.05" value="1" data-prop="scale" class="kf-input num-input">
+            </div>
+            <div class="prop-group">
+              <label>Opacity</label>
+              <input type="range" min="0" max="1" step="0.01" value="1" data-prop="opacity" class="kf-input range-input">
+              <input type="number" step="0.01" min="0" max="1" value="1" data-prop="opacity" class="kf-input num-input">
+            </div>
+            <div class="prop-group">
+              <label>Background</label>
+              <input type="color" value="#6c5ce7" data-prop="backgroundColor" class="kf-input color-input">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Animation Properties + Output -->
+      <section class="right-panel">
+        <div class="panel anim-props-panel">
+          <div class="panel-header"><h2>Animation Properties</h2></div>
+          <div class="anim-props-grid">
+            <div class="prop-group">
+              <label>Duration <span class="unit">s</span></label>
+              <input type="range" min="0.1" max="10" step="0.1" value="1" id="animDuration" class="range-input">
+              <input type="number" min="0.1" max="10" step="0.1" value="1" id="animDurationNum" class="num-input">
+            </div>
+            <div class="prop-group">
+              <label>Delay <span class="unit">s</span></label>
+              <input type="range" min="0" max="5" step="0.1" value="0" id="animDelay" class="range-input">
+              <input type="number" min="0" max="5" step="0.1" value="0" id="animDelayNum" class="num-input">
+            </div>
+            <div class="prop-group">
+              <label>Iteration Count</label>
+              <div class="iter-row">
+                <input type="number" min="1" max="100" value="1" id="animIterations" class="num-input">
+                <label class="checkbox-label"><input type="checkbox" id="animInfinite"> Infinite</label>
+              </div>
+            </div>
+            <div class="prop-group">
+              <label>Direction</label>
+              <select id="animDirection" class="select-input">
+                <option value="normal">normal</option>
+                <option value="reverse">reverse</option>
+                <option value="alternate">alternate</option>
+                <option value="alternate-reverse">alternate-reverse</option>
+              </select>
+            </div>
+            <div class="prop-group">
+              <label>Fill Mode</label>
+              <select id="animFillMode" class="select-input">
+                <option value="none">none</option>
+                <option value="forwards">forwards</option>
+                <option value="backwards">backwards</option>
+                <option value="both">both</option>
+              </select>
+            </div>
+            <div class="prop-group prop-group-full">
+              <label>Timing Function</label>
+              <div class="timing-row">
+                <select id="animTiming" class="select-input">
+                  <option value="ease">ease</option>
+                  <option value="linear">linear</option>
+                  <option value="ease-in">ease-in</option>
+                  <option value="ease-out">ease-out</option>
+                  <option value="ease-in-out">ease-in-out</option>
+                  <option value="custom">custom cubic-bezier</option>
+                </select>
+              </div>
+              <div class="bezier-editor" id="bezierEditor" style="display:none;">
+                <canvas id="bezierCanvas" width="180" height="180"></canvas>
+                <div class="bezier-values">
+                  <label>x1 <input type="number" step="0.01" min="0" max="1" value="0.25" id="bx1" class="num-input"></label>
+                  <label>y1 <input type="number" step="0.01" min="-1" max="2" value="0.1" id="by1" class="num-input"></label>
+                  <label>x2 <input type="number" step="0.01" min="0" max="1" value="0.25" id="bx2" class="num-input"></label>
+                  <label>y2 <input type="number" step="0.01" min="-1" max="2" value="1" id="by2" class="num-input"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel output-panel">
+          <div class="panel-header">
+            <h2>CSS Output</h2>
+            <button class="btn-copy" id="btnCopy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy CSS
+            </button>
+          </div>
+          <pre class="code-output" id="codeOutput"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

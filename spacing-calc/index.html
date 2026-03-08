@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Spacing / Sizing Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Spacing <span class="accent">/</span> Sizing Calculator</h1>
+      <p class="subtitle">Generate consistent spacing scales for your design system</p>
+    </header>
+
+    <section class="config-section">
+      <div class="config-row">
+        <div class="config-field">
+          <label for="base-unit">Base Unit</label>
+          <div class="input-group">
+            <input type="number" id="base-unit" value="4" min="1" max="32" step="1">
+            <span class="input-suffix">px</span>
+          </div>
+        </div>
+        <div class="config-field">
+          <label for="rem-base">Root Font Size</label>
+          <div class="input-group">
+            <input type="number" id="rem-base" value="16" min="1" max="32" step="1">
+            <span class="input-suffix">px</span>
+          </div>
+        </div>
+        <div class="preset-buttons">
+          <button class="preset-btn active" data-base="4">4px Base</button>
+          <button class="preset-btn" data-base="8">8px Base</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="scale-section">
+      <div class="section-header">
+        <h2>Spacing Scale</h2>
+        <p class="hint">Click any value to copy it</p>
+      </div>
+      <div class="scale-table-wrap">
+        <table class="scale-table">
+          <thead>
+            <tr>
+              <th>Step</th>
+              <th>px</th>
+              <th>rem</th>
+              <th>em</th>
+              <th class="tailwind-col">Tailwind</th>
+              <th class="bar-col">Preview</th>
+            </tr>
+          </thead>
+          <tbody id="scale-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="box-model-section">
+      <div class="section-header">
+        <h2>Box Model Demo</h2>
+        <p class="hint">Edit the values to visualize spacing</p>
+      </div>
+      <div class="box-model-layout">
+        <div class="box-model-visual">
+          <div class="box-margin" id="box-margin">
+            <span class="box-label">margin</span>
+            <div class="box-border" id="box-border">
+              <span class="box-label">border</span>
+              <div class="box-padding" id="box-padding">
+                <span class="box-label">padding</span>
+                <div class="box-content" id="box-content">
+                  <span class="box-label">content</span>
+                  <span class="box-dims" id="box-dims"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-model-controls">
+          <div class="box-control-group">
+            <h3>Margin</h3>
+            <div class="box-inputs">
+              <div class="box-input-field">
+                <label>Top</label>
+                <input type="number" data-box="margin" data-side="top" value="24" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Right</label>
+                <input type="number" data-box="margin" data-side="right" value="24" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Bottom</label>
+                <input type="number" data-box="margin" data-side="bottom" value="24" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Left</label>
+                <input type="number" data-box="margin" data-side="left" value="24" min="0">
+              </div>
+            </div>
+          </div>
+          <div class="box-control-group">
+            <h3>Border</h3>
+            <div class="box-inputs">
+              <div class="box-input-field">
+                <label>Top</label>
+                <input type="number" data-box="border" data-side="top" value="2" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Right</label>
+                <input type="number" data-box="border" data-side="right" value="2" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Bottom</label>
+                <input type="number" data-box="border" data-side="bottom" value="2" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Left</label>
+                <input type="number" data-box="border" data-side="left" value="2" min="0">
+              </div>
+            </div>
+          </div>
+          <div class="box-control-group">
+            <h3>Padding</h3>
+            <div class="box-inputs">
+              <div class="box-input-field">
+                <label>Top</label>
+                <input type="number" data-box="padding" data-side="top" value="16" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Right</label>
+                <input type="number" data-box="padding" data-side="right" value="16" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Bottom</label>
+                <input type="number" data-box="padding" data-side="bottom" value="16" min="0">
+              </div>
+              <div class="box-input-field">
+                <label>Left</label>
+                <input type="number" data-box="padding" data-side="left" value="16" min="0">
+              </div>
+            </div>
+          </div>
+          <div class="box-control-group">
+            <h3>Content</h3>
+            <div class="box-inputs">
+              <div class="box-input-field">
+                <label>Width</label>
+                <input type="number" id="content-width" value="120" min="20">
+              </div>
+              <div class="box-input-field">
+                <label>Height</label>
+                <input type="number" id="content-height" value="60" min="20">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="output-section">
+      <div class="section-header">
+        <h2>CSS Custom Properties</h2>
+        <button class="copy-btn" id="copy-css-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          Copy CSS
+        </button>
+      </div>
+      <pre class="code-block" id="css-output"></pre>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Regex<span class="dot">.</span></h1>
+            <p class="subtitle">Test, match, and replace with regular expressions in real time</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="center-panel">
+                <!-- Regex Input -->
+                <div class="regex-input-section">
+                    <div class="section-label">Pattern</div>
+                    <div class="regex-row">
+                        <span class="regex-delim">/</span>
+                        <input type="text" id="regexInput" class="regex-input" placeholder="Enter regex pattern..." spellcheck="false" autocomplete="off">
+                        <span class="regex-delim">/</span>
+                        <div class="flags-group">
+                            <button class="flag-btn active" data-flag="g" title="Global">g</button>
+                            <button class="flag-btn" data-flag="i" title="Case insensitive">i</button>
+                            <button class="flag-btn" data-flag="m" title="Multiline">m</button>
+                            <button class="flag-btn" data-flag="s" title="Dotall (dot matches newline)">s</button>
+                        </div>
+                        <button id="copyRegex" class="btn small copy-btn" title="Copy regex">Copy</button>
+                    </div>
+                    <div id="regexError" class="regex-error"></div>
+                </div>
+
+                <!-- Test String -->
+                <div class="test-section">
+                    <div class="section-label">Test String</div>
+                    <div class="test-area-wrapper">
+                        <div id="highlightLayer" class="highlight-layer"></div>
+                        <textarea id="testString" class="test-textarea" placeholder="Enter test string..." spellcheck="false"></textarea>
+                    </div>
+                </div>
+
+                <!-- Match Count -->
+                <div class="match-info">
+                    <span id="matchCount" class="match-count">0 matches</span>
+                    <span id="matchTime" class="match-time"></span>
+                </div>
+
+                <!-- Match Results -->
+                <div class="results-section">
+                    <div class="section-label">Match Results</div>
+                    <div id="matchResults" class="match-results">
+                        <div class="empty-state">Enter a pattern and test string to see matches</div>
+                    </div>
+                </div>
+
+                <!-- Replace -->
+                <div class="replace-section">
+                    <div class="section-label">Replace</div>
+                    <div class="replace-row">
+                        <input type="text" id="replaceInput" class="replace-input" placeholder="Replacement string (supports $1, $2, etc.)" spellcheck="false">
+                    </div>
+                    <div class="section-label sub">Replaced Output</div>
+                    <div id="replaceOutput" class="replace-output">
+                        <span class="empty-state-inline">Enter a replacement string above</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="section-label">Cheatsheet</div>
+                <div class="cheatsheet">
+                    <div class="cheat-category">
+                        <div class="cheat-title">Character Classes</div>
+                        <div class="cheat-item" data-pattern="."><code>.</code><span>Any character</span></div>
+                        <div class="cheat-item" data-pattern="\\w"><code>\w</code><span>Word character</span></div>
+                        <div class="cheat-item" data-pattern="\\W"><code>\W</code><span>Non-word character</span></div>
+                        <div class="cheat-item" data-pattern="\\d"><code>\d</code><span>Digit</span></div>
+                        <div class="cheat-item" data-pattern="\\D"><code>\D</code><span>Non-digit</span></div>
+                        <div class="cheat-item" data-pattern="\\s"><code>\s</code><span>Whitespace</span></div>
+                        <div class="cheat-item" data-pattern="\\S"><code>\S</code><span>Non-whitespace</span></div>
+                        <div class="cheat-item" data-pattern="[abc]"><code>[abc]</code><span>Character set</span></div>
+                        <div class="cheat-item" data-pattern="[^abc]"><code>[^abc]</code><span>Negated set</span></div>
+                        <div class="cheat-item" data-pattern="[a-z]"><code>[a-z]</code><span>Range</span></div>
+                    </div>
+                    <div class="cheat-category">
+                        <div class="cheat-title">Quantifiers</div>
+                        <div class="cheat-item" data-pattern="*"><code>*</code><span>0 or more</span></div>
+                        <div class="cheat-item" data-pattern="+"><code>+</code><span>1 or more</span></div>
+                        <div class="cheat-item" data-pattern="?"><code>?</code><span>0 or 1</span></div>
+                        <div class="cheat-item" data-pattern="{n}"><code>{n}</code><span>Exactly n</span></div>
+                        <div class="cheat-item" data-pattern="{n,}"><code>{n,}</code><span>n or more</span></div>
+                        <div class="cheat-item" data-pattern="{n,m}"><code>{n,m}</code><span>Between n and m</span></div>
+                        <div class="cheat-item" data-pattern="*?"><code>*?</code><span>Lazy 0 or more</span></div>
+                        <div class="cheat-item" data-pattern="+?"><code>+?</code><span>Lazy 1 or more</span></div>
+                    </div>
+                    <div class="cheat-category">
+                        <div class="cheat-title">Anchors & Boundaries</div>
+                        <div class="cheat-item" data-pattern="^"><code>^</code><span>Start of string/line</span></div>
+                        <div class="cheat-item" data-pattern="$"><code>$</code><span>End of string/line</span></div>
+                        <div class="cheat-item" data-pattern="\\b"><code>\b</code><span>Word boundary</span></div>
+                        <div class="cheat-item" data-pattern="\\B"><code>\B</code><span>Non-word boundary</span></div>
+                    </div>
+                    <div class="cheat-category">
+                        <div class="cheat-title">Groups & Lookaround</div>
+                        <div class="cheat-item" data-pattern="(abc)"><code>(abc)</code><span>Capturing group</span></div>
+                        <div class="cheat-item" data-pattern="(?:abc)"><code>(?:abc)</code><span>Non-capturing group</span></div>
+                        <div class="cheat-item" data-pattern="(?<name>abc)"><code>(?&lt;name&gt;)</code><span>Named group</span></div>
+                        <div class="cheat-item" data-pattern="(?=abc)"><code>(?=abc)</code><span>Positive lookahead</span></div>
+                        <div class="cheat-item" data-pattern="(?!abc)"><code>(?!abc)</code><span>Negative lookahead</span></div>
+                        <div class="cheat-item" data-pattern="(?<=abc)"><code>(?&lt;=abc)</code><span>Positive lookbehind</span></div>
+                        <div class="cheat-item" data-pattern="(?<!abc)"><code>(?&lt;!abc)</code><span>Negative lookbehind</span></div>
+                        <div class="cheat-item" data-pattern="a|b"><code>a|b</code><span>Alternation (or)</span></div>
+                    </div>
+                    <div class="cheat-category">
+                        <div class="cheat-title">Common Patterns</div>
+                        <div class="cheat-item insertable" data-pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"><code>Email</code><span>Match email address</span></div>
+                        <div class="cheat-item insertable" data-pattern="https?:\\/\\/[^\\s]+"><code>URL</code><span>Match URL</span></div>
+                        <div class="cheat-item insertable" data-pattern="\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"><code>IPv4</code><span>Match IP address</span></div>
+                        <div class="cheat-item insertable" data-pattern="#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})"><code>Hex Color</code><span>Match hex color code</span></div>
+                        <div class="cheat-item insertable" data-pattern="\\d{4}-\\d{2}-\\d{2}"><code>Date</code><span>YYYY-MM-DD</span></div>
+                        <div class="cheat-item insertable" data-pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$"><code>Password</code><span>Strong password</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

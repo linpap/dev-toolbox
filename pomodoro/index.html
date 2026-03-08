@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Focus<span class="dot">.</span></h1>
+        </header>
+
+        <div class="timer-section">
+            <div class="mode-tabs">
+                <button class="mode-btn active" data-mode="work">Focus</button>
+                <button class="mode-btn" data-mode="short">Short Break</button>
+                <button class="mode-btn" data-mode="long">Long Break</button>
+            </div>
+
+            <div class="timer-ring">
+                <svg viewBox="0 0 240 240">
+                    <circle class="ring-bg" cx="120" cy="120" r="110" />
+                    <circle class="ring-progress" id="progressRing" cx="120" cy="120" r="110" />
+                </svg>
+                <div class="timer-display">
+                    <div id="timeDisplay" class="time">25:00</div>
+                    <div id="sessionLabel" class="session-label">Session 1</div>
+                </div>
+            </div>
+
+            <div class="task-input-wrap">
+                <input type="text" id="taskInput" class="task-input" placeholder="What are you working on?">
+            </div>
+
+            <div class="timer-controls">
+                <button id="startBtn" class="control-btn start">Start</button>
+                <button id="resetBtn" class="control-btn reset">Reset</button>
+            </div>
+        </div>
+
+        <div class="settings-toggle">
+            <button id="settingsBtn" class="icon-link">Settings</button>
+        </div>
+
+        <div id="settingsPanel" class="settings hidden">
+            <h3>Timer Settings</h3>
+            <div class="setting-row">
+                <label>Focus (min)</label>
+                <input type="number" id="workDuration" value="25" min="1" max="120">
+            </div>
+            <div class="setting-row">
+                <label>Short Break (min)</label>
+                <input type="number" id="shortDuration" value="5" min="1" max="30">
+            </div>
+            <div class="setting-row">
+                <label>Long Break (min)</label>
+                <input type="number" id="longDuration" value="15" min="1" max="60">
+            </div>
+            <div class="setting-row">
+                <label>Sessions before long break</label>
+                <input type="number" id="sessionsCount" value="4" min="2" max="10">
+            </div>
+            <div class="setting-row">
+                <label>Sound</label>
+                <select id="soundToggle">
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="log-section">
+            <div class="log-header">
+                <h3>Today's Log</h3>
+                <div class="log-stats">
+                    <span id="totalSessions">0 sessions</span>
+                    <span id="totalTime">0m focused</span>
+                </div>
+            </div>
+            <div id="logList" class="log-list"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

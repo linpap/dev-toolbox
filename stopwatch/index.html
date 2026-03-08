@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Stopwatch<span class="dot">.</span></h1>
+        </header>
+
+        <div class="timer-section">
+            <div class="timer-ring">
+                <svg viewBox="0 0 240 240">
+                    <circle class="ring-bg" cx="120" cy="120" r="110" />
+                    <circle class="ring-progress" id="progressRing" cx="120" cy="120" r="110" />
+                </svg>
+                <div class="timer-display">
+                    <div id="timeDisplay" class="time">00:00:00<span class="ms">.00</span></div>
+                </div>
+            </div>
+
+            <div class="timer-controls">
+                <button id="startBtn" class="control-btn start">Start</button>
+                <button id="lapBtn" class="control-btn lap" disabled>Lap</button>
+                <button id="resetBtn" class="control-btn reset">Reset</button>
+            </div>
+        </div>
+
+        <div class="shortcuts-hint">
+            <span><kbd>Space</kbd> Start/Pause</span>
+            <span><kbd>L</kbd> Lap</span>
+            <span><kbd>R</kbd> Reset</span>
+        </div>
+
+        <div class="lap-section" id="lapSection">
+            <div class="lap-header">
+                <h3>Lap Times</h3>
+                <button id="exportBtn" class="icon-link" style="display: none;">Export CSV</button>
+            </div>
+            <div id="lapList" class="lap-list">
+                <div class="lap-empty">Press Lap to record split times</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
